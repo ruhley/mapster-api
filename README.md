@@ -1,4 +1,4 @@
-mapster-api
+Mapster API
 ===========
 
 API for the Mapster website
