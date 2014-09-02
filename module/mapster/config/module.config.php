@@ -29,6 +29,16 @@ return array(
                     ),
                 ),
             ),
+            'mapster.rpc.entity-fields' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/entity_fields[/:entity_id]',
+                    'defaults' => array(
+                        'controller' => 'mapster\\V1\\Rpc\\EntityFields\\Controller',
+                        'action' => 'entityFields',
+                    ),
+                ),
+            ),
         ),
     ),
     'zf-versioning' => array(
@@ -36,6 +46,7 @@ return array(
             0 => 'mapster.rest.entities',
             1 => 'mapster.rest.universes',
             2 => 'mapster.rest.universe-versions',
+            3 => 'mapster.rpc.entity-fields',
         ),
     ),
     'zf-rest' => array(
@@ -113,6 +124,7 @@ return array(
             'mapster\\V1\\Rest\\Entities\\Controller' => 'HalJson',
             'mapster\\V1\\Rest\\Universes\\Controller' => 'HalJson',
             'mapster\\V1\\Rest\\UniverseVersions\\Controller' => 'HalJson',
+            'mapster\\V1\\Rpc\\EntityFields\\Controller' => 'Json',
         ),
         'accept_whitelist' => array(
             'mapster\\V1\\Rest\\Entities\\Controller' => array(
@@ -130,6 +142,11 @@ return array(
                 1 => 'application/hal+json',
                 2 => 'application/json',
             ),
+            'mapster\\V1\\Rpc\\EntityFields\\Controller' => array(
+                0 => 'application/vnd.mapster.v1+json',
+                1 => 'application/json',
+                2 => 'application/*+json',
+            ),
         ),
         'content_type_whitelist' => array(
             'mapster\\V1\\Rest\\Entities\\Controller' => array(
@@ -141,6 +158,10 @@ return array(
                 1 => 'application/json',
             ),
             'mapster\\V1\\Rest\\UniverseVersions\\Controller' => array(
+                0 => 'application/vnd.mapster.v1+json',
+                1 => 'application/json',
+            ),
+            'mapster\\V1\\Rpc\\EntityFields\\Controller' => array(
                 0 => 'application/vnd.mapster.v1+json',
                 1 => 'application/json',
             ),
@@ -238,6 +259,20 @@ return array(
                 'continue_if_empty' => false,
                 'description' => 'The name of the entity',
             ),
+        ),
+    ),
+    'controllers' => array(
+        'factories' => array(
+            'mapster\\V1\\Rpc\\EntityFields\\Controller' => 'mapster\\V1\\Rpc\\EntityFields\\EntityFieldsControllerFactory',
+        ),
+    ),
+    'zf-rpc' => array(
+        'mapster\\V1\\Rpc\\EntityFields\\Controller' => array(
+            'service_name' => 'EntityFields',
+            'http_methods' => array(
+                0 => 'GET',
+            ),
+            'route_name' => 'mapster.rpc.entity-fields',
         ),
     ),
 );
