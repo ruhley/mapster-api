@@ -141,6 +141,7 @@ return array(
                 0 => 'application/vnd.mapster.v1+json',
                 1 => 'application/hal+json',
                 2 => 'application/json',
+                3 => 'multipart/form-data',
             ),
             'mapster\\V1\\Rpc\\EntityFields\\Controller' => array(
                 0 => 'application/vnd.mapster.v1+json',
@@ -156,10 +157,14 @@ return array(
             'mapster\\V1\\Rest\\Universes\\Controller' => array(
                 0 => 'application/vnd.mapster.v1+json',
                 1 => 'application/json',
+                2 => 'test/plain',
+                3 => 'multipart/form-data',
             ),
             'mapster\\V1\\Rest\\UniverseVersions\\Controller' => array(
                 0 => 'application/vnd.mapster.v1+json',
                 1 => 'application/json',
+                2 => 'text/plain',
+                3 => 'multipart/form-data',
             ),
             'mapster\\V1\\Rpc\\EntityFields\\Controller' => array(
                 0 => 'application/vnd.mapster.v1+json',
@@ -223,6 +228,7 @@ return array(
                 'hydrator_name' => 'Zend\\Stdlib\\Hydrator\\ArraySerializable',
                 'controller_service_name' => 'mapster\\V1\\Rest\\Universes\\Controller',
                 'entity_identifier_name' => 'id',
+                'table_service' => 'mapster\\V1\\Rest\\Universes\\UniversesResource\\Table',
             ),
             'mapster\\V1\\Rest\\UniverseVersions\\UniverseVersionsResource' => array(
                 'adapter_name' => 'mapster',
@@ -237,6 +243,12 @@ return array(
     'zf-content-validation' => array(
         'mapster\\V1\\Rest\\Entities\\Controller' => array(
             'input_filter' => 'mapster\\V1\\Rest\\Entities\\Validator',
+        ),
+        'mapster\\V1\\Rest\\Universes\\Controller' => array(
+            'input_filter' => 'mapster\\V1\\Rest\\Universes\\Validator',
+        ),
+        'mapster\\V1\\Rest\\UniverseVersions\\Controller' => array(
+            'input_filter' => 'mapster\\V1\\Rest\\UniverseVersions\\Validator',
         ),
     ),
     'input_filter_specs' => array(
@@ -258,6 +270,97 @@ return array(
                 'allow_empty' => false,
                 'continue_if_empty' => false,
                 'description' => 'The name of the entity',
+            ),
+        ),
+        'mapster\\V1\\Rest\\Universes\\Validator' => array(
+            0 => array(
+                'name' => 'image',
+                'required' => false,
+                'filters' => array(
+                    0 => array(
+                        'name' => 'Zend\\Filter\\File\\RenameUpload',
+                        'options' => array(
+                            'target' => '/images/',
+                            'randomize' => true,
+                        ),
+                    ),
+                ),
+                'validators' => array(
+                    0 => array(
+                        'name' => 'Zend\\Validator\\File\\IsImage',
+                        'options' => array(),
+                    ),
+                ),
+                'description' => 'The image of the universe',
+                'allow_empty' => true,
+                'continue_if_empty' => true,
+                'type' => 'Zend\\InputFilter\\FileInput',
+            ),
+        ),
+        'mapster\\V1\\Rest\\UniverseVersions\\Validator' => array(
+            0 => array(
+                'name' => 'image',
+                'required' => false,
+                'filters' => array(
+                    0 => array(
+                        'name' => 'Zend\\Filter\\File\\RenameUpload',
+                        'options' => array(
+                            'randomize' => true,
+                            'target' => '/images/versions/',
+                        ),
+                    ),
+                ),
+                'validators' => array(
+                    0 => array(
+                        'name' => 'Zend\\Validator\\File\\IsImage',
+                        'options' => array(),
+                    ),
+                    1 => array(
+                        'name' => 'Zend\\Validator\\File\\UploadFile',
+                        'options' => array(),
+                    ),
+                ),
+                'description' => 'Image for the universe version',
+                'allow_empty' => true,
+                'continue_if_empty' => true,
+                'type' => 'Zend\\InputFilter\\FileInput',
+            ),
+            1 => array(
+                'name' => 'version_id',
+                'required' => true,
+                'filters' => array(),
+                'validators' => array(),
+                'allow_empty' => false,
+                'continue_if_empty' => false,
+            ),
+            2 => array(
+                'name' => 'name',
+                'required' => true,
+                'filters' => array(
+                    0 => array(
+                        'name' => 'Zend\\Filter\\StringTrim',
+                        'options' => array(),
+                    ),
+                ),
+                'validators' => array(
+                    0 => array(
+                        'name' => 'Zend\\Validator\\StringLength',
+                        'options' => array(
+                            'max' => '255',
+                            'min' => '3',
+                        ),
+                    ),
+                ),
+                'allow_empty' => false,
+                'continue_if_empty' => false,
+            ),
+            3 => array(
+                'name' => 'description',
+                'required' => false,
+                'filters' => array(),
+                'validators' => array(),
+                'allow_empty' => true,
+                'continue_if_empty' => true,
             ),
         ),
     ),
