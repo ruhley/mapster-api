@@ -1,0 +1,39 @@
+2014-09-05 02:01:35 Error: [Cake\Controller\Error\MissingControllerException] Controller class Entities could not be found.
+Exception Attributes: array (
+  'class' => 'Entities',
+  'plugin' => NULL,
+  'prefix' => NULL,
+  '_ext' => NULL,
+)
+Request URL: /mapster-api-cake/entities
+Stack Trace:
+#0 /var/www/html/mapster-api-cake/webroot/index.php(37): Cake\Routing\Dispatcher->dispatch(Object(Cake\Network\Request), Object(Cake\Network\Response))
+#1 {main}
+
+
+2014-09-05 03:52:47 Error: [Cake\Controller\Error\MissingControllerException] Controller class Entities could not be found.
+Exception Attributes: array (
+  'class' => 'Entities',
+  'plugin' => NULL,
+  'prefix' => NULL,
+  '_ext' => NULL,
+)
+Request URL: /mapster-api-cake/entities
+Stack Trace:
+#0 /var/www/html/mapster-api-cake/webroot/index.php(37): Cake\Routing\Dispatcher->dispatch(Object(Cake\Network\Request), Object(Cake\Network\Response))
+#1 {main}
+
+
+2014-09-05 03:53:43 Error: [Cake\Controller\Error\MissingControllerException] Controller class Entities could not be found.
+Exception Attributes: array (
+  'class' => 'Entities',
+  'plugin' => NULL,
+  'prefix' => NULL,
+  '_ext' => NULL,
+)
+Request URL: /mapster-api-cake/entities
+Stack Trace:
+#0 /var/www/html/mapster-api-cake/webroot/index.php(37): Cake\Routing\Dispatcher->dispatch(Object(Cake\Network\Request), Object(Cake\Network\Response))
+#1 {main}
+
+
