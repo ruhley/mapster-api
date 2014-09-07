@@ -386,12 +386,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/FriendsOfCake/crud.git",
-            "reference": "deb11b6c8c98e3851290d318b37d7c362f360cfe"
+            "reference": "de0c42005e4c3b4b60f48692ed686661850e6edb"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/FriendsOfCake/crud/zipball/deb11b6c8c98e3851290d318b37d7c362f360cfe",
-            "reference": "deb11b6c8c98e3851290d318b37d7c362f360cfe",
+            "url": "https://api.github.com/repos/FriendsOfCake/crud/zipball/de0c42005e4c3b4b60f48692ed686661850e6edb",
+            "reference": "de0c42005e4c3b4b60f48692ed686661850e6edb",
             "shasum": ""
         },
         "require": {
@@ -402,7 +402,7 @@
             "friendsofcake/cakephp-test-utilities": "dev-master",
             "phpunit/phpunit": "3.7.33"
         },
-        "time": "2014-09-04 19:03:06",
+        "time": "2014-09-05 20:41:56",
         "type": "cakephp-plugin",
         "installation-source": "source",
         "autoload": {

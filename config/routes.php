@@ -22,6 +22,14 @@ use Cake\Core\Plugin;
 use Cake\Routing\Router;
 
 Router::scope('/', function($routes) {
+	$routes->extensions(['json', 'xml']);
+	$routes->resources('MapsterEntities');
+	$routes->resources('MapsterEntityFields');
+	$routes->resources('MapsterEntityFieldTypes');
+	$routes->resources('Universes');
+	$routes->resources('UniverseVersions');
+	$routes->resources('Media');
+	$routes->resources('MediaVersions');
 /**
  * Here, we are connecting '/' (base path) to a controller called 'Pages',
  * its action called 'display', and we pass a param to select the view file
@@ -33,6 +41,8 @@ Router::scope('/', function($routes) {
  * ...and connect the rest of 'Pages' controller's URLs.
  */
 	$routes->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
+
+
 
 /**
  * Connect a route for the index action of any controller.
