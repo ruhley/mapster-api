@@ -19,8 +19,10 @@ class MediaVersion extends Entity {
 		'description' => true,
 		'image' => true,
 		'link' => true,
+		'sequence' => true,
 		'universe_id' => true,
 		'media_id' => true,
+		'universe' => true,
 		'media' => true,
 	];
 

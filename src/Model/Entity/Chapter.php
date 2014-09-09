@@ -15,10 +15,10 @@ class Chapter extends Entity {
  */
 	protected $_accessible = [
 		'name' => true,
-		'abbreviation' => true,
 		'description' => true,
 		'image' => true,
 		'link' => true,
+		'sequence' => true,
 		'media_id' => true,
 		'media' => true,
 		'chapter_versions' => true,

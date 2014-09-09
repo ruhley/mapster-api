@@ -16,7 +16,6 @@ class MapsterEntity extends Entity {
 	protected $_accessible = [
 		'name' => true,
 		'plural' => true,
-		'table_name' => true,
 		'mapster_entity_fields' => true,
 	];
 

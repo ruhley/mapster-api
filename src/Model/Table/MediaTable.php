@@ -25,6 +25,12 @@ class MediaTable extends Table {
 		$this->belongsTo('Universes', [
 			'foreignKey' => 'universe_id',
 		]);
+		$this->hasMany('ChapterVersions', [
+			'foreignKey' => 'media_id',
+		]);
+		$this->hasMany('Chapters', [
+			'foreignKey' => 'media_id',
+		]);
 	}
 
 /**
@@ -43,6 +49,9 @@ class MediaTable extends Table {
 			->allowEmpty('description')
 			->allowEmpty('image')
 			->allowEmpty('link')
+			->add('sequence', 'valid', ['rule' => 'numeric'])
+			->validatePresence('sequence', 'create')
+			->notEmpty('sequence')
 			->add('universe_id', 'valid', ['rule' => 'numeric'])
 			->validatePresence('universe_id', 'create')
 			->notEmpty('universe_id');

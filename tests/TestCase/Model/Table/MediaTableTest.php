@@ -16,7 +16,12 @@ class MediaTableTest extends TestCase {
  * @var array
  */
 	public $fixtures = [
-		'app.media'
+		'app.media',
+		'app.universe',
+		'app.media_version',
+		'app.universe_version',
+		'app.chapter_version',
+		'app.chapter'
 	];
 
 /**

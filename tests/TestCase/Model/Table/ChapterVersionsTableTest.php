@@ -11,6 +11,20 @@ use Cake\TestSuite\TestCase;
 class ChapterVersionsTableTest extends TestCase {
 
 /**
+ * Fixtures
+ *
+ * @var array
+ */
+	public $fixtures = [
+		'app.chapter_version',
+		'app.media',
+		'app.universe',
+		'app.media_version',
+		'app.universe_version',
+		'app.chapter'
+	];
+
+/**
  * setUp method
  *
  * @return void

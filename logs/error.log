@@ -2936,3 +2936,544 @@ Stack Trace:
 #1 {main}
 
 
+2014-09-08 00:51:08 Error: [PDOException] SQLSTATE[28000] [1045] Access denied for user 'root'@'localhost' (using password: YES)
+Request URL: /mapster-api/mapster_entities.json
+Stack Trace:
+#0 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Driver/PDODriverTrait.php(45): PDO->__construct('mysql:host=loca...', 'root', 'password', Array)
+#1 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Driver/Mysql.php(85): Cake\Database\Driver\Mysql->_connect(Array)
+#2 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Schema/BaseSchema.php(44): Cake\Database\Driver\Mysql->connect()
+#3 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Dialect/MysqlDialectTrait.php(60): Cake\Database\Schema\BaseSchema->__construct(Object(Cake\Database\Driver\Mysql))
+#4 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Schema/Collection.php(59): Cake\Database\Driver\Mysql->schemaDialect()
+#5 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Connection.php(285): Cake\Database\Schema\Collection->__construct(Object(Cake\Database\Connection))
+#6 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(322): Cake\Database\Connection->schemaCollection()
+#7 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(128): Cake\ORM\Table->schema()
+#8 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(111): Cake\ORM\Query->addDefaultTypes(Object(App\Model\Table\MapsterEntitiesTable))
+#9 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(927): Cake\ORM\Query->__construct(Object(Cake\Database\Connection), Object(App\Model\Table\MapsterEntitiesTable))
+#10 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(724): Cake\ORM\Table->query()
+#11 /var/www/html/mapster-api/src/Controller/AppController.php(35): Cake\ORM\Table->find('all', Array)
+#12 [internal function]: App\Controller\AppController->index()
+#13 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Controller/Controller.php(372): ReflectionMethod->invokeArgs(Object(App\Controller\MapsterEntitiesController), Array)
+#14 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(115): Cake\Controller\Controller->invokeAction()
+#15 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(87): Cake\Routing\Dispatcher->_invoke(Object(App\Controller\MapsterEntitiesController))
+#16 /var/www/html/mapster-api/webroot/index.php(37): Cake\Routing\Dispatcher->dispatch(Object(Cake\Network\Request), Object(Cake\Network\Response))
+#17 {main}
+
+
+2014-09-08 00:51:17 Error: [PDOException] SQLSTATE[28000] [1045] Access denied for user 'root'@'localhost' (using password: YES)
+Request URL: /mapster-api/mapster_entities.json
+Stack Trace:
+#0 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Driver/PDODriverTrait.php(45): PDO->__construct('mysql:host=loca...', 'root', 'password', Array)
+#1 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Driver/Mysql.php(85): Cake\Database\Driver\Mysql->_connect(Array)
+#2 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Schema/BaseSchema.php(44): Cake\Database\Driver\Mysql->connect()
+#3 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Dialect/MysqlDialectTrait.php(60): Cake\Database\Schema\BaseSchema->__construct(Object(Cake\Database\Driver\Mysql))
+#4 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Schema/Collection.php(59): Cake\Database\Driver\Mysql->schemaDialect()
+#5 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Connection.php(285): Cake\Database\Schema\Collection->__construct(Object(Cake\Database\Connection))
+#6 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(322): Cake\Database\Connection->schemaCollection()
+#7 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(128): Cake\ORM\Table->schema()
+#8 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(111): Cake\ORM\Query->addDefaultTypes(Object(App\Model\Table\MapsterEntitiesTable))
+#9 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(927): Cake\ORM\Query->__construct(Object(Cake\Database\Connection), Object(App\Model\Table\MapsterEntitiesTable))
+#10 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(724): Cake\ORM\Table->query()
+#11 /var/www/html/mapster-api/src/Controller/AppController.php(35): Cake\ORM\Table->find('all', Array)
+#12 [internal function]: App\Controller\AppController->index()
+#13 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Controller/Controller.php(372): ReflectionMethod->invokeArgs(Object(App\Controller\MapsterEntitiesController), Array)
+#14 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(115): Cake\Controller\Controller->invokeAction()
+#15 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(87): Cake\Routing\Dispatcher->_invoke(Object(App\Controller\MapsterEntitiesController))
+#16 /var/www/html/mapster-api/webroot/index.php(37): Cake\Routing\Dispatcher->dispatch(Object(Cake\Network\Request), Object(Cake\Network\Response))
+#17 {main}
+
+
+2014-09-08 00:52:07 Error: [Cake\Database\Exception] SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mapster.mapster_entities' doesn't exist
+Request URL: /mapster-api/mapster_entities.json
+Stack Trace:
+#0 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Schema/Collection.php(116): Cake\Database\Schema\Collection->_reflect('Column', 'mapster_entitie...', Array, Object(Cake\Database\Schema\Table))
+#1 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(323): Cake\Database\Schema\Collection->describe('mapster_entitie...')
+#2 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(128): Cake\ORM\Table->schema()
+#3 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(111): Cake\ORM\Query->addDefaultTypes(Object(App\Model\Table\MapsterEntitiesTable))
+#4 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(927): Cake\ORM\Query->__construct(Object(Cake\Database\Connection), Object(App\Model\Table\MapsterEntitiesTable))
+#5 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(724): Cake\ORM\Table->query()
+#6 /var/www/html/mapster-api/src/Controller/AppController.php(35): Cake\ORM\Table->find('all', Array)
+#7 [internal function]: App\Controller\AppController->index()
+#8 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Controller/Controller.php(372): ReflectionMethod->invokeArgs(Object(App\Controller\MapsterEntitiesController), Array)
+#9 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(115): Cake\Controller\Controller->invokeAction()
+#10 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(87): Cake\Routing\Dispatcher->_invoke(Object(App\Controller\MapsterEntitiesController))
+#11 /var/www/html/mapster-api/webroot/index.php(37): Cake\Routing\Dispatcher->dispatch(Object(Cake\Network\Request), Object(Cake\Network\Response))
+#12 {main}
+
+
+2014-09-08 00:52:59 Error: [Cake\Database\Exception] SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mapster.mapster_entities' doesn't exist
+Request URL: /mapster-api/mapster_entities.json
+Stack Trace:
+#0 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Schema/Collection.php(116): Cake\Database\Schema\Collection->_reflect('Column', 'mapster_entitie...', Array, Object(Cake\Database\Schema\Table))
+#1 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(323): Cake\Database\Schema\Collection->describe('mapster_entitie...')
+#2 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(128): Cake\ORM\Table->schema()
+#3 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(111): Cake\ORM\Query->addDefaultTypes(Object(App\Model\Table\MapsterEntitiesTable))
+#4 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(927): Cake\ORM\Query->__construct(Object(Cake\Database\Connection), Object(App\Model\Table\MapsterEntitiesTable))
+#5 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(724): Cake\ORM\Table->query()
+#6 /var/www/html/mapster-api/src/Controller/AppController.php(35): Cake\ORM\Table->find('all', Array)
+#7 [internal function]: App\Controller\AppController->index()
+#8 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Controller/Controller.php(372): ReflectionMethod->invokeArgs(Object(App\Controller\MapsterEntitiesController), Array)
+#9 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(115): Cake\Controller\Controller->invokeAction()
+#10 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(87): Cake\Routing\Dispatcher->_invoke(Object(App\Controller\MapsterEntitiesController))
+#11 /var/www/html/mapster-api/webroot/index.php(37): Cake\Routing\Dispatcher->dispatch(Object(Cake\Network\Request), Object(Cake\Network\Response))
+#12 {main}
+
+
+2014-09-08 00:53:02 Error: [Cake\Database\Exception] SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mapster.mapster_entities' doesn't exist
+Request URL: /mapster-api/mapster_entities.json
+Stack Trace:
+#0 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Schema/Collection.php(116): Cake\Database\Schema\Collection->_reflect('Column', 'mapster_entitie...', Array, Object(Cake\Database\Schema\Table))
+#1 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(323): Cake\Database\Schema\Collection->describe('mapster_entitie...')
+#2 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(128): Cake\ORM\Table->schema()
+#3 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(111): Cake\ORM\Query->addDefaultTypes(Object(App\Model\Table\MapsterEntitiesTable))
+#4 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(927): Cake\ORM\Query->__construct(Object(Cake\Database\Connection), Object(App\Model\Table\MapsterEntitiesTable))
+#5 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(724): Cake\ORM\Table->query()
+#6 /var/www/html/mapster-api/src/Controller/AppController.php(35): Cake\ORM\Table->find('all', Array)
+#7 [internal function]: App\Controller\AppController->index()
+#8 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Controller/Controller.php(372): ReflectionMethod->invokeArgs(Object(App\Controller\MapsterEntitiesController), Array)
+#9 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(115): Cake\Controller\Controller->invokeAction()
+#10 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(87): Cake\Routing\Dispatcher->_invoke(Object(App\Controller\MapsterEntitiesController))
+#11 /var/www/html/mapster-api/webroot/index.php(37): Cake\Routing\Dispatcher->dispatch(Object(Cake\Network\Request), Object(Cake\Network\Response))
+#12 {main}
+
+
+2014-09-08 00:57:48 Error: [Cake\Database\Exception] SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mapster.mapster_entities' doesn't exist
+Request URL: /mapster-api/mapster_entities.json
+Stack Trace:
+#0 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Schema/Collection.php(116): Cake\Database\Schema\Collection->_reflect('Column', 'mapster_entitie...', Array, Object(Cake\Database\Schema\Table))
+#1 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(323): Cake\Database\Schema\Collection->describe('mapster_entitie...')
+#2 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(128): Cake\ORM\Table->schema()
+#3 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(111): Cake\ORM\Query->addDefaultTypes(Object(App\Model\Table\MapsterEntitiesTable))
+#4 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(927): Cake\ORM\Query->__construct(Object(Cake\Database\Connection), Object(App\Model\Table\MapsterEntitiesTable))
+#5 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(724): Cake\ORM\Table->query()
+#6 /var/www/html/mapster-api/src/Controller/AppController.php(35): Cake\ORM\Table->find('all', Array)
+#7 [internal function]: App\Controller\AppController->index()
+#8 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Controller/Controller.php(372): ReflectionMethod->invokeArgs(Object(App\Controller\MapsterEntitiesController), Array)
+#9 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(115): Cake\Controller\Controller->invokeAction()
+#10 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(87): Cake\Routing\Dispatcher->_invoke(Object(App\Controller\MapsterEntitiesController))
+#11 /var/www/html/mapster-api/webroot/index.php(37): Cake\Routing\Dispatcher->dispatch(Object(Cake\Network\Request), Object(Cake\Network\Response))
+#12 {main}
+
+
+2014-09-08 02:43:05 Error: [Cake\Database\Exception] SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mapster.media' doesn't exist
+Request URL: /mapster-api/media.json
+Stack Trace:
+#0 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Schema/Collection.php(116): Cake\Database\Schema\Collection->_reflect('Column', 'media', Array, Object(Cake\Database\Schema\Table))
+#1 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(323): Cake\Database\Schema\Collection->describe('media')
+#2 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(128): Cake\ORM\Table->schema()
+#3 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(111): Cake\ORM\Query->addDefaultTypes(Object(App\Model\Table\MediaTable))
+#4 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(927): Cake\ORM\Query->__construct(Object(Cake\Database\Connection), Object(App\Model\Table\MediaTable))
+#5 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(724): Cake\ORM\Table->query()
+#6 /var/www/html/mapster-api/src/Controller/AppController.php(35): Cake\ORM\Table->find('all', Array)
+#7 [internal function]: App\Controller\AppController->index()
+#8 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Controller/Controller.php(372): ReflectionMethod->invokeArgs(Object(App\Controller\MediaController), Array)
+#9 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(115): Cake\Controller\Controller->invokeAction()
+#10 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(87): Cake\Routing\Dispatcher->_invoke(Object(App\Controller\MediaController))
+#11 /var/www/html/mapster-api/webroot/index.php(37): Cake\Routing\Dispatcher->dispatch(Object(Cake\Network\Request), Object(Cake\Network\Response))
+#12 {main}
+
+
+2014-09-08 02:43:12 Error: [Cake\Database\Exception] SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mapster.media' doesn't exist
+Request URL: /mapster-api/media.json
+Stack Trace:
+#0 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Schema/Collection.php(116): Cake\Database\Schema\Collection->_reflect('Column', 'media', Array, Object(Cake\Database\Schema\Table))
+#1 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(323): Cake\Database\Schema\Collection->describe('media')
+#2 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(128): Cake\ORM\Table->schema()
+#3 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(111): Cake\ORM\Query->addDefaultTypes(Object(App\Model\Table\MediaTable))
+#4 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(927): Cake\ORM\Query->__construct(Object(Cake\Database\Connection), Object(App\Model\Table\MediaTable))
+#5 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(724): Cake\ORM\Table->query()
+#6 /var/www/html/mapster-api/src/Controller/AppController.php(35): Cake\ORM\Table->find('all', Array)
+#7 [internal function]: App\Controller\AppController->index()
+#8 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Controller/Controller.php(372): ReflectionMethod->invokeArgs(Object(App\Controller\MediaController), Array)
+#9 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(115): Cake\Controller\Controller->invokeAction()
+#10 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(87): Cake\Routing\Dispatcher->_invoke(Object(App\Controller\MediaController))
+#11 /var/www/html/mapster-api/webroot/index.php(37): Cake\Routing\Dispatcher->dispatch(Object(Cake\Network\Request), Object(Cake\Network\Response))
+#12 {main}
+
+
+2014-09-08 02:43:15 Error: [Cake\Database\Exception] SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mapster.media' doesn't exist
+Request URL: /mapster-api/media.json
+Stack Trace:
+#0 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Schema/Collection.php(116): Cake\Database\Schema\Collection->_reflect('Column', 'media', Array, Object(Cake\Database\Schema\Table))
+#1 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(323): Cake\Database\Schema\Collection->describe('media')
+#2 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(128): Cake\ORM\Table->schema()
+#3 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(111): Cake\ORM\Query->addDefaultTypes(Object(App\Model\Table\MediaTable))
+#4 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(927): Cake\ORM\Query->__construct(Object(Cake\Database\Connection), Object(App\Model\Table\MediaTable))
+#5 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(724): Cake\ORM\Table->query()
+#6 /var/www/html/mapster-api/src/Controller/AppController.php(35): Cake\ORM\Table->find('all', Array)
+#7 [internal function]: App\Controller\AppController->index()
+#8 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Controller/Controller.php(372): ReflectionMethod->invokeArgs(Object(App\Controller\MediaController), Array)
+#9 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(115): Cake\Controller\Controller->invokeAction()
+#10 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(87): Cake\Routing\Dispatcher->_invoke(Object(App\Controller\MediaController))
+#11 /var/www/html/mapster-api/webroot/index.php(37): Cake\Routing\Dispatcher->dispatch(Object(Cake\Network\Request), Object(Cake\Network\Response))
+#12 {main}
+
+
+2014-09-08 02:49:28 Error: [Exception] Failed calling Cake\ORM\Query::jsonSerialize()
+Request URL: /mapster-api/mapster_entities.json
+Stack Trace:
+#0 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/View/JsonView.php(0): json_encode()
+#1 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/View/JsonView.php(119): Cake\View\JsonView->_serialize(Array)
+#2 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Controller/Controller.php(577): Cake\View\JsonView->render(NULL, NULL)
+#3 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(121): Cake\Controller\Controller->render()
+#4 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(87): Cake\Routing\Dispatcher->_invoke(Object(App\Controller\MapsterEntitiesController))
+#5 /var/www/html/mapster-api/webroot/index.php(37): Cake\Routing\Dispatcher->dispatch(Object(Cake\Network\Request), Object(Cake\Network\Response))
+#6 {main}
+
+
+2014-09-08 02:49:34 Error: [Exception] Failed calling Cake\ORM\Query::jsonSerialize()
+Request URL: /mapster-api/mapster_entities.json
+Stack Trace:
+#0 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/View/JsonView.php(0): json_encode()
+#1 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/View/JsonView.php(119): Cake\View\JsonView->_serialize(Array)
+#2 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Controller/Controller.php(577): Cake\View\JsonView->render(NULL, NULL)
+#3 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(121): Cake\Controller\Controller->render()
+#4 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(87): Cake\Routing\Dispatcher->_invoke(Object(App\Controller\MapsterEntitiesController))
+#5 /var/www/html/mapster-api/webroot/index.php(37): Cake\Routing\Dispatcher->dispatch(Object(Cake\Network\Request), Object(Cake\Network\Response))
+#6 {main}
+
+
+2014-09-08 02:50:03 Error: [Exception] Failed calling Cake\ORM\Query::jsonSerialize()
+Request URL: /mapster-api/mapster_entities.json
+Stack Trace:
+#0 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/View/JsonView.php(0): json_encode()
+#1 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/View/JsonView.php(119): Cake\View\JsonView->_serialize(Array)
+#2 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Controller/Controller.php(577): Cake\View\JsonView->render(NULL, NULL)
+#3 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(121): Cake\Controller\Controller->render()
+#4 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(87): Cake\Routing\Dispatcher->_invoke(Object(App\Controller\MapsterEntitiesController))
+#5 /var/www/html/mapster-api/webroot/index.php(37): Cake\Routing\Dispatcher->dispatch(Object(Cake\Network\Request), Object(Cake\Network\Response))
+#6 {main}
+
+
+2014-09-08 02:50:13 Error: [Exception] Failed calling Cake\ORM\Query::jsonSerialize()
+Request URL: /mapster-api/mapster_entities.json
+Stack Trace:
+#0 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/View/JsonView.php(0): json_encode()
+#1 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/View/JsonView.php(119): Cake\View\JsonView->_serialize(Array)
+#2 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Controller/Controller.php(577): Cake\View\JsonView->render(NULL, NULL)
+#3 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(121): Cake\Controller\Controller->render()
+#4 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(87): Cake\Routing\Dispatcher->_invoke(Object(App\Controller\MapsterEntitiesController))
+#5 /var/www/html/mapster-api/webroot/index.php(37): Cake\Routing\Dispatcher->dispatch(Object(Cake\Network\Request), Object(Cake\Network\Response))
+#6 {main}
+
+
+2014-09-08 02:50:16 Error: [Cake\View\Error\MissingViewException] View file "MapsterEntities/index.ctp" is missing.
+Exception Attributes: array (
+  'file' => 'MapsterEntities/index.ctp',
+)
+Request URL: /mapster-api/mapster_entities
+Stack Trace:
+#0 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/View/View.php(416): Cake\View\View->_getViewFileName(NULL)
+#1 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Controller/Controller.php(577): Cake\View\View->render(NULL, NULL)
+#2 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(121): Cake\Controller\Controller->render()
+#3 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(87): Cake\Routing\Dispatcher->_invoke(Object(App\Controller\MapsterEntitiesController))
+#4 /var/www/html/mapster-api/webroot/index.php(37): Cake\Routing\Dispatcher->dispatch(Object(Cake\Network\Request), Object(Cake\Network\Response))
+#5 {main}
+
+
+2014-09-08 02:50:19 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'MapsterEntities.table_name' in 'field list'
+Request URL: /mapster-api/mapster_entities.xml
+Stack Trace:
+#0 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Statement/StatementDecorator.php(152): PDOStatement->execute(NULL)
+#1 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Connection.php(253): Cake\Database\Statement\StatementDecorator->execute()
+#2 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Query.php(162): Cake\Database\Connection->run(Object(Cake\ORM\Query))
+#3 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(579): Cake\Database\Query->execute()
+#4 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(590): Cake\ORM\Query->execute()
+#5 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Datasource/QueryTrait.php(220): Cake\ORM\Query->_execute()
+#6 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(563): Cake\ORM\Query->_all()
+#7 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Datasource/QueryTrait.php(235): Cake\ORM\Query->all()
+#8 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Utility/Xml.php(241): Cake\ORM\Query->toArray()
+#9 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Utility/Xml.php(328): Cake\Utility\Xml::_fromArray(Object(DOMDocument), Object(DOMElement), Array, 'tags')
+#10 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Utility/Xml.php(286): Cake\Utility\Xml::_createChild(Array)
+#11 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Utility/Xml.php(215): Cake\Utility\Xml::_fromArray(Object(DOMDocument), Object(DOMDocument), Array, 'tags')
+#12 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/View/XmlView.php(151): Cake\Utility\Xml::fromArray(Array, Array)
+#13 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/View/XmlView.php(115): Cake\View\XmlView->_serialize(Array)
+#14 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Controller/Controller.php(577): Cake\View\XmlView->render(NULL, NULL)
+#15 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(121): Cake\Controller\Controller->render()
+#16 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(87): Cake\Routing\Dispatcher->_invoke(Object(App\Controller\MapsterEntitiesController))
+#17 /var/www/html/mapster-api/webroot/index.php(37): Cake\Routing\Dispatcher->dispatch(Object(Cake\Network\Request), Object(Cake\Network\Response))
+#18 {main}
+
+
+2014-09-08 05:25:52 Error: [PDOException] SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'index = 1 WHERE id = 1' at line 1
+Request URL: /mapster-api/media/1.json
+Stack Trace:
+#0 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Statement/StatementDecorator.php(152): PDOStatement->execute(NULL)
+#1 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Connection.php(253): Cake\Database\Statement\StatementDecorator->execute()
+#2 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Query.php(162): Cake\Database\Connection->run(Object(Cake\ORM\Query))
+#3 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(579): Cake\Database\Query->execute()
+#4 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(1330): Cake\ORM\Query->execute()
+#5 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(1193): Cake\ORM\Table->_update(Object(App\Model\Entity\Media), Array)
+#6 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(1130): Cake\ORM\Table->_processSave(Object(App\Model\Entity\Media), Object(ArrayObject))
+#7 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Connection.php(495): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#8 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(1131): Cake\Database\Connection->transactional(Object(Closure))
+#9 /var/www/html/mapster-api/src/Controller/AppController.php(67): Cake\ORM\Table->save(Object(App\Model\Entity\Media))
+#10 [internal function]: App\Controller\AppController->edit('1')
+#11 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Controller/Controller.php(372): ReflectionMethod->invokeArgs(Object(App\Controller\MediaController), Array)
+#12 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(115): Cake\Controller\Controller->invokeAction()
+#13 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(87): Cake\Routing\Dispatcher->_invoke(Object(App\Controller\MediaController))
+#14 /var/www/html/mapster-api/webroot/index.php(37): Cake\Routing\Dispatcher->dispatch(Object(Cake\Network\Request), Object(Cake\Network\Response))
+#15 {main}
+
+
+2014-09-08 05:26:36 Error: [PDOException] SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'index = 1 WHERE id = 1' at line 1
+Request URL: /mapster-api/media/1.json
+Stack Trace:
+#0 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Statement/StatementDecorator.php(152): PDOStatement->execute(NULL)
+#1 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Connection.php(253): Cake\Database\Statement\StatementDecorator->execute()
+#2 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Query.php(162): Cake\Database\Connection->run(Object(Cake\ORM\Query))
+#3 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(579): Cake\Database\Query->execute()
+#4 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(1330): Cake\ORM\Query->execute()
+#5 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(1193): Cake\ORM\Table->_update(Object(App\Model\Entity\Media), Array)
+#6 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(1130): Cake\ORM\Table->_processSave(Object(App\Model\Entity\Media), Object(ArrayObject))
+#7 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Connection.php(495): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#8 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(1131): Cake\Database\Connection->transactional(Object(Closure))
+#9 /var/www/html/mapster-api/src/Controller/AppController.php(67): Cake\ORM\Table->save(Object(App\Model\Entity\Media))
+#10 [internal function]: App\Controller\AppController->edit('1')
+#11 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Controller/Controller.php(372): ReflectionMethod->invokeArgs(Object(App\Controller\MediaController), Array)
+#12 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(115): Cake\Controller\Controller->invokeAction()
+#13 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(87): Cake\Routing\Dispatcher->_invoke(Object(App\Controller\MediaController))
+#14 /var/www/html/mapster-api/webroot/index.php(37): Cake\Routing\Dispatcher->dispatch(Object(Cake\Network\Request), Object(Cake\Network\Response))
+#15 {main}
+
+
+2014-09-08 23:03:46 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Chapters.sequqnce' in 'field list'
+Request URL: /mapster-api/chapters/1.json
+Stack Trace:
+#0 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Statement/StatementDecorator.php(152): PDOStatement->execute(NULL)
+#1 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Connection.php(253): Cake\Database\Statement\StatementDecorator->execute()
+#2 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Query.php(162): Cake\Database\Connection->run(Object(Cake\ORM\Query))
+#3 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(579): Cake\Database\Query->execute()
+#4 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(590): Cake\ORM\Query->execute()
+#5 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Datasource/QueryTrait.php(220): Cake\ORM\Query->_execute()
+#6 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(563): Cake\ORM\Query->_all()
+#7 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Datasource/QueryTrait.php(338): Cake\ORM\Query->all()
+#8 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(911): Cake\ORM\Query->first()
+#9 /var/www/html/mapster-api/src/Controller/AppController.php(124): Cake\ORM\Table->get('1')
+#10 /var/www/html/mapster-api/src/Controller/AppController.php(40): App\Controller\AppController->getInstance('1')
+#11 [internal function]: App\Controller\AppController->view('1')
+#12 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Controller/Controller.php(372): ReflectionMethod->invokeArgs(Object(App\Controller\ChaptersController), Array)
+#13 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(115): Cake\Controller\Controller->invokeAction()
+#14 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(87): Cake\Routing\Dispatcher->_invoke(Object(App\Controller\ChaptersController))
+#15 /var/www/html/mapster-api/webroot/index.php(37): Cake\Routing\Dispatcher->dispatch(Object(Cake\Network\Request), Object(Cake\Network\Response))
+#16 {main}
+
+
+2014-09-08 23:03:50 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Chapters.sequqnce' in 'field list'
+Request URL: /mapster-api/chapters/1.json
+Stack Trace:
+#0 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Statement/StatementDecorator.php(152): PDOStatement->execute(NULL)
+#1 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Connection.php(253): Cake\Database\Statement\StatementDecorator->execute()
+#2 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Query.php(162): Cake\Database\Connection->run(Object(Cake\ORM\Query))
+#3 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(579): Cake\Database\Query->execute()
+#4 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(590): Cake\ORM\Query->execute()
+#5 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Datasource/QueryTrait.php(220): Cake\ORM\Query->_execute()
+#6 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(563): Cake\ORM\Query->_all()
+#7 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Datasource/QueryTrait.php(338): Cake\ORM\Query->all()
+#8 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(911): Cake\ORM\Query->first()
+#9 /var/www/html/mapster-api/src/Controller/AppController.php(124): Cake\ORM\Table->get('1')
+#10 /var/www/html/mapster-api/src/Controller/AppController.php(40): App\Controller\AppController->getInstance('1')
+#11 [internal function]: App\Controller\AppController->view('1')
+#12 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Controller/Controller.php(372): ReflectionMethod->invokeArgs(Object(App\Controller\ChaptersController), Array)
+#13 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(115): Cake\Controller\Controller->invokeAction()
+#14 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(87): Cake\Routing\Dispatcher->_invoke(Object(App\Controller\ChaptersController))
+#15 /var/www/html/mapster-api/webroot/index.php(37): Cake\Routing\Dispatcher->dispatch(Object(Cake\Network\Request), Object(Cake\Network\Response))
+#16 {main}
+
+
+2014-09-08 23:03:50 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Chapters.sequqnce' in 'field list'
+Request URL: /mapster-api/chapters/1.json
+Stack Trace:
+#0 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Statement/StatementDecorator.php(152): PDOStatement->execute(NULL)
+#1 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Connection.php(253): Cake\Database\Statement\StatementDecorator->execute()
+#2 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Query.php(162): Cake\Database\Connection->run(Object(Cake\ORM\Query))
+#3 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(579): Cake\Database\Query->execute()
+#4 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(590): Cake\ORM\Query->execute()
+#5 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Datasource/QueryTrait.php(220): Cake\ORM\Query->_execute()
+#6 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(563): Cake\ORM\Query->_all()
+#7 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Datasource/QueryTrait.php(338): Cake\ORM\Query->all()
+#8 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(911): Cake\ORM\Query->first()
+#9 /var/www/html/mapster-api/src/Controller/AppController.php(124): Cake\ORM\Table->get('1')
+#10 /var/www/html/mapster-api/src/Controller/AppController.php(40): App\Controller\AppController->getInstance('1')
+#11 [internal function]: App\Controller\AppController->view('1')
+#12 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Controller/Controller.php(372): ReflectionMethod->invokeArgs(Object(App\Controller\ChaptersController), Array)
+#13 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(115): Cake\Controller\Controller->invokeAction()
+#14 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(87): Cake\Routing\Dispatcher->_invoke(Object(App\Controller\ChaptersController))
+#15 /var/www/html/mapster-api/webroot/index.php(37): Cake\Routing\Dispatcher->dispatch(Object(Cake\Network\Request), Object(Cake\Network\Response))
+#16 {main}
+
+
+2014-09-08 23:03:51 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Chapters.sequqnce' in 'field list'
+Request URL: /mapster-api/chapters/1.json
+Stack Trace:
+#0 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Statement/StatementDecorator.php(152): PDOStatement->execute(NULL)
+#1 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Connection.php(253): Cake\Database\Statement\StatementDecorator->execute()
+#2 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Query.php(162): Cake\Database\Connection->run(Object(Cake\ORM\Query))
+#3 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(579): Cake\Database\Query->execute()
+#4 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(590): Cake\ORM\Query->execute()
+#5 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Datasource/QueryTrait.php(220): Cake\ORM\Query->_execute()
+#6 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(563): Cake\ORM\Query->_all()
+#7 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Datasource/QueryTrait.php(338): Cake\ORM\Query->all()
+#8 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(911): Cake\ORM\Query->first()
+#9 /var/www/html/mapster-api/src/Controller/AppController.php(124): Cake\ORM\Table->get('1')
+#10 /var/www/html/mapster-api/src/Controller/AppController.php(40): App\Controller\AppController->getInstance('1')
+#11 [internal function]: App\Controller\AppController->view('1')
+#12 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Controller/Controller.php(372): ReflectionMethod->invokeArgs(Object(App\Controller\ChaptersController), Array)
+#13 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(115): Cake\Controller\Controller->invokeAction()
+#14 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(87): Cake\Routing\Dispatcher->_invoke(Object(App\Controller\ChaptersController))
+#15 /var/www/html/mapster-api/webroot/index.php(37): Cake\Routing\Dispatcher->dispatch(Object(Cake\Network\Request), Object(Cake\Network\Response))
+#16 {main}
+
+
+2014-09-08 23:04:02 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Chapters.sequqnce' in 'field list'
+Request URL: /mapster-api/chapters/1.json
+Stack Trace:
+#0 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Statement/StatementDecorator.php(152): PDOStatement->execute(NULL)
+#1 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Connection.php(253): Cake\Database\Statement\StatementDecorator->execute()
+#2 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Query.php(162): Cake\Database\Connection->run(Object(Cake\ORM\Query))
+#3 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(579): Cake\Database\Query->execute()
+#4 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(590): Cake\ORM\Query->execute()
+#5 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Datasource/QueryTrait.php(220): Cake\ORM\Query->_execute()
+#6 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(563): Cake\ORM\Query->_all()
+#7 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Datasource/QueryTrait.php(338): Cake\ORM\Query->all()
+#8 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(911): Cake\ORM\Query->first()
+#9 /var/www/html/mapster-api/src/Controller/AppController.php(124): Cake\ORM\Table->get('1')
+#10 /var/www/html/mapster-api/src/Controller/AppController.php(40): App\Controller\AppController->getInstance('1')
+#11 [internal function]: App\Controller\AppController->view('1')
+#12 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Controller/Controller.php(372): ReflectionMethod->invokeArgs(Object(App\Controller\ChaptersController), Array)
+#13 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(115): Cake\Controller\Controller->invokeAction()
+#14 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(87): Cake\Routing\Dispatcher->_invoke(Object(App\Controller\ChaptersController))
+#15 /var/www/html/mapster-api/webroot/index.php(37): Cake\Routing\Dispatcher->dispatch(Object(Cake\Network\Request), Object(Cake\Network\Response))
+#16 {main}
+
+
+2014-09-08 23:04:03 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Chapters.sequqnce' in 'field list'
+Request URL: /mapster-api/chapters/1.json
+Stack Trace:
+#0 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Statement/StatementDecorator.php(152): PDOStatement->execute(NULL)
+#1 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Connection.php(253): Cake\Database\Statement\StatementDecorator->execute()
+#2 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Query.php(162): Cake\Database\Connection->run(Object(Cake\ORM\Query))
+#3 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(579): Cake\Database\Query->execute()
+#4 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(590): Cake\ORM\Query->execute()
+#5 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Datasource/QueryTrait.php(220): Cake\ORM\Query->_execute()
+#6 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(563): Cake\ORM\Query->_all()
+#7 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Datasource/QueryTrait.php(338): Cake\ORM\Query->all()
+#8 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(911): Cake\ORM\Query->first()
+#9 /var/www/html/mapster-api/src/Controller/AppController.php(124): Cake\ORM\Table->get('1')
+#10 /var/www/html/mapster-api/src/Controller/AppController.php(40): App\Controller\AppController->getInstance('1')
+#11 [internal function]: App\Controller\AppController->view('1')
+#12 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Controller/Controller.php(372): ReflectionMethod->invokeArgs(Object(App\Controller\ChaptersController), Array)
+#13 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(115): Cake\Controller\Controller->invokeAction()
+#14 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(87): Cake\Routing\Dispatcher->_invoke(Object(App\Controller\ChaptersController))
+#15 /var/www/html/mapster-api/webroot/index.php(37): Cake\Routing\Dispatcher->dispatch(Object(Cake\Network\Request), Object(Cake\Network\Response))
+#16 {main}
+
+
+2014-09-08 23:04:03 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Chapters.sequqnce' in 'field list'
+Request URL: /mapster-api/chapters/1.json
+Stack Trace:
+#0 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Statement/StatementDecorator.php(152): PDOStatement->execute(NULL)
+#1 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Connection.php(253): Cake\Database\Statement\StatementDecorator->execute()
+#2 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Query.php(162): Cake\Database\Connection->run(Object(Cake\ORM\Query))
+#3 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(579): Cake\Database\Query->execute()
+#4 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(590): Cake\ORM\Query->execute()
+#5 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Datasource/QueryTrait.php(220): Cake\ORM\Query->_execute()
+#6 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(563): Cake\ORM\Query->_all()
+#7 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Datasource/QueryTrait.php(338): Cake\ORM\Query->all()
+#8 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(911): Cake\ORM\Query->first()
+#9 /var/www/html/mapster-api/src/Controller/AppController.php(124): Cake\ORM\Table->get('1')
+#10 /var/www/html/mapster-api/src/Controller/AppController.php(40): App\Controller\AppController->getInstance('1')
+#11 [internal function]: App\Controller\AppController->view('1')
+#12 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Controller/Controller.php(372): ReflectionMethod->invokeArgs(Object(App\Controller\ChaptersController), Array)
+#13 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(115): Cake\Controller\Controller->invokeAction()
+#14 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(87): Cake\Routing\Dispatcher->_invoke(Object(App\Controller\ChaptersController))
+#15 /var/www/html/mapster-api/webroot/index.php(37): Cake\Routing\Dispatcher->dispatch(Object(Cake\Network\Request), Object(Cake\Network\Response))
+#16 {main}
+
+
+2014-09-08 23:04:04 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Chapters.sequqnce' in 'field list'
+Request URL: /mapster-api/chapters/1.json
+Stack Trace:
+#0 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Statement/StatementDecorator.php(152): PDOStatement->execute(NULL)
+#1 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Connection.php(253): Cake\Database\Statement\StatementDecorator->execute()
+#2 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Query.php(162): Cake\Database\Connection->run(Object(Cake\ORM\Query))
+#3 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(579): Cake\Database\Query->execute()
+#4 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(590): Cake\ORM\Query->execute()
+#5 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Datasource/QueryTrait.php(220): Cake\ORM\Query->_execute()
+#6 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Query.php(563): Cake\ORM\Query->_all()
+#7 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Datasource/QueryTrait.php(338): Cake\ORM\Query->all()
+#8 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(911): Cake\ORM\Query->first()
+#9 /var/www/html/mapster-api/src/Controller/AppController.php(124): Cake\ORM\Table->get('1')
+#10 /var/www/html/mapster-api/src/Controller/AppController.php(40): App\Controller\AppController->getInstance('1')
+#11 [internal function]: App\Controller\AppController->view('1')
+#12 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Controller/Controller.php(372): ReflectionMethod->invokeArgs(Object(App\Controller\ChaptersController), Array)
+#13 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(115): Cake\Controller\Controller->invokeAction()
+#14 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(87): Cake\Routing\Dispatcher->_invoke(Object(App\Controller\ChaptersController))
+#15 /var/www/html/mapster-api/webroot/index.php(37): Cake\Routing\Dispatcher->dispatch(Object(Cake\Network\Request), Object(Cake\Network\Response))
+#16 {main}
+
+
+2014-09-08 23:05:19 Error: [Cake\ORM\Error\RecordNotFoundException] Record "4" not found in table "chapters"
+Request URL: /mapster-api/chapters/4.json
+Stack Trace:
+#0 /var/www/html/mapster-api/src/Controller/AppController.php(124): Cake\ORM\Table->get('4')
+#1 /var/www/html/mapster-api/src/Controller/AppController.php(40): App\Controller\AppController->getInstance('4')
+#2 [internal function]: App\Controller\AppController->view('4')
+#3 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Controller/Controller.php(372): ReflectionMethod->invokeArgs(Object(App\Controller\ChaptersController), Array)
+#4 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(115): Cake\Controller\Controller->invokeAction()
+#5 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(87): Cake\Routing\Dispatcher->_invoke(Object(App\Controller\ChaptersController))
+#6 /var/www/html/mapster-api/webroot/index.php(37): Cake\Routing\Dispatcher->dispatch(Object(Cake\Network\Request), Object(Cake\Network\Response))
+#7 {main}
+
+
+2014-09-08 23:10:54 Error: [RuntimeException] Table "App\Model\Table\ChapterVersionsTable" is not associated with "table"
+Request URL: /mapster-api/chapter_versions.json?chapter_id=3
+Stack Trace:
+#0 /var/www/html/mapster-api/src/Controller/AppController.php(186): Cake\ORM\Table->__get('table')
+#1 /var/www/html/mapster-api/src/Controller/AppController.php(34): App\Controller\AppController->getPaginatorSettings()
+#2 [internal function]: App\Controller\AppController->index()
+#3 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Controller/Controller.php(372): ReflectionMethod->invokeArgs(Object(App\Controller\ChapterVersionsController), Array)
+#4 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(115): Cake\Controller\Controller->invokeAction()
+#5 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Dispatcher.php(87): Cake\Routing\Dispatcher->_invoke(Object(App\Controller\ChapterVersionsController))
+#6 /var/www/html/mapster-api/webroot/index.php(37): Cake\Routing\Dispatcher->dispatch(Object(Cake\Network\Request), Object(Cake\Network\Response))
+#7 {main}
+
+
+2014-09-09 00:30:42 Error: [Cake\Controller\Error\MissingControllerException] Controller class Characters could not be found.
+Exception Attributes: array (
+  'class' => 'Characters',
+  'plugin' => NULL,
+  'prefix' => NULL,
+  '_ext' => 'json',
+)
+Request URL: /mapster-api/characters.json
+Stack Trace:
+#0 /var/www/html/mapster-api/webroot/index.php(37): Cake\Routing\Dispatcher->dispatch(Object(Cake\Network\Request), Object(Cake\Network\Response))
+#1 {main}
+
+
+2014-09-09 00:30:48 Error: [Cake\Controller\Error\MissingControllerException] Controller class Characters could not be found.
+Exception Attributes: array (
+  'class' => 'Characters',
+  'plugin' => NULL,
+  'prefix' => NULL,
+  '_ext' => 'json',
+)
+Request URL: /mapster-api/characters.json
+Stack Trace:
+#0 /var/www/html/mapster-api/webroot/index.php(37): Cake\Routing\Dispatcher->dispatch(Object(Cake\Network\Request), Object(Cake\Network\Response))
+#1 {main}
+
+
+2014-09-09 00:31:04 Error: [Cake\Controller\Error\MissingControllerException] Controller class Characters could not be found.
+Exception Attributes: array (
+  'class' => 'Characters',
+  'plugin' => NULL,
+  'prefix' => NULL,
+  '_ext' => 'json',
+)
+Request URL: /mapster-api/characters.json
+Stack Trace:
+#0 /var/www/html/mapster-api/webroot/index.php(37): Cake\Routing\Dispatcher->dispatch(Object(Cake\Network\Request), Object(Cake\Network\Response))
+#1 {main}
+
+

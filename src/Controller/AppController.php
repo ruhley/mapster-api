@@ -27,7 +27,7 @@ use Cake\Utility\Inflector;
  */
 class AppController extends Controller {
 
-	public $components = ['Paginator', 'RequestHandler'];
+	public $components = ['RequestHandler'];
 
 	public function index() {
 		$this->enableCors();
@@ -161,19 +161,17 @@ class AppController extends Controller {
 	}
 
 	protected function getPaginatorSettings() {
-		$fields = isset($_REQUEST['fields']) ? explode(',', $_REQUEST['fields']) : [];
-		$order = isset($_REQUEST['order']) ? explode(',', $_REQUEST['order']) : [];
-		$conditions = isset($_REQUEST['conditions']) ? explode(',', $_REQUEST['conditions']) : [];
-		$contains = isset($_REQUEST['contains']) ? explode(',', $_REQUEST['contains']) : [];
+		$model = $this->getModel();
 
 		$settings = [
-			'fields' => $fields,
+			'fields' => isset($_REQUEST['fields']) ? explode(',', $_REQUEST['fields']) : [],
 			'order' => [],
-			'conditions' => $conditions,
-			'contains' => $contains
+			'conditions' => isset($_REQUEST['conditions']) ? explode(',', $_REQUEST['conditions']) : [],
+			'contains' => isset($_REQUEST['contains']) ? explode(',', $_REQUEST['contains']) : []
 		];
 
 
+		$order = isset($_REQUEST['order']) ? explode(',', $_REQUEST['order']) : [];
 		foreach ($order as $ord) {
 			$ord = explode('|', $ord);
 
@@ -182,6 +180,12 @@ class AppController extends Controller {
 			}
 
 			$settings['order'][$ord[0]] = $ord[1];
+		}
+
+		foreach ($_REQUEST as $key => $value) {
+			if ($model->hasField($key)) {
+				array_push($settings['conditions'], $key.'='.$value);
+			}
 		}
 
 		return $settings;

@@ -39,9 +39,7 @@ class MapsterEntitiesTable extends Table {
 			->validatePresence('name', 'create')
 			->notEmpty('name')
 			->validatePresence('plural', 'create')
-			->notEmpty('plural')
-			->validatePresence('table_name', 'create')
-			->notEmpty('table_name');
+			->notEmpty('plural');
 
 		return $validator;
 	}

@@ -11,6 +11,17 @@ use Cake\TestSuite\TestCase;
 class MapsterEntityFieldsTableTest extends TestCase {
 
 /**
+ * Fixtures
+ *
+ * @var array
+ */
+	public $fixtures = [
+		'app.mapster_entity_field',
+		'app.mapster_entity',
+		'app.mapster_entity_field_type'
+	];
+
+/**
  * setUp method
  *
  * @return void

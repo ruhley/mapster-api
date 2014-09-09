@@ -1,14 +1,10 @@
 <?php
-namespace App\Controller;
+    namespace App\Controller;
 
-use App\Controller\AppController;
+    use App\Controller\AppController;
 
-/**
- * UniverseVersions Controller
- *
- * @property App\Model\Table\UniverseVersionsTable $UniverseVersions
- */
-class UniverseVersionsController extends AppController {
+    class UniverseVersionsController extends AppController {
 
 
-}
+    }
+?>

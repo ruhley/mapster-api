@@ -19,7 +19,11 @@ class Media extends Entity {
 		'description' => true,
 		'image' => true,
 		'link' => true,
+		'sequence' => true,
 		'universe_id' => true,
+		'universe' => true,
+		'chapter_versions' => true,
+		'chapters' => true,
 	];
 
 }

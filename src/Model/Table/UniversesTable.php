@@ -22,6 +22,12 @@ class UniversesTable extends Table {
 		$this->primaryKey('id');
 		$this->addBehavior('Timestamp');
 
+		$this->hasMany('Media', [
+			'foreignKey' => 'universe_id',
+		]);
+		$this->hasMany('MediaVersions', [
+			'foreignKey' => 'universe_id',
+		]);
 		$this->hasMany('UniverseVersions', [
 			'foreignKey' => 'universe_id',
 		]);

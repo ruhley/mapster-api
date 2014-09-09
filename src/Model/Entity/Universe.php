@@ -19,6 +19,8 @@ class Universe extends Entity {
 		'description' => true,
 		'image' => true,
 		'link' => true,
+		'media' => true,
+		'media_versions' => true,
 		'universe_versions' => true,
 	];
 

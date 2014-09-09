@@ -17,8 +17,10 @@ class MediaVersionsTableTest extends TestCase {
  */
 	public $fixtures = [
 		'app.media_version',
-		'app.media',
 		'app.universe',
+		'app.media',
+		'app.chapter_version',
+		'app.chapter',
 		'app.universe_version'
 	];
 

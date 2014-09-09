@@ -30,6 +30,12 @@ Router::scope('/', function($routes) {
 	$routes->resources('UniverseVersions');
 	$routes->resources('Media');
 	$routes->resources('MediaVersions');
+	$routes->resources('Chapters');
+	$routes->resources('ChapterVersions');
+	$routes->resources('Characters');
+	$routes->resources('CharacterVersions');
+	$routes->resources('Maps');
+	$routes->resources('MapVersions');
 /**
  * Here, we are connecting '/' (base path) to a controller called 'Pages',
  * its action called 'display', and we pass a param to select the view file
