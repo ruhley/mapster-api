@@ -18,6 +18,8 @@ class Place extends Entity {
 		'description' => true,
 		'image' => true,
 		'link' => true,
+		'place_type_id' => true,
+		'coordinates' => true,
 		'map_id' => true,
 		'map' => true,
 		'place_versions' => true,

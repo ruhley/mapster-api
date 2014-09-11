@@ -126,11 +126,11 @@ CREATE TABLE `map_versions` (
   KEY `map_id` (`map_id`),
   CONSTRAINT `map_versions_ibfk_1` FOREIGN KEY (`universe_id`) REFERENCES `universes` (`id`),
   CONSTRAINT `map_versions_ibfk_2` FOREIGN KEY (`map_id`) REFERENCES `maps` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Data for the table `map_versions` */
 
-insert  into `map_versions`(`id`,`name`,`description`,`image`,`link`,`universe_id`,`created`,`map_id`) values (1,'Westlands','The Westlands is one of several names given to the continent or subcontinent that stretches from the Aiel Waste to the Aryth Ocean, and from the Great Blight to the Sea of Storms. It forms the westernmost part of one large landmass that also incorporates the Aiel Waste and the land of Shara, as well as a number of offshore islands belonging to the Sea Folk.','http://localhost/mapster-api/img/MapVersions/540e4da1da109.jpeg','http://wot.wikia.com/wiki/Westlands',1,'2014-09-09 10:45:21',1);
+insert  into `map_versions`(`id`,`name`,`description`,`image`,`link`,`universe_id`,`created`,`map_id`) values (1,'Westlands','The Westlands is one of several names given to the continent or subcontinent that stretches from the Aiel Waste to the Aryth Ocean, and from the Great Blight to the Sea of Storms. It forms the westernmost part of one large landmass that also incorporates the Aiel Waste and the land of Shara, as well as a number of offshore islands belonging to the Sea Folk.','http://localhost/mapster-api/img/MapVersions/540e4da1da109.jpeg','http://wot.wikia.com/wiki/Westlands',1,'2014-09-09 10:45:21',1),(2,'Westlands','The Westlands is one of several names given to the continent or subcontinent that stretches from the Aiel Waste to the Aryth Ocean, and from the Great Blight to the Sea of Storms. It forms the westernmost part of one large landmass that also incorporates the Aiel Waste and the land of Shara, as well as a number of offshore islands belonging to the Sea Folk.','http://localhost/mapster-api/img/MapVersions/540fe8d045718.jpg','http://wot.wikia.com/wiki/Westlands',1,'2014-09-10 15:59:44',1);
 
 /*Table structure for table `maps` */
 
@@ -151,7 +151,7 @@ CREATE TABLE `maps` (
 
 /*Data for the table `maps` */
 
-insert  into `maps`(`id`,`name`,`description`,`image`,`link`,`universe_id`,`created`) values (1,'Westlands','The Westlands is one of several names given to the continent or subcontinent that stretches from the Aiel Waste to the Aryth Ocean, and from the Great Blight to the Sea of Storms. It forms the westernmost part of one large landmass that also incorporates the Aiel Waste and the land of Shara, as well as a number of offshore islands belonging to the Sea Folk.','http://localhost/mapster-api/img/map/540e4da1ce18b.jpeg','http://wot.wikia.com/wiki/Westlands',1,'2014-09-09 10:45:21');
+insert  into `maps`(`id`,`name`,`description`,`image`,`link`,`universe_id`,`created`) values (1,'Westlands','The Westlands is one of several names given to the continent or subcontinent that stretches from the Aiel Waste to the Aryth Ocean, and from the Great Blight to the Sea of Storms. It forms the westernmost part of one large landmass that also incorporates the Aiel Waste and the land of Shara, as well as a number of offshore islands belonging to the Sea Folk.','http://localhost/mapster-api/img/Map/540fe8d0aa33b.jpg','http://wot.wikia.com/wiki/Westlands',1,'2014-09-09 10:45:21');
 
 /*Table structure for table `mapster_entities` */
 
@@ -163,11 +163,11 @@ CREATE TABLE `mapster_entities` (
   `plural` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 /*Data for the table `mapster_entities` */
 
-insert  into `mapster_entities`(`id`,`name`,`plural`) values (1,'Universe','Universes'),(2,'Media','Media'),(3,'Chapter','Chapters'),(4,'Character','Characters'),(5,'Map','Maps'),(6,'Place','Places');
+insert  into `mapster_entities`(`id`,`name`,`plural`) values (1,'Universe','Universes'),(2,'Media','Media'),(3,'Chapter','Chapters'),(4,'Character','Characters'),(5,'Map','Maps'),(6,'Place','Places'),(7,'Place Type','Place Types');
 
 /*Table structure for table `mapster_entity_field_types` */
 
@@ -177,11 +177,11 @@ CREATE TABLE `mapster_entity_field_types` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 /*Data for the table `mapster_entity_field_types` */
 
-insert  into `mapster_entity_field_types`(`id`,`name`) values (1,'name'),(2,'description'),(3,'image'),(4,'link'),(5,'abbreviation'),(6,'universe'),(7,'media'),(8,'sequence'),(9,'map');
+insert  into `mapster_entity_field_types`(`id`,`name`) values (1,'name'),(2,'description'),(3,'image'),(4,'link'),(5,'abbreviation'),(6,'universe'),(7,'media'),(8,'sequence'),(9,'map'),(10,'coordinates'),(11,'place-type');
 
 /*Table structure for table `mapster_entity_fields` */
 
@@ -199,7 +199,7 @@ CREATE TABLE `mapster_entity_fields` (
 
 /*Data for the table `mapster_entity_fields` */
 
-insert  into `mapster_entity_fields`(`mapster_entity_id`,`mapster_entity_field_type_id`,`sequence`) values (1,1,0),(1,2,2),(1,3,3),(1,4,4),(1,5,1),(2,1,0),(2,2,2),(2,3,3),(2,4,4),(2,5,1),(2,6,5),(2,8,6),(3,1,0),(3,2,1),(3,3,2),(3,4,3),(3,7,4),(3,8,5),(4,1,0),(4,2,1),(4,3,2),(4,4,3),(4,6,4),(5,1,0),(5,2,1),(5,3,2),(5,4,3),(5,6,4),(6,1,0),(6,2,1),(6,3,2),(6,4,3),(6,9,4);
+insert  into `mapster_entity_fields`(`mapster_entity_id`,`mapster_entity_field_type_id`,`sequence`) values (1,1,0),(1,2,2),(1,3,3),(1,4,4),(1,5,1),(2,1,0),(2,2,2),(2,3,3),(2,4,4),(2,5,1),(2,6,5),(2,8,6),(3,1,0),(3,2,1),(3,3,2),(3,4,3),(3,7,4),(3,8,5),(4,1,0),(4,2,1),(4,3,2),(4,4,3),(4,6,4),(5,1,0),(5,2,1),(5,3,2),(5,4,3),(5,6,4),(6,1,0),(6,2,1),(6,3,2),(6,4,3),(6,9,5),(6,10,6),(6,11,4),(7,1,0),(7,2,1),(7,3,2),(7,4,3);
 
 /*Table structure for table `media` */
 
@@ -249,6 +249,43 @@ CREATE TABLE `media_versions` (
 
 /*Data for the table `media_versions` */
 
+/*Table structure for table `place_type_versions` */
+
+DROP TABLE IF EXISTS `place_type_versions`;
+
+CREATE TABLE `place_type_versions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `description` text,
+  `image` text,
+  `link` text,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `place_type_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `place_type_id` (`place_type_id`),
+  CONSTRAINT `place_type_versions_ibfk_1` FOREIGN KEY (`place_type_id`) REFERENCES `place_types` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `place_type_versions` */
+
+/*Table structure for table `place_types` */
+
+DROP TABLE IF EXISTS `place_types`;
+
+CREATE TABLE `place_types` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `description` text,
+  `image` text,
+  `link` text,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+/*Data for the table `place_types` */
+
+insert  into `place_types`(`id`,`name`,`description`,`image`,`link`,`created`) values (1,'Nation','',NULL,NULL,'2014-09-09 13:41:17'),(2,'City-State',NULL,NULL,NULL,'2014-09-09 14:00:20');
+
 /*Table structure for table `place_versions` */
 
 DROP TABLE IF EXISTS `place_versions`;
@@ -259,17 +296,23 @@ CREATE TABLE `place_versions` (
   `description` text,
   `image` text,
   `link` text,
+  `place_type_id` int(11) NOT NULL,
+  `coordinates` text NOT NULL,
   `map_id` int(11) NOT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `place_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `map_id` (`map_id`),
   KEY `place_id` (`place_id`),
+  KEY `place_type_id` (`place_type_id`),
+  CONSTRAINT `place_versions_ibfk_3` FOREIGN KEY (`place_type_id`) REFERENCES `place_types` (`id`),
   CONSTRAINT `place_versions_ibfk_1` FOREIGN KEY (`map_id`) REFERENCES `maps` (`id`),
   CONSTRAINT `place_versions_ibfk_2` FOREIGN KEY (`place_id`) REFERENCES `places` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 /*Data for the table `place_versions` */
+
+insert  into `place_versions`(`id`,`name`,`description`,`image`,`link`,`place_type_id`,`coordinates`,`map_id`,`created`,`place_id`) values (6,'Altara',NULL,'http://localhost/mapster-api/img/PlaceVersions/540fd917463bd.jpg','http://wot.wikia.com/wiki/Altara',1,'223 412,224 403,223 393,224 385,228 380,231 375,232 365,238 356,247 348,254 338,250 320,238 305,220 290,202 270,224 280,238 286,253 288,256 298,264 304,272 311,280 315,301 322,298 345,299 356,308 364,313 375,305 409,287 411,276 410,266 416,268 425,270 433,262 436,251 438,238 443,225 445,210 443,205 436,215 425,210 422',1,'2014-09-10 14:52:39',1),(7,'Altara','Altara is a country located in the south-central part of the Westlands.\n\nThe sign of Altara is two golden leopards on a field checked four-by-four in red and blue.','http://localhost/mapster-api/img/Place/540fd9178dcd3.jpg','http://wot.wikia.com/wiki/Altara',1,'223 412,224 403,223 393,224 385,228 380,231 375,232 365,238 356,247 348,254 338,250 320,238 305,220 290,202 270,224 280,238 286,253 288,256 298,264 304,272 311,280 315,301 322,298 345,299 356,308 364,313 375,305 409,287 411,276 410,266 416,268 425,270 433,262 436,251 438,238 443,225 445,210 443,205 436,215 425,210 422',1,'2014-09-10 14:53:33',1),(8,'Amadacia','Amadicia is a southern nation of the Westlands. It is the home of the Children of the Light.','http://localhost/mapster-api/img/place/540e911876b1a.jpg','http://wot.wikia.com/wiki/Amadicia',1,'123 undefined,222 407,211 401,203 401,191 400,179 399,168 396,155 379,169 368,180 358,190 347,192 333,200 330,209 338,214 348,218 353,227 353,232 361,232 370,228 381,223 385,223 396',1,'2014-09-10 14:55:08',6),(9,'Amadacia','Amadicia is a southern nation of the Westlands. It is the home of the Children of the Light.','http://localhost/mapster-api/img/place/540e911876b1a.jpg','http://wot.wikia.com/wiki/Amadicia',1,'222 407,211 401,203 401,191 400,179 399,168 396,155 379,169 368,180 358,190 347,192 333,200 330,209 338,214 348,218 353,227 353,232 361,232 370,228 381,223 385,223 396',1,'2014-09-10 14:56:23',6),(10,'Andor','Andor is a country in the heart of the Westlands. It is the largest and most populous country in the West. After the Borderlands, it also has the largest and most well-trained army.\n\nFormerly a province under gubernatorial rule, it was declared a sovereign nation, and is the oldest and largest of the nations formed after Artur Hawkwing\'s empire collapsed. The capital of Andor is Caemlyn.','http://localhost/mapster-api/img/PlaceVersions/5410dcd5da5ec.jpg','http://wot.wikia.com/wiki/Andor',1,'301 322,287 319,278 314,269 309,259 301,256 292,246 287,234 284,218 277,206 274,200 236,211 237,220 241,229 250,240 254,250 254,257 264,266 266,450 274,447 285,453 290,459 301,463 313,445 328,425 330,408 340,398 348,385 350,379 348,380 339,382 330,375 325,361 322',1,'2014-09-11 09:20:54',7),(11,'Arafel',NULL,'http://localhost/mapster-api/img/PlaceVersions/5410e69fb5bf1.jpg','http://wot.wikia.com/wiki/Arafel',1,'537 99,524 105,510 105,510 115,498 121,488 132,481 143,471 126,462 103,470 91,490 88,516 83,535 85',1,'2014-09-11 10:02:40',9);
 
 /*Table structure for table `places` */
 
@@ -281,14 +324,20 @@ CREATE TABLE `places` (
   `description` text,
   `image` text,
   `link` text,
+  `place_type_id` int(11) NOT NULL,
+  `coordinates` text NOT NULL,
   `map_id` int(11) NOT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `map_id` (`map_id`),
+  KEY `place_type_id` (`place_type_id`),
+  CONSTRAINT `places_ibfk_2` FOREIGN KEY (`place_type_id`) REFERENCES `place_types` (`id`),
   CONSTRAINT `places_ibfk_1` FOREIGN KEY (`map_id`) REFERENCES `maps` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 
 /*Data for the table `places` */
+
+insert  into `places`(`id`,`name`,`description`,`image`,`link`,`place_type_id`,`coordinates`,`map_id`,`created`) values (1,'Altara','Altara is a country located in the south-central part of the Westlands.\n\nThe sign of Altara is two golden leopards on a field checked four-by-four in red and blue.','http://localhost/mapster-api/img/Place/540fd9178dcd3.jpg','http://wot.wikia.com/wiki/Altara',1,'223 412,224 403,223 393,224 385,228 380,231 375,232 365,238 356,247 348,254 338,250 320,238 305,220 290,202 270,224 280,238 286,253 288,256 298,264 304,272 311,280 315,301 322,298 345,299 356,308 364,313 375,305 409,287 411,276 410,266 416,268 425,270 433,262 436,251 438,238 443,225 445,210 443,205 436,215 425,210 422',1,'2014-09-09 14:01:11'),(6,'Amadacia','Amadicia is a southern nation of the Westlands. It is the home of the Children of the Light.','http://localhost/mapster-api/img/place/540e911876b1a.jpg','http://wot.wikia.com/wiki/Amadicia',1,'222 407,211 401,203 401,191 400,179 399,168 396,155 379,169 368,180 358,190 347,192 333,200 330,209 338,214 348,218 353,227 353,232 361,232 370,228 381,223 385,223 396',1,'2014-09-09 15:33:12'),(7,'Andor','Andor is a country in the heart of the Westlands. It is the largest and most populous country in the West. After the Borderlands, it also has the largest and most well-trained army.\n\nFormerly a province under gubernatorial rule, it was declared a sovereign nation, and is the oldest and largest of the nations formed after Artur Hawkwing\'s empire collapsed. The capital of Andor is Caemlyn.','http://localhost/mapster-api/img/Place/5410dcd606096.jpg','http://wot.wikia.com/wiki/Andor',1,'301 322,287 319,278 314,269 309,259 301,256 292,246 287,234 284,218 277,206 274,200 236,211 237,220 241,229 250,240 254,250 254,257 264,266 266,450 274,447 285,453 290,459 301,463 313,445 328,425 330,408 340,398 348,385 350,379 348,380 339,382 330,375 325,361 322',1,'2014-09-09 15:45:05'),(8,'Arad Doman',NULL,NULL,'http://wot.wikia.com/wiki/Arad_Doman',1,'68 208,80 210,100 213,115 217,131 224,145 226,156 219,162 200,161 176,142 174,126 179,112 173,99 162,92 159,89 168,81 166,70 169,57 170,47 178,36 185,33 191,45 192,53 193,60 200',1,'2014-09-11 09:26:44'),(9,'Arafel',NULL,'http://localhost/mapster-api/img/Place/5410e6a009814.jpg','http://wot.wikia.com/wiki/Arafel',1,'537 99,524 105,510 105,510 115,498 121,488 132,481 143,471 126,462 103,470 91,490 88,516 83,535 85',1,'2014-09-11 10:01:34'),(10,'Cairhien',NULL,NULL,'http://wot.wikia.com/wiki/Cairhien',1,'468 316,467 306,462 296,454 288,449 281,452 275,447 263,440 258,442 249,448 241,457 226,461 215,461 200,506 198,525 184,544 174,566 166,571 209,573 248,571 277,546 288,505 304',1,'2014-09-11 10:04:06'),(11,'Ghealdan','',NULL,'http://wot.wikia.com/wiki/Ghealdan',1,'235 358,243 354,251 343,252 327,245 310,230 302,218 292,208 280,197 278,194 294,199 305,197 319,196 328,208 333,213 344,217 353,227 353',1,'2014-09-11 10:07:25'),(12,'Illian',NULL,'http://localhost/mapster-api/img/Place/5410e8278fa4a.jpg','http://wot.wikia.com/wiki/Illian',1,'309 411,310 393,313 378,318 368,335 366,351 377,373 386,389 414,396 430,400 439,389 443,376 449,363 456,354 464,338 462,325 455,322 444,327 428,327 419',1,'2014-09-11 10:09:12'),(13,'Kandor',NULL,'http://localhost/mapster-api/img/Place/5410eaac1a037.jpg','http://wot.wikia.com/wiki/Kandor',1,'480 144,455 146,431 146,415 137,407 121,412 106,426 98,446 100,461 105',1,'2014-09-11 10:19:56'),(14,'Murandy',NULL,'http://localhost/mapster-api/img/Place/5410ebd36b686.jpg','http://wot.wikia.com/wiki/Murandy',1,'315 371,311 363,304 351,302 335,309 325,328 324,355 324,373 328,382 339,377 349,374 358,371 367,365 376,358 379,352 376,343 365,334 365',1,'2014-09-11 10:24:51'),(15,'Saldaea',NULL,'http://localhost/mapster-api/img/Place/5410ec6b5b871.jpg','http://wot.wikia.com/wiki/Saldaea',1,'167 134,194 152,206 162,212 175,224 191,233 204,241 179,244 168,244 157,251 142,266 140,289 132,306 133,316 110,320 89,296 81,267 83,227 90,194 102,176 110',1,'2014-09-11 10:27:23'),(16,'Shienar',NULL,'http://localhost/mapster-api/img/Place/5410ecbe5419f.jpg','http://wot.wikia.com/wiki/Shienar',1,'494 132,505 137,517 130,526 129,537 132,548 127,562 126,572 123,585 118,600 99,590 79,579 68,568 69,564 77,558 86,551 87,545 88,538 98,529 104,520 105,510 110,507 120',1,'2014-09-11 10:28:46'),(17,'Tarabon',NULL,'http://localhost/mapster-api/img/Place/5410eff0a4c39.jpg','http://wot.wikia.com/wiki/Tarabon',1,'35 347,65 352,94 364,135 374,152 379,153 359,152 338,146 313,136 293,113 282,84 279,58 280,47 295,33 311,23 329,26 339',1,'2014-09-11 10:42:25'),(18,'Tear',NULL,'http://localhost/mapster-api/img/Place/5410f06e62646.jpg','http://wot.wikia.com/wiki/Tear',1,'451 425,453 407,481 398,513 396,547 400,562 407,584 429,577 439,585 450,577 459,555 462,541 460,549 451,557 442,558 434,544 430,523 426,505 425,490 431,472 431,456 431',1,'2014-09-11 10:44:30'),(19,'Falme',NULL,NULL,'http://wot.wikia.com/wiki/Falme',2,'12 259',1,'2014-09-11 10:49:31'),(20,'Far Madding',NULL,NULL,'http://wot.wikia.com/wiki/Far_Madding',2,'465 368',1,'2014-09-11 10:51:03'),(21,'Mayene',NULL,'http://localhost/mapster-api/img/Place/5410f2292f3fa.jpg','http://wot.wikia.com/wiki/Mayene',2,'605 449',1,'2014-09-11 10:51:53'),(22,'Tar Valon',NULL,'http://localhost/mapster-api/img/Place/5410f25e327c3.jpg','http://wot.wikia.com/wiki/Tar_Valon',2,'454 183',1,'2014-09-11 10:52:46');
 
 /*Table structure for table `universe_versions` */
 

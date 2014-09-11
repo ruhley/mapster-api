@@ -22,6 +22,9 @@ class PlaceVersionsTable extends Table {
 		$this->primaryKey('id');
 		$this->addBehavior('Timestamp');
 
+		$this->belongsTo('PlaceTypes', [
+			'foreignKey' => 'place_type_id',
+		]);
 		$this->belongsTo('Maps', [
 			'foreignKey' => 'map_id',
 		]);
@@ -45,6 +48,11 @@ class PlaceVersionsTable extends Table {
 			->allowEmpty('description')
 			->allowEmpty('image')
 			->allowEmpty('link')
+			->add('place_type_id', 'valid', ['rule' => 'numeric'])
+			->validatePresence('place_type_id', 'create')
+			->notEmpty('place_type_id')
+			->validatePresence('coordinates', 'create')
+			->notEmpty('coordinates')
 			->add('map_id', 'valid', ['rule' => 'numeric'])
 			->validatePresence('map_id', 'create')
 			->notEmpty('map_id')

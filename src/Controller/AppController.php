@@ -46,12 +46,15 @@ class AppController extends Controller {
 		$entity = $model->newEntity($this->parseData($this->request->data));
 
 		if ($this->request->is('post')) {
-			if ($instance = $model->save($entity)) {
+			$instance = $model->save($entity);
+			if (!$instance) {
 				$this->saveVersion($instance->id);
-				$this->returnSuccess($instance);
+				$this->returnSuccess($instance, 'Item created successfully');
 			} else {
-				$this->returnError($entity->errors());
+				$this->returnError($entity->errors(), 'There was a problem creating the item');
 			}
+		} else {
+			$this->returnError(null, 'Invalid request type');
 		}
 	}
 
@@ -65,9 +68,9 @@ class AppController extends Controller {
 		if ($this->request->is(['patch', 'post', 'put'])) {
 			$instance = $model->patchEntity($instance, $this->parseData($this->request->data));
 			if ($model->save($instance)) {
-				$this->returnSuccess($instance);
+				$this->returnSuccess($instance, 'Item edited successfully');
 			} else {
-				$this->returnError($entity->errors());
+				$this->returnError($entity->errors(), 'There was a problem editing the item');
 			}
 		}
 	}
@@ -80,9 +83,9 @@ class AppController extends Controller {
 
 		$this->request->allowMethod('post', 'delete');
 		if ($model->delete($instance)) {
-			$this->returnSuccess(null, 'The entity has been deleted.');
+			$this->returnSuccess(null, 'The item has been deleted.');
 		} else {
-			$this->returnError(null, 'The entity could not be deleted. Please, try again.');
+			$this->returnError(null, 'The item could not be deleted. Please, try again.');
 		}
 	}
 
@@ -193,7 +196,7 @@ class AppController extends Controller {
 
 	protected function parseData($data, $modelName = '') {
 		if ($modelName == '') {
-			$modelName = strtolower($this->getModelNameSingular());
+			$modelName = $this->getModelNameSingular();
 			$parentModelName = '';
 		} else {
 			$parentModelName = strtolower($this->getModelNameSingular());
@@ -201,25 +204,46 @@ class AppController extends Controller {
 
 		$filename = uniqid();
 		$imageFolder = WWW_ROOT.DS.'img'.DS.$modelName.DS;
-		$webFolder = 'http' . (($_SERVER['SERVER_PORT'] == 443) ? 's' : '').'://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['REQUEST_URI']).'/img/'.$modelName.'/';
+		$webroot = 'http' . (($_SERVER['SERVER_PORT'] == 443) ? 's' : '').'://'.$_SERVER['SERVER_NAME'];
+
+
+		if (preg_match('/\/[0-9]*\.(json|xml)/i', $_SERVER['REQUEST_URI']) === 0) {
+			$webroot .= dirname($_SERVER['REQUEST_URI']);
+		} else {
+			$webroot .= dirname(dirname($_SERVER['REQUEST_URI']));
+		}
+
+		$webFolder = $webroot.'/img/'.$modelName.'/';
 
 		if (!file_exists($imageFolder)) {
 			mkdir($imageFolder);
 		}
 
-		if (array_key_exists($modelName, $data)) {
-			$data = $data[$modelName];
+		if (array_key_exists(strtolower($modelName), $data)) {
+			$data = $data[strtolower($modelName)];
 		} else if (array_key_exists($parentModelName, $data)) {
 			$data = $data[$parentModelName];
 		}
 
 		foreach ($data as $key => $item) {
-			if (in_array($key, ['image']) && strpos($item, 'data:image/') === 0) {
-				preg_match('/data\:image\/([^\;]*)/', $item, $matches);
-				$extension = $matches[1];
-				file_put_contents($imageFolder.$filename.'.'.$extension, base64_decode(str_replace('data:image/'.$extension.';base64', '', $item)));
-				$data[$key] = $webFolder.$filename.'.'.$extension;
-				$this->createThumbs($imageFolder.$filename.'.'.$extension);
+			if (in_array($key, ['image']) && $item != '') {
+				// if base64 encoded
+				if (strpos($item, 'data:image/') === 0) {
+					preg_match('/data\:image\/([^\;]*)/', $item, $matches);
+					$extension = strtolower($matches[1]);
+					file_put_contents($imageFolder.$filename.'.'.$extension, base64_decode(str_replace('data:image/'.$extension.';base64', '', $item)));
+					$data[$key] = $webFolder.$filename.'.'.$extension;
+					$this->createThumbs($imageFolder.$filename.'.'.$extension);
+				// if from external url
+				} else if (strpos($item, $webroot) === false) {
+					$extension = explode('.', $item);
+					$extension = strtolower(end($extension));
+					if (getimagesize($item)) {
+						file_put_contents($imageFolder.$filename.'.'.$extension, file_get_contents($item));
+						$data[$key] = $webFolder.$filename.'.'.$extension;
+						$this->createThumbs($imageFolder.$filename.'.'.$extension);
+					}
+				}
 			}
 		}
 

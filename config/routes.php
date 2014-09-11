@@ -36,6 +36,10 @@ Router::scope('/', function($routes) {
 	$routes->resources('CharacterVersions');
 	$routes->resources('Maps');
 	$routes->resources('MapVersions');
+	$routes->resources('Places');
+	$routes->resources('PlaceVersions');
+	$routes->resources('PlaceTypes');
+	$routes->resources('PlaceTypeVersions');
 /**
  * Here, we are connecting '/' (base path) to a controller called 'Pages',
  * its action called 'display', and we pass a param to select the view file
