@@ -132,11 +132,28 @@ class AppController extends Controller {
 		return $model->associations();
 	}
 
-	protected function hasVersion() {
-		$associations = $this->getAssociations();
+	protected function getAssociationNames($includeVersions = true) {
+		$associations = $this->getAssociations()->keys();
+		$response = array();
 
-		foreach ($associations->keys() as $association) {
-			if (strpos($association, 'versions')) {
+		if ($includeVersions) {
+			return $associations;
+		}
+
+		foreach ($associations as $association) {
+			if (strpos($association, 'version') === false) {
+				array_push($response, $association);
+			}
+		}
+
+		return $response;
+	}
+
+	protected function hasVersion() {
+		$associations = $this->getAssociationNames();
+
+		foreach ($associations as $association) {
+			if ($association == strtolower($this->getModelNameSingular()).'versions') {
 				return $association;
 			}
 		}
@@ -173,6 +190,10 @@ class AppController extends Controller {
 			'contains' => isset($_REQUEST['contains']) ? explode(',', $_REQUEST['contains']) : []
 		];
 
+		if (in_array('All', $settings['contains'])) {
+			 $settings['contains'] = $this->getAssociationNames(false);
+		}
+
 
 		$order = isset($_REQUEST['order']) ? explode(',', $_REQUEST['order']) : [];
 		foreach ($order as $ord) {
@@ -187,7 +208,7 @@ class AppController extends Controller {
 
 		foreach ($_REQUEST as $key => $value) {
 			if ($model->hasField($key)) {
-				array_push($settings['conditions'], $key.'='.$value);
+				array_push($settings['conditions'], $key.'="'.$value.'"');
 			}
 		}
 
