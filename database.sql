@@ -355,9 +355,11 @@ CREATE TABLE `universe_versions` (
   PRIMARY KEY (`id`),
   KEY `FK_universe_versions_universes` (`universe_id`),
   CONSTRAINT `universe_versions_ibfk_1` FOREIGN KEY (`universe_id`) REFERENCES `universes` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Data for the table `universe_versions` */
+
+insert  into `universe_versions`(`id`,`name`,`abbreviation`,`description`,`image`,`link`,`created`,`universe_id`) values (1,'The Wheel of Time','WoT','The Wheel of Time is a series of epic fantasy novels written by American author James Oliver Rigney, Jr., under the pen name Robert Jordan. Originally planned as a six-book series, The Wheel of Time now spans fourteen volumes, in addition to a prequel novel and a companion book. Jordan began writing the first volume, The Eye of the World, in 1984 and it was published in January 1990.','http://localhost/mapster-api/img/UniverseVersions/54124cce84a82.png','http://wot.wikia.com/','2014-09-12 11:30:55',1);
 
 /*Table structure for table `universes` */
 
@@ -377,7 +379,7 @@ CREATE TABLE `universes` (
 
 /*Data for the table `universes` */
 
-insert  into `universes`(`id`,`name`,`abbreviation`,`description`,`image`,`link`,`created`) values (1,'The Wheel of Time','WoT','The Wheel of Time is a series of epic fantasy novels written by American author James Oliver Rigney, Jr., under the pen name Robert Jordan. Originally planned as a six-book series, The Wheel of Time now spans fourteen volumes, in addition to a prequel novel and a companion book. Jordan began writing the first volume, The Eye of the World, in 1984 and it was published in January 1990.',NULL,'http://wot.wikia.com/','2014-08-30 14:57:14'),(2,'The Lord of the Rings','LotR','The Lord of the Rings is an epic high fantasy novel written by English philologist and University of Oxford professor J. R. R. Tolkien. The story began as a sequel to Tolkien\'s 1937 children\'s fantasy novel The Hobbit, but eventually developed into a much larger work. It was written in stages between 1937 and 1949, much of it during World War II. It is the third best-selling novel ever written, with over 150 million copies sold.',NULL,'http://lotr.wikia.com','2014-08-30 14:57:14'),(3,'Game of Thrones','GoT','Game of Thrones is a television series produced by HBO based on the Song of Ice and Fire novels written by George R.R. Martin, debuting in April 2011. This wiki is specifically based on the television series and spoilers from the novels are not permitted.',NULL,'http://gameofthrones.wikia.com/','2014-08-30 15:22:08');
+insert  into `universes`(`id`,`name`,`abbreviation`,`description`,`image`,`link`,`created`) values (1,'The Wheel of Time','WoT','The Wheel of Time is a series of epic fantasy novels written by American author James Oliver Rigney, Jr., under the pen name Robert Jordan. Originally planned as a six-book series, The Wheel of Time now spans fourteen volumes, in addition to a prequel novel and a companion book. Jordan began writing the first volume, The Eye of the World, in 1984 and it was published in January 1990.','http://localhost/mapster-api/img/Universe/54124ccf3215c.png','http://wot.wikia.com/','2014-08-30 14:57:14'),(2,'The Lord of the Rings','LotR','The Lord of the Rings is an epic high fantasy novel written by English philologist and University of Oxford professor J. R. R. Tolkien. The story began as a sequel to Tolkien\'s 1937 children\'s fantasy novel The Hobbit, but eventually developed into a much larger work. It was written in stages between 1937 and 1949, much of it during World War II. It is the third best-selling novel ever written, with over 150 million copies sold.',NULL,'http://lotr.wikia.com','2014-08-30 14:57:14'),(3,'Game of Thrones','GoT','Game of Thrones is a television series produced by HBO based on the Song of Ice and Fire novels written by George R.R. Martin, debuting in April 2011. This wiki is specifically based on the television series and spoilers from the novels are not permitted.',NULL,'http://gameofthrones.wikia.com/','2014-08-30 15:22:08');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
