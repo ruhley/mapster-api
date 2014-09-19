@@ -28,6 +28,12 @@ class MapsTable extends Table {
 		$this->hasMany('MapVersions', [
 			'foreignKey' => 'map_id',
 		]);
+		$this->hasMany('PlaceVersions', [
+			'foreignKey' => 'map_id',
+		]);
+		$this->hasMany('Places', [
+			'foreignKey' => 'map_id',
+		]);
 	}
 
 /**

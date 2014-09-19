@@ -11,6 +11,26 @@ use Cake\TestSuite\TestCase;
 class PlaceTypesTableTest extends TestCase {
 
 /**
+ * Fixtures
+ *
+ * @var array
+ */
+	public $fixtures = [
+		'app.place_type',
+		'app.place_type_version',
+		'app.place_version',
+		'app.map',
+		'app.universe',
+		'app.media',
+		'app.chapter_version',
+		'app.chapter',
+		'app.media_version',
+		'app.universe_version',
+		'app.map_version',
+		'app.place'
+	];
+
+/**
  * setUp method
  *
  * @return void

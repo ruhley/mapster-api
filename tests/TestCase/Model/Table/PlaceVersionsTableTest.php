@@ -17,6 +17,9 @@ class PlaceVersionsTableTest extends TestCase {
  */
 	public $fixtures = [
 		'app.place_version',
+		'app.place_type',
+		'app.place_type_version',
+		'app.place',
 		'app.map',
 		'app.universe',
 		'app.media',
@@ -24,9 +27,7 @@ class PlaceVersionsTableTest extends TestCase {
 		'app.chapter',
 		'app.media_version',
 		'app.universe_version',
-		'app.map_version',
-		'app.place',
-		'app.place_type'
+		'app.map_version'
 	];
 
 /**

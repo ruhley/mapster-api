@@ -21,6 +21,7 @@ class Place extends Entity {
 		'place_type_id' => true,
 		'coordinates' => true,
 		'map_id' => true,
+		'place_type' => true,
 		'map' => true,
 		'place_versions' => true,
 	];

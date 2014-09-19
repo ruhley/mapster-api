@@ -32,7 +32,7 @@ class AppController extends Controller {
 	public function index() {
 		$this->enableCors();
 		$settings = $this->getPaginatorSettings();
-		$this->returnSuccess($this->getModel()->find('all', $settings)->contain($settings['contains']));
+		$this->returnSuccess($this->getModel()->find('all', $settings['settings'])->contain($settings['contains']));
 	}
 
 	public function view($id = null) {
@@ -186,12 +186,12 @@ class AppController extends Controller {
 		$settings = [
 			'fields' => isset($_REQUEST['fields']) ? explode(',', $_REQUEST['fields']) : [],
 			'order' => [],
-			'conditions' => isset($_REQUEST['conditions']) ? explode(',', $_REQUEST['conditions']) : [],
-			'contains' => isset($_REQUEST['contains']) ? explode(',', $_REQUEST['contains']) : []
+			'conditions' => isset($_REQUEST['conditions']) ? explode(',', $_REQUEST['conditions']) : []
 		];
+		$contains = isset($_REQUEST['contains']) ? explode(',', $_REQUEST['contains']) : [];
 
-		if (in_array('All', $settings['contains'])) {
-			 $settings['contains'] = $this->getAssociationNames(false);
+		if (in_array('All', $contains)) {
+			 $contains = $this->getAssociationNames(false);
 		}
 
 
@@ -212,7 +212,10 @@ class AppController extends Controller {
 			}
 		}
 
-		return $settings;
+		return array(
+			'settings' => $settings,
+			'contains' => $contains
+		);
 	}
 
 	protected function parseData($data, $modelName = '') {

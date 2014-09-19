@@ -32,9 +32,9 @@ class PlaceVersionFixture extends TestFixture {
 		],
 		'_constraints' => [
 			'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
-			'place_versions_ibfk_3' => ['type' => 'foreign', 'columns' => ['place_type_id'], 'references' => ['place_types', 'id'], 'update' => 'restrict', 'delete' => 'restrict', 'length' => []],
 			'place_versions_ibfk_1' => ['type' => 'foreign', 'columns' => ['map_id'], 'references' => ['maps', 'id'], 'update' => 'restrict', 'delete' => 'restrict', 'length' => []],
 			'place_versions_ibfk_2' => ['type' => 'foreign', 'columns' => ['place_id'], 'references' => ['places', 'id'], 'update' => 'restrict', 'delete' => 'restrict', 'length' => []],
+			'place_versions_ibfk_3' => ['type' => 'foreign', 'columns' => ['place_type_id'], 'references' => ['place_types', 'id'], 'update' => 'restrict', 'delete' => 'restrict', 'length' => []],
 		],
 		'_options' => [
 'engine' => 'InnoDB', 'collation' => 'utf8_general_ci'
@@ -56,7 +56,7 @@ class PlaceVersionFixture extends TestFixture {
 			'place_type_id' => 1,
 			'coordinates' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 			'map_id' => 1,
-			'created' => 1410233930,
+			'created' => 1410831690,
 			'place_id' => 1
 		],
 	];

@@ -11,6 +11,22 @@ use Cake\TestSuite\TestCase;
 class MapsTableTest extends TestCase {
 
 /**
+ * Fixtures
+ *
+ * @var array
+ */
+	public $fixtures = [
+		'app.map',
+		'app.universe',
+		'app.media',
+		'app.chapter_version',
+		'app.chapter',
+		'app.media_version',
+		'app.universe_version',
+		'app.map_version'
+	];
+
+/**
  * setUp method
  *
  * @return void

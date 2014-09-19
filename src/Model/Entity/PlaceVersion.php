@@ -22,6 +22,7 @@ class PlaceVersion extends Entity {
 		'coordinates' => true,
 		'map_id' => true,
 		'place_id' => true,
+		'place_type' => true,
 		'map' => true,
 		'place' => true,
 	];
