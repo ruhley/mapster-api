@@ -108,6 +108,51 @@ CREATE TABLE `characters` (
 
 insert  into `characters`(`id`,`name`,`description`,`image`,`link`,`universe_id`,`created`) values (1,'Rand al\'Thor',NULL,'http://localhost/mapster-api/img/character/540e4b60a2e7f.jpeg','http://wot.wikia.com/wiki/Rand_al%27Thor',1,'2014-09-09 10:35:44'),(2,'Perrin Aybara',NULL,'http://localhost/mapster-api/img/character/540e4b858eef9.jpeg','http://wot.wikia.com/wiki/Perrin_Aybara',1,'2014-09-09 10:36:21'),(3,'Matrim Cauthon',NULL,'http://localhost/mapster-api/img/character/540e4b9f02e2f.jpeg','http://wot.wikia.com/wiki/Matrim_Cauthon',1,'2014-09-09 10:36:47'),(4,'Aviendha',NULL,'http://localhost/mapster-api/img/character/540e4bb7ee812.jpeg','http://wot.wikia.com/wiki/Aviendha',1,'2014-09-09 10:37:12'),(5,'Elayne Trakand',NULL,'http://localhost/mapster-api/img/character/540e4bd1a16b6.jpeg','http://wot.wikia.com/wiki/Elayne_Trakand',1,'2014-09-09 10:37:37'),(6,'Elmindreda Farshaw',NULL,'http://localhost/mapster-api/img/character/540e4bebd7793.jpeg','http://wot.wikia.com/wiki/Min_Farshaw',1,'2014-09-09 10:38:03'),(7,'Zarine ni Bashere t\'Aybara',NULL,'http://localhost/mapster-api/img/character/540e4c053365d.jpeg','http://wot.wikia.com/wiki/Faile_Bashere',1,'2014-09-09 10:38:29'),(8,'el\'Nynaeve ti al\'Meara Mandragoran',NULL,'http://localhost/mapster-api/img/character/540e4c32aefb9.jpeg','http://wot.wikia.com/wiki/Nynaeve_al%27Meara',1,'2014-09-09 10:39:14'),(9,'Egwene al\'Vere',NULL,'http://localhost/mapster-api/img/character/540e4c4c9ca66.jpeg','http://wot.wikia.com/wiki/Egwene_al%27Vere',1,'2014-09-09 10:39:40');
 
+/*Table structure for table `event_versions` */
+
+DROP TABLE IF EXISTS `event_versions`;
+
+CREATE TABLE `event_versions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `description` text,
+  `link` text,
+  `sequence` int(11) DEFAULT NULL,
+  `chapter_id` int(11) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `event_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `chapter_id` (`chapter_id`),
+  KEY `event_id` (`event_id`),
+  CONSTRAINT `event_versions_ibfk_2` FOREIGN KEY (`chapter_id`) REFERENCES `chapters` (`id`),
+  CONSTRAINT `event_versions_ibfk_3` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+/*Data for the table `event_versions` */
+
+insert  into `event_versions`(`id`,`name`,`description`,`link`,`sequence`,`chapter_id`,`created`,`event_id`) values (1,'The Two Rivers','The early chapters of the book are set in and around the rustic village of Emond\'s Field in the Two Rivers region of Andor, where most of the primary characters reside.\n\nOn the eve of Bel Tine (an annual festival celebrating the arrival of spring), an unexpected attack by bestial Trollocs and fearsome Myrddraal seems to target Rand al\'Thor and his two friends, Matrim Cauthon and Perrin Aybara, specifically. Hoping to spare their loved ones and village from further attacks, the three young men resolve to flee the village by night, accompanied by Moiraine Damodred, an Aes Sedai, and her Warder, al\'Lan Mandragoran. As they attempt to leave, they are discovered by the innkeeper\'s daughter, Egwene al\'Vere, and a wandering gleeman, Thom Merrilin, who join them.',NULL,1,11,'2014-09-26 15:46:55',1),(2,'From The Two Rivers to Shadar Logoth','Chased by Trollocs, Myrddraal, and Draghkar, the seven companions make their way to the nearby city of Baerlon, where they encounter Min Farshaw, a young woman gifted with prophetic visions, as well as Dain Bornhald, an officer of the Children of the Light. They also find Padan Fain, a peddler who was presumed dead after the Trolloc attack on Emond\'s Field. Also in Baerlon, Rand and his two friends begin experiencing dreams in which they are taunted by an arrogant man who calls himself Ba\'alzamon. Shortly before they depart, Nynaeve al\'Meara, the village wisdom of Emond\'s Field, arrives to retrieve the four villagers. When Rand and his friends refuse to return with her, Nynaeve joins them to ensure their continued safety. \n\nPursued by ever-increasing numbers of Trollocs and Myrddraal, the travellers are forced to take refuge in the ancient, abandoned, and deadly city of Shadar Logoth, a place even Myrddraal are reluctant to enter. While Rand and his two friends foolishly try to explore the ruined city, they meet a strange man named Mordeth. He first offers them riches in exchange for a small favor, then attempts to kill them when he learns that their companions include an Aes Sedai and that their eventual destination is Tar Valon, the home city of the Aes Sedai order. The three barely escape, and only reach their companions just before nightfall. ','',2,20,'2014-09-26 15:47:39',2),(3,'Logain','Logain Ablar, a recently-captured False Dragon, is being paraded through the streets of Caemlyn. While seeking to catch a glimpse of him, Rand climbs a wall and accidentally falls over the top into the palace garden, where he meets Elayne Trakand, heir-apparent to the throne of Andor, her brother Gawyn, and her half-brother Galad Damodred. \n\nWhen Rand\'s presence is discovered by the palace guards with Galad\'s help, he is taken into custody despite Elayne\'s protests and brought before Queen Morgase and her Aes Sedai advisor, Elaida. Elaida prophetically identifies Rand as a dangerous individual, but Queen Morgase decides that she does not have sufficient evidence to imprison him.',NULL,9,41,'2014-09-26 16:05:10',9);
+
+/*Table structure for table `events` */
+
+DROP TABLE IF EXISTS `events`;
+
+CREATE TABLE `events` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `description` text,
+  `link` text,
+  `sequence` int(11) DEFAULT NULL,
+  `chapter_id` int(11) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `chapter_id` (`chapter_id`),
+  CONSTRAINT `events_ibfk_2` FOREIGN KEY (`chapter_id`) REFERENCES `chapters` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+
+/*Data for the table `events` */
+
+insert  into `events`(`id`,`name`,`description`,`link`,`sequence`,`chapter_id`,`created`) values (1,'The Two Rivers','The early chapters of the book are set in and around the rustic village of Emond\'s Field in the Two Rivers region of Andor, where most of the primary characters reside.\n\nOn the eve of Bel Tine (an annual festival celebrating the arrival of spring), an unexpected attack by bestial Trollocs and fearsome Myrddraal seems to target Rand al\'Thor and his two friends, Matrim Cauthon and Perrin Aybara, specifically. Hoping to spare their loved ones and village from further attacks, the three young men resolve to flee the village by night, accompanied by Moiraine Damodred, an Aes Sedai, and her Warder, al\'Lan Mandragoran. As they attempt to leave, they are discovered by the innkeeper\'s daughter, Egwene al\'Vere, and a wandering gleeman, Thom Merrilin, who join them.',NULL,1,11,'2014-09-26 15:46:22'),(2,'From The Two Rivers to Shadar Logoth','Chased by Trollocs, Myrddraal, and Draghkar, the seven companions make their way to the nearby city of Baerlon, where they encounter Min Farshaw, a young woman gifted with prophetic visions, as well as Dain Bornhald, an officer of the Children of the Light. They also find Padan Fain, a peddler who was presumed dead after the Trolloc attack on Emond\'s Field. Also in Baerlon, Rand and his two friends begin experiencing dreams in which they are taunted by an arrogant man who calls himself Ba\'alzamon. Shortly before they depart, Nynaeve al\'Meara, the village wisdom of Emond\'s Field, arrives to retrieve the four villagers. When Rand and his friends refuse to return with her, Nynaeve joins them to ensure their continued safety. \n\nPursued by ever-increasing numbers of Trollocs and Myrddraal, the travellers are forced to take refuge in the ancient, abandoned, and deadly city of Shadar Logoth, a place even Myrddraal are reluctant to enter. While Rand and his two friends foolishly try to explore the ruined city, they meet a strange man named Mordeth. He first offers them riches in exchange for a small favor, then attempts to kill them when he learns that their companions include an Aes Sedai and that their eventual destination is Tar Valon, the home city of the Aes Sedai order. The three barely escape, and only reach their companions just before nightfall. ','',2,20,'2014-09-26 15:47:13'),(3,'Shadar Logoth','Myrddraal and Trollocs enter Shadar Logoth during the night, forcing the eight companions from their warded quarters. As they try to avoid the search and leave the city, Mashadar, the evil of Shadar Logoth made manifest, separates them from each other.\n\nAfter leaving Shadar Logoth, and with Trollocs close behind, Rand, Mat, and Thom stumble across a moored ship on the nearby River Arinelle.',NULL,3,21,'2014-09-26 15:49:44'),(4,'Wolfbrother','Meanwhile, Egwene and Perrin plan a route that should take them from Shadar Logoth almost directly toward Caemlyn. Along the way, they meet Elyas Machera, a man who can communicate with wolves; he tells them that their current route would not take them anywhere near Caemlyn and decides to accompany the two youngsters at least for part of the way to Caemlyn.',NULL,4,24,'2014-09-26 15:51:13'),(5,'Whitebridge','During the journey downriver, Ba\'alzamon continues to haunt Rand\'s and Mat\'s dreams, and Mat becomes strangely reclusive and suspicious of strangers. Rand discovers that Mat has kept a ruby-hilted dagger from Shadar Logoth despite Moiraine\'s earlier warning, but fails to connect this new acquisition to Mat\'s changed behavior.\n\nIn Whitebridge, the trio are confronted by a Myrddraal in a crowded square. Thom apparently sacrifices himself to buy Rand and Mat time to escape.',NULL,5,27,'2014-09-26 15:52:08'),(6,'Whitecloak','They travel for a few days with the Tuatha\'an, a nomadic, pacifistic people, before striking out on their own when the wolves witness one of Perrin\'s dreams featuring Ba\'alzamon.\n\nAfter fleeing from massive swarms of ravens and crows sent to mark their movements and kill them, they run afoul of a legion of Children of the Light commanded by Geofram Bornhald, father of the officer encountered in Baerlon. After witnessing the death of a wolf at the hands of a Whitecloak, Perrin, whose talent has developed despite his efforts, goes temporarily insane and kills two of them. Elyas escapes, but the Children of the Light hold Perrin and Egwene prisoner, planning to execute at least Perrin as soon as they reach Amador.',NULL,6,31,'2014-09-26 16:02:55'),(7,'Caemlyn','the two continue alone on the road toward Caemlyn, earning meals and lodging along the way by playing Thom\'s flute and juggling. As they near Caemlyn, however, they begin to encounter darkfriends in nearly every town who seem to be able to recognize them by sight, and Mat\'s paranoid behavior becomes more debilitating.\n\nOnce in Caemlyn, Mat confines himself to his bed and seeks to avoid all contact with outsiders while Rand makes the acquaintance of an Ogier named Loial and embarks on an unlikely adventure.',NULL,8,36,'2014-09-26 16:03:55'),(8,'Rescue','Moiraine, Lan, and Nynaeve rescue Egwene and Perrin from the Whitecloaks just as one overzealous individual is contemplating their premature execution.',NULL,8,39,'2014-09-26 16:04:28'),(9,'Logain','Logain Ablar, a recently-captured False Dragon, is being paraded through the streets of Caemlyn. While seeking to catch a glimpse of him, Rand climbs a wall and accidentally falls over the top into the palace garden, where he meets Elayne Trakand, heir-apparent to the throne of Andor, her brother Gawyn, and her half-brother Galad Damodred. \n\nWhen Rand\'s presence is discovered by the palace guards with Galad\'s help, he is taken into custody despite Elayne\'s protests and brought before Queen Morgase and her Aes Sedai advisor, Elaida. Elaida prophetically identifies Rand as a dangerous individual, but Queen Morgase decides that she does not have sufficient evidence to imprison him.',NULL,9,41,'2014-09-26 16:04:54'),(10,'Together','Together they travel to Caemlyn, where they are reunited with Mat and Rand, who has only just returned from his adventure at the castle. Moiraine immediately diagnoses Mat\'s \"sickness\" as the corrupting influence of the ruby-hilted dagger, and she uses her powers to diminish its effects, although she cannot heal him completely or break his attachment to it.',NULL,10,43,'2014-09-26 16:05:43'),(11,'From Caemlyn to the Eye of the World','Loial warns Moiraine of a threat to the Eye of the World, a threat independently corroborated by a story heard by Perrin and Egwene while among the Tuatha\'an and by the dreams of Rand, Mat, and Perrin. Moiraine decides that in order to reach the Eye of the World in time to stop the Dark One, they must take the Ways. The group is guided along the dangerous Ways by Loial and emerge in Shienar, where they meet Lord Agelmar Jagad and Ingtar Shinowa in the fortress of Fal Dara, on the eve of an expected battle against a Trolloc army.\n\nPadan Fain is found climbing the walls of Fal Dara. He is taken into custody and interrogated by Moiraine and Lan, who discover that Fain is a Darkfriend whose mind has been specifically moulded to find the Dark One\'s quarry; it was he who aimed the attack on Emond\'s Field. Following that attack, he was forced into the Myrddraals\' pursuit of the companions, only escaping them in Shadar Logoth.\n\nEven separated from the Myrddraal, however, he was still the Dark One\'s bloodhound, and he followed the companions to Caemlyn, through the Ways, and to Fal Dara.',NULL,11,48,'2014-09-26 16:06:10'),(12,'The Eye of the World','The group enters the Blight in search of the Eye of the World, guarded by Someshta (the fabled Green Man). The Eye is revealed as a pool of pure saidin, and when the companions exit they are confronted by the Forsaken Aginor and Balthamel. Balthamel dies at the hand of the Green Man, and Aginor is consumed by the One Power as he battles Rand for control of the saidin at the Eye of the World. Guided by blind luck and instinctive knowledge, Rand uses the supply of saidin to decimate the Trolloc army and defeat Ba\'alzamon.\n\nAfterwards, Rand realizes to his own horror that he channeled the One Power, and that he is condemned to a fate of insanity and rotting death. The book ends with Moiraine\'s ominous statement to herself that, \"The Dragon is Reborn.\" ',NULL,12,54,'2014-09-26 16:07:02');
+
 /*Table structure for table `map_versions` */
 
 DROP TABLE IF EXISTS `map_versions`;
@@ -163,11 +208,11 @@ CREATE TABLE `mapster_entities` (
   `plural` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 /*Data for the table `mapster_entities` */
 
-insert  into `mapster_entities`(`id`,`name`,`plural`) values (1,'Universe','Universes'),(2,'Media','Media'),(3,'Chapter','Chapters'),(4,'Character','Characters'),(5,'Map','Maps'),(6,'Place','Places'),(7,'Place Type','Place Types');
+insert  into `mapster_entities`(`id`,`name`,`plural`) values (1,'Universe','Universes'),(2,'Media','Media'),(3,'Chapter','Chapters'),(4,'Character','Characters'),(5,'Map','Maps'),(6,'Place','Places'),(7,'Place Type','Place Types'),(8,'Event','Events');
 
 /*Table structure for table `mapster_entity_field_types` */
 
@@ -177,11 +222,11 @@ CREATE TABLE `mapster_entity_field_types` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 /*Data for the table `mapster_entity_field_types` */
 
-insert  into `mapster_entity_field_types`(`id`,`name`) values (1,'name'),(2,'description'),(3,'image'),(4,'link'),(5,'abbreviation'),(6,'universe'),(7,'media'),(8,'sequence'),(9,'map'),(10,'coordinates'),(11,'place-type');
+insert  into `mapster_entity_field_types`(`id`,`name`) values (1,'name'),(2,'description'),(3,'image'),(4,'link'),(5,'abbreviation'),(6,'universe'),(7,'media'),(8,'sequence'),(9,'map'),(10,'coordinates'),(11,'place-type'),(12,'chapter');
 
 /*Table structure for table `mapster_entity_fields` */
 
@@ -199,7 +244,7 @@ CREATE TABLE `mapster_entity_fields` (
 
 /*Data for the table `mapster_entity_fields` */
 
-insert  into `mapster_entity_fields`(`mapster_entity_id`,`mapster_entity_field_type_id`,`sequence`) values (1,1,0),(1,2,2),(1,3,3),(1,4,4),(1,5,1),(2,1,0),(2,2,2),(2,3,3),(2,4,4),(2,5,1),(2,6,5),(2,8,6),(3,1,0),(3,2,1),(3,3,2),(3,4,3),(3,7,4),(3,8,5),(4,1,0),(4,2,1),(4,3,2),(4,4,3),(4,6,4),(5,1,0),(5,2,1),(5,3,2),(5,4,3),(5,6,4),(6,1,0),(6,2,1),(6,3,2),(6,4,3),(6,9,5),(6,10,6),(6,11,4),(7,1,0),(7,2,1),(7,3,2),(7,4,3);
+insert  into `mapster_entity_fields`(`mapster_entity_id`,`mapster_entity_field_type_id`,`sequence`) values (1,1,0),(1,2,2),(1,3,3),(1,4,4),(1,5,1),(2,1,0),(2,2,2),(2,3,3),(2,4,4),(2,5,1),(2,6,5),(2,8,6),(3,1,0),(3,2,1),(3,3,2),(3,4,3),(3,7,4),(3,8,5),(4,1,0),(4,2,1),(4,3,2),(4,4,3),(4,6,4),(5,1,0),(5,2,1),(5,3,2),(5,4,3),(5,6,4),(6,1,0),(6,2,1),(6,3,2),(6,4,3),(6,9,5),(6,10,6),(6,11,4),(7,1,0),(7,2,1),(7,3,2),(7,4,3),(8,1,0),(8,2,1),(8,4,2),(8,8,3),(8,12,4);
 
 /*Table structure for table `media` */
 
