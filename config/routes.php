@@ -21,57 +21,86 @@
 use Cake\Core\Plugin;
 use Cake\Routing\Router;
 
-Router::scope('/', function($routes) {
-	$routes->extensions(['json', 'xml']);
-	$routes->resources('MapsterEntities');
-	$routes->resources('MapsterEntityFields');
-	$routes->resources('MapsterEntityFieldTypes');
-	$routes->resources('Universes');
-	$routes->resources('UniverseVersions');
-	$routes->resources('Media');
-	$routes->resources('MediaVersions');
+/**
+ * The default class to use for all routes
+ *
+ * The following route classes are supplied with CakePHP and are appropriate
+ * to set as the default:
+ *
+ * - Route
+ * - InflectedRoute
+ * - DashedRoute
+ *
+ * If no call is made to `Router::defaultRouteClass`, the class used is
+ * `Route` (`Cake\Routing\Route\Route`)
+ *
+ * Note that `Route` does not do any inflections on URLs which will result in
+ * inconsistently cased URLs when used with `:plugin`, `:controller` and
+ * `:action` markers.
+ *
+ */
+Router::defaultRouteClass('Route');
+
+Router::scope('/', function ($routes) {
+	$routes->extensions(['json']);
 	$routes->resources('Chapters');
 	$routes->resources('ChapterVersions');
 	$routes->resources('Characters');
+	$routes->resources('CharacterChanges');
+	$routes->resources('CharacterChangeVersions');
 	$routes->resources('CharacterVersions');
+	$routes->resources('Events');
+	$routes->resources('EventVersions');
 	$routes->resources('Maps');
+	$routes->resources('MapChanges');
+	$routes->resources('MapChangeVersions');
 	$routes->resources('MapVersions');
+	$routes->resources('MapsterEntities');
+	$routes->resources('MapsterEntityFields');
+	$routes->resources('MapsterEntityFieldTypes');
+	$routes->resources('Media');
+	$routes->resources('MediaVersions');
 	$routes->resources('Places');
+	$routes->resources('PlaceChanges');
+	$routes->resources('PlaceChangeVersions');
 	$routes->resources('PlaceVersions');
 	$routes->resources('PlaceTypes');
 	$routes->resources('PlaceTypeVersions');
-	$routes->resources('Events');
-	$routes->resources('EventVersions');
-/**
+	$routes->resources('Universes');
+	$routes->resources('UniverseVersions');
+    /**
  * Here, we are connecting '/' (base path) to a controller called 'Pages',
  * its action called 'display', and we pass a param to select the view file
  * to use (in this case, src/Template/Pages/home.ctp)...
  */
-	$routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
+    $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
 
-/**
+    /**
  * ...and connect the rest of 'Pages' controller's URLs.
  */
-	$routes->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
+    $routes->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
 
-
-
-/**
- * Connect a route for the index action of any controller.
- * And a more general catch all route for any action.
+    /**
+ * Connect catchall routes for all controllers.
  *
- * The `fallbacks` method is a shortcut for
+ * Using the argument `InflectedRoute`, the `fallbacks` method is a shortcut for
  *    `$routes->connect('/:controller', ['action' => 'index'], ['routeClass' => 'InflectedRoute']);`
  *    `$routes->connect('/:controller/:action/*', [], ['routeClass' => 'InflectedRoute']);`
+ *
+ * Any route class can be used with this method, such as:
+ * - DashedRoute
+ * - InflectedRoute
+ * - Route
+ * - Or your own route class
  *
  * You can remove these routes once you've connected the
  * routes you want in your application.
  */
-	$routes->fallbacks();
+    $routes->fallbacks('InflectedRoute');
 });
 
 /**
  * Load all plugin routes.  See the Plugin documentation on
  * how to customize the loading of plugin routes.
  */
-	Plugin::routes();
+Plugin::routes();

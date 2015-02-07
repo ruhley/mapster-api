@@ -15,9 +15,7 @@
 namespace Cake\Datasource;
 
 use Cake\Collection\Collection;
-use Countable;
-use JsonSerializable;
-use Serializable;
+use Cake\Datasource\ResultSetInterface;
 
 /**
  * Generic ResultSet decorator. This will make any traversable object appear to
@@ -25,42 +23,49 @@ use Serializable;
  *
  * @return void
  */
-class ResultSetDecorator extends Collection implements Countable, Serializable, JsonSerializable {
+class ResultSetDecorator extends Collection implements ResultSetInterface
+{
 
-/**
- * Make this object countable.
- *
- * Part of the Countable interface. Calling this method
- * will convert the underlying traversable object into an array and
- * get the count of the underlying data.
- *
- * @return int
- */
-	public function count() {
-		return count($this->toArray());
-	}
+    /**
+     * Make this object countable.
+     *
+     * Part of the Countable interface. Calling this method
+     * will convert the underlying traversable object into an array and
+     * get the count of the underlying data.
+     *
+     * @return int
+     */
+    public function count()
+    {
+        if ($this->getInnerIterator() instanceof \Countable) {
+            return $this->getInnerIterator()->count();
+        }
 
-/**
- * Serialize a resultset.
- *
- * Part of Serializable interface.
- *
- * @return string Serialized object
- */
-	public function serialize() {
-		return serialize($this->toArray());
-	}
+        return count($this->toArray());
+    }
 
-/**
- * Unserialize a resultset.
- *
- * Part of Serializable interface.
- *
- * @param string $serialized Serialized object
- * @return void
- */
-	public function unserialize($serialized) {
-		parent::__construct(unserialize($serialized));
-	}
+    /**
+     * Serialize a resultset.
+     *
+     * Part of Serializable interface.
+     *
+     * @return string Serialized object
+     */
+    public function serialize()
+    {
+        return serialize($this->toArray());
+    }
 
+    /**
+     * Unserialize a resultset.
+     *
+     * Part of Serializable interface.
+     *
+     * @param string $serialized Serialized object
+     * @return void
+     */
+    public function unserialize($serialized)
+    {
+        parent::__construct(unserialize($serialized));
+    }
 }

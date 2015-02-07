@@ -2,46 +2,52 @@
 namespace App\Model\Table;
 
 use Cake\ORM\Query;
+use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
  * MapsterEntities Model
  */
-class MapsterEntitiesTable extends Table {
+class MapsterEntitiesTable extends Table
+{
 
-/**
- * Initialize method
- *
- * @param array $config The configuration for the Table.
- * @return void
- */
-	public function initialize(array $config) {
-		$this->table('mapster_entities');
-		$this->displayField('name');
-		$this->primaryKey('id');
+    /**
+     * Initialize method
+     *
+     * @param array $config The configuration for the Table.
+     * @return void
+     */
+    public function initialize(array $config)
+    {
+        $this->table('mapster_entities');
+        $this->displayField('name');
+        $this->primaryKey('id');
+        $this->hasMany('MapsterEntityFields', [
+            'foreignKey' => 'mapster_entity_id'
+        ]);
+    }
 
-		$this->hasMany('MapsterEntityFields', [
-			'foreignKey' => 'mapster_entity_id',
-		]);
-	}
+    /**
+     * Default validation rules.
+     *
+     * @param \Cake\Validation\Validator $validator instance
+     * @return \Cake\Validation\Validator
+     */
+    public function validationDefault(Validator $validator)
+    {
+        $validator
+            ->add('id', 'valid', ['rule' => 'numeric'])
+            ->allowEmpty('id', 'create')
+            ->requirePresence('name', 'create')
+            ->notEmpty('name')
+            ->requirePresence('plural', 'create')
+            ->notEmpty('plural')
+            ->add('changes', 'valid', ['rule' => 'boolean'])
+            ->requirePresence('changes', 'create')
+            ->notEmpty('changes')
+            ->allowEmpty('icon');
 
-/**
- * Default validation rules.
- *
- * @param \Cake\Validation\Validator $validator
- * @return \Cake\Validation\Validator
- */
-	public function validationDefault(Validator $validator) {
-		$validator
-			->add('id', 'valid', ['rule' => 'numeric'])
-			->allowEmpty('id', 'create')
-			->validatePresence('name', 'create')
-			->notEmpty('name')
-			->validatePresence('plural', 'create')
-			->notEmpty('plural');
-
-		return $validator;
-	}
-
+        return $validator;
+    }
 }

@@ -20,23 +20,31 @@ use TestApp\Controller\AppController;
  * PostsController class
  *
  */
-class PostsController extends AppController {
+class PostsController extends AppController
+{
 
-/**
- * Components array
- *
- * @var array
- */
-	public $components = array(
-		'RequestHandler',
-		'Auth'
-	);
+    /**
+     * Components array
+     *
+     * @var array
+     */
+    public $components = [
+        'Flash',
+        'RequestHandler',
+    ];
 
-/**
- * Index method.
- *
- * @return void
- */
-	public function index() {
-	}
+    /**
+     * Index method.
+     *
+     * @return void
+     */
+    public function index()
+    {
+        $this->Flash->error('An error message');
+        $this->response->cookie([
+            'name' => 'remember_me',
+            'value' => 1
+        ]);
+        $this->set('test', 'value');
+    }
 }

@@ -6,9 +6,14 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Crud\\' => array($baseDir . '/plugins/Crud/src'),
+    'Migrations\\' => array($baseDir . '/plugins/Migrations/src'),
+    'DebugKit\\Test\\Fixture\\' => array($baseDir . '/plugins/DebugKit/tests/Fixture'),
+    'DebugKit\\' => array($baseDir . '/plugins/DebugKit/src'),
+    'Cake\\Test\\' => array($vendorDir . '/cakephp/cakephp/tests'),
     'Cake\\Composer\\' => array($vendorDir . '/cakephp/plugin-installer/src'),
     'Cake\\' => array($vendorDir . '/cakephp/cakephp/src'),
+    'Bake\\' => array($baseDir . '/plugins/Bake/src'),
+    'Aura\\Intl\\_Config\\' => array($vendorDir . '/aura/intl/config'),
     'App\\Test\\' => array($baseDir . '/tests'),
     'App\\' => array($baseDir . '/src'),
 );

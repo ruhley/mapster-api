@@ -6,17 +6,19 @@ use Cake\ORM\Entity;
 /**
  * MapsterEntity Entity.
  */
-class MapsterEntity extends Entity {
+class MapsterEntity extends Entity
+{
 
-/**
- * Fields that can be mass assigned using newEntity() or patchEntity().
- *
- * @var array
- */
-	protected $_accessible = [
-		'name' => true,
-		'plural' => true,
-		'mapster_entity_fields' => true,
-	];
-
+    /**
+     * Fields that can be mass assigned using newEntity() or patchEntity().
+     *
+     * @var array
+     */
+    protected $_accessible = [
+        'name' => true,
+        'plural' => true,
+        'changes' => true,
+        'icon' => true,
+        'mapster_entity_fields' => true,
+    ];
 }

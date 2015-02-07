@@ -23,266 +23,331 @@ use Cake\TestSuite\TestCase;
 /**
  * Test case for BehaviorRegistry.
  */
-class BehaviorRegistryTest extends TestCase {
+class BehaviorRegistryTest extends TestCase
+{
 
-/**
- * setup method.
- *
- * @return void
- */
-	public function setUp() {
-		parent::setUp();
-		$this->Table = new Table(['table' => 'articles']);
-		$this->EventManager = $this->Table->eventManager();
-		$this->Behaviors = new BehaviorRegistry($this->Table);
-		Configure::write('App.namespace', 'TestApp');
-	}
+    /**
+     * setup method.
+     *
+     * @return void
+     */
+    public function setUp()
+    {
+        parent::setUp();
+        $this->Table = new Table(['table' => 'articles']);
+        $this->EventManager = $this->Table->eventManager();
+        $this->Behaviors = new BehaviorRegistry($this->Table);
+        Configure::write('App.namespace', 'TestApp');
+    }
 
-/**
- * tearDown
- *
- * @return void
- */
-	public function tearDown() {
-		Plugin::unload();
-		unset($this->Table, $this->EventManager, $this->Behaviors);
-		parent::tearDown();
-	}
+    /**
+     * tearDown
+     *
+     * @return void
+     */
+    public function tearDown()
+    {
+        Plugin::unload();
+        unset($this->Table, $this->EventManager, $this->Behaviors);
+        parent::tearDown();
+    }
 
-/**
- * Test loading behaviors.
- *
- * @return void
- */
-	public function testLoad() {
-		Plugin::load('TestPlugin');
-		$config = ['alias' => 'Sluggable', 'replacement' => '-'];
-		$result = $this->Behaviors->load('Sluggable', $config);
-		$this->assertInstanceOf('TestApp\Model\Behavior\SluggableBehavior', $result);
-		$this->assertEquals($config, $result->config());
+    /**
+     * Test loading behaviors.
+     *
+     * @return void
+     */
+    public function testLoad()
+    {
+        Plugin::load('TestPlugin');
+        $config = ['alias' => 'Sluggable', 'replacement' => '-'];
+        $result = $this->Behaviors->load('Sluggable', $config);
+        $this->assertInstanceOf('TestApp\Model\Behavior\SluggableBehavior', $result);
+        $this->assertEquals($config, $result->config());
 
-		$result = $this->Behaviors->load('TestPlugin.PersisterOne');
-		$this->assertInstanceOf('TestPlugin\Model\Behavior\PersisterOneBehavior', $result);
-	}
+        $result = $this->Behaviors->load('TestPlugin.PersisterOne');
+        $this->assertInstanceOf('TestPlugin\Model\Behavior\PersisterOneBehavior', $result);
+    }
 
-/**
- * Test load() binding listeners.
- *
- * @return void
- */
-	public function testLoadBindEvents() {
-		$result = $this->EventManager->listeners('Model.beforeFind');
-		$this->assertCount(0, $result);
+    /**
+     * Test load() binding listeners.
+     *
+     * @return void
+     */
+    public function testLoadBindEvents()
+    {
+        $result = $this->EventManager->listeners('Model.beforeFind');
+        $this->assertCount(0, $result);
 
-		$this->Behaviors->load('Sluggable');
-		$result = $this->EventManager->listeners('Model.beforeFind');
-		$this->assertCount(1, $result);
-		$this->assertInstanceOf('TestApp\Model\Behavior\SluggableBehavior', $result[0]['callable'][0]);
-		$this->assertEquals('beforeFind', $result[0]['callable'][1], 'Method name should match.');
-	}
+        $this->Behaviors->load('Sluggable');
+        $result = $this->EventManager->listeners('Model.beforeFind');
+        $this->assertCount(1, $result);
+        $this->assertInstanceOf('TestApp\Model\Behavior\SluggableBehavior', $result[0]['callable'][0]);
+        $this->assertEquals('beforeFind', $result[0]['callable'][1], 'Method name should match.');
+    }
 
-/**
- * Test load() with enabled = false
- *
- * @return void
- */
-	public function testLoadEnabledFalse() {
-		$result = $this->EventManager->listeners('Model.beforeFind');
-		$this->assertCount(0, $result);
+    /**
+     * Test load() with enabled = false
+     *
+     * @return void
+     */
+    public function testLoadEnabledFalse()
+    {
+        $result = $this->EventManager->listeners('Model.beforeFind');
+        $this->assertCount(0, $result);
 
-		$this->Behaviors->load('Sluggable', ['enabled' => false]);
-		$result = $this->EventManager->listeners('Model.beforeFind');
-		$this->assertCount(0, $result);
-	}
+        $this->Behaviors->load('Sluggable', ['enabled' => false]);
+        $result = $this->EventManager->listeners('Model.beforeFind');
+        $this->assertCount(0, $result);
+    }
 
-/**
- * Test loading plugin behaviors
- *
- * @return void
- */
-	public function testLoadPlugin() {
-		Plugin::load('TestPlugin');
-		$result = $this->Behaviors->load('TestPlugin.PersisterOne');
-		$this->assertInstanceOf('TestPlugin\Model\Behavior\PersisterOneBehavior', $result);
-	}
+    /**
+     * Test loading plugin behaviors
+     *
+     * @return void
+     */
+    public function testLoadPlugin()
+    {
+        Plugin::load('TestPlugin');
+        $result = $this->Behaviors->load('TestPlugin.PersisterOne');
+        $this->assertInstanceOf('TestPlugin\Model\Behavior\PersisterOneBehavior', $result);
+    }
 
-/**
- * Test load() on undefined class
- *
- * @expectedException \Cake\ORM\Error\MissingBehaviorException
- * @return void
- */
-	public function testLoadMissingClass() {
-		$this->Behaviors->load('DoesNotExist');
-	}
+    /**
+     * Test load() on undefined class
+     *
+     * @expectedException \Cake\ORM\Exception\MissingBehaviorException
+     * @return void
+     */
+    public function testLoadMissingClass()
+    {
+        $this->Behaviors->load('DoesNotExist');
+    }
 
-/**
- * Test load() duplicate method error
- *
- * @expectedException \Cake\Error\Exception
- * @expectedExceptionMessage TestApp\Model\Behavior\DuplicateBehavior contains duplicate method "slugify"
- * @return void
- */
-	public function testLoadDuplicateMethodError() {
-		$this->Behaviors->load('Sluggable');
-		$this->Behaviors->load('Duplicate');
-	}
+    /**
+     * Test load() duplicate method error
+     *
+     * @expectedException \LogicException
+     * @expectedExceptionMessage TestApp\Model\Behavior\DuplicateBehavior contains duplicate method "slugify"
+     * @return void
+     */
+    public function testLoadDuplicateMethodError()
+    {
+        $this->Behaviors->load('Sluggable');
+        $this->Behaviors->load('Duplicate');
+    }
 
-/**
- * test hasMethod()
- *
- * @return void
- */
-	public function testHasMethod() {
-		Plugin::load('TestPlugin');
-		$this->Behaviors->load('TestPlugin.PersisterOne');
-		$this->Behaviors->load('Sluggable');
+    /**
+     * Test load() duplicate method aliasing
+     *
+     * @return void
+     */
+    public function testLoadDuplicateMethodAliasing()
+    {
+        $this->Behaviors->load('Tree');
+        $this->Behaviors->load('Duplicate', [
+            'implementedFinders' => [
+                'renamed' => 'findChildren',
+            ],
+            'implementedMethods' => [
+                'renamed' => 'slugify',
+            ]
+        ]);
+        $this->assertTrue($this->Behaviors->hasMethod('renamed'));
+    }
 
-		$this->assertTrue($this->Behaviors->hasMethod('slugify'));
-		$this->assertTrue($this->Behaviors->hasMethod('SLUGIFY'));
+    /**
+     * Test load() duplicate finder error
+     *
+     * @expectedException \LogicException
+     * @expectedExceptionMessage TestApp\Model\Behavior\DuplicateBehavior contains duplicate finder "children"
+     * @return void
+     */
+    public function testLoadDuplicateFinderError()
+    {
+        $this->Behaviors->load('Tree');
+        $this->Behaviors->load('Duplicate');
+    }
 
-		$this->assertTrue($this->Behaviors->hasMethod('persist'));
-		$this->assertTrue($this->Behaviors->hasMethod('PERSIST'));
+    /**
+     * Test load() duplicate finder aliasing
+     *
+     * @return void
+     */
+    public function testLoadDuplicateFinderAliasing()
+    {
+        $this->Behaviors->load('Tree');
+        $this->Behaviors->load('Duplicate', [
+            'implementedFinders' => [
+                'renamed' => 'findChildren',
+            ]
+        ]);
+        $this->assertTrue($this->Behaviors->hasFinder('renamed'));
+    }
 
-		$this->assertFalse($this->Behaviors->hasMethod('__construct'));
-		$this->assertFalse($this->Behaviors->hasMethod('config'));
-		$this->assertFalse($this->Behaviors->hasMethod('implementedEvents'));
+    /**
+     * test hasMethod()
+     *
+     * @return void
+     */
+    public function testHasMethod()
+    {
+        Plugin::load('TestPlugin');
+        $this->Behaviors->load('TestPlugin.PersisterOne');
+        $this->Behaviors->load('Sluggable');
 
-		$this->assertFalse($this->Behaviors->hasMethod('nope'));
-		$this->assertFalse($this->Behaviors->hasMethod('beforeFind'));
-		$this->assertFalse($this->Behaviors->hasMethod('noSlug'));
-	}
+        $this->assertTrue($this->Behaviors->hasMethod('slugify'));
+        $this->assertTrue($this->Behaviors->hasMethod('SLUGIFY'));
 
-/**
- * Test hasFinder() method.
- *
- * @return void
- */
-	public function testHasFinder() {
-		$this->Behaviors->load('Sluggable');
+        $this->assertTrue($this->Behaviors->hasMethod('persist'));
+        $this->assertTrue($this->Behaviors->hasMethod('PERSIST'));
 
-		$this->assertTrue($this->Behaviors->hasFinder('noSlug'));
-		$this->assertTrue($this->Behaviors->hasFinder('noslug'));
-		$this->assertTrue($this->Behaviors->hasFinder('NOSLUG'));
+        $this->assertFalse($this->Behaviors->hasMethod('__construct'));
+        $this->assertFalse($this->Behaviors->hasMethod('config'));
+        $this->assertFalse($this->Behaviors->hasMethod('implementedEvents'));
 
-		$this->assertFalse($this->Behaviors->hasFinder('slugify'));
-		$this->assertFalse($this->Behaviors->hasFinder('beforeFind'));
-		$this->assertFalse($this->Behaviors->hasFinder('nope'));
-	}
+        $this->assertFalse($this->Behaviors->hasMethod('nope'));
+        $this->assertFalse($this->Behaviors->hasMethod('beforeFind'));
+        $this->assertFalse($this->Behaviors->hasMethod('noSlug'));
+    }
 
-/**
- * test call
- *
- * Setup a behavior, then replace it with a mock to verify methods are called.
- * use dummy return values to verify the return value makes it back
- *
- * @return void
- */
-	public function testCall() {
-		$this->Behaviors->load('Sluggable');
-		$mockedBehavior = $this->getMockBuilder('Cake\ORM\Behavior')
-			->setMethods(['slugify'])
-			->disableOriginalConstructor()
-			->getMock();
-		$this->Behaviors->set('Sluggable', $mockedBehavior);
+    /**
+     * Test hasFinder() method.
+     *
+     * @return void
+     */
+    public function testHasFinder()
+    {
+        $this->Behaviors->load('Sluggable');
 
-		$mockedBehavior
-			->expects($this->once())
-			->method('slugify')
-			->with(['some value'])
-			->will($this->returnValue('some-thing'));
-		$return = $this->Behaviors->call('slugify', [['some value']]);
-		$this->assertSame('some-thing', $return);
-	}
+        $this->assertTrue($this->Behaviors->hasFinder('noSlug'));
+        $this->assertTrue($this->Behaviors->hasFinder('noslug'));
+        $this->assertTrue($this->Behaviors->hasFinder('NOSLUG'));
 
-/**
- * Test errors on unknown methods.
- *
- * @expectedException \Cake\Error\Exception
- * @expectedExceptionMessage Cannot call "nope"
- */
-	public function testCallError() {
-		$this->Behaviors->load('Sluggable');
-		$this->Behaviors->call('nope');
-	}
+        $this->assertFalse($this->Behaviors->hasFinder('slugify'));
+        $this->assertFalse($this->Behaviors->hasFinder('beforeFind'));
+        $this->assertFalse($this->Behaviors->hasFinder('nope'));
+    }
 
-/**
- * test call finder
- *
- * Setup a behavior, then replace it with a mock to verify methods are called.
- * use dummy return values to verify the return value makes it back
- *
- * @return void
- */
-	public function testCallFinder() {
-		$this->Behaviors->load('Sluggable');
-		$mockedBehavior = $this->getMockBuilder('Cake\ORM\Behavior')
-			->setMethods(['findNoSlug'])
-			->disableOriginalConstructor()
-			->getMock();
-		$this->Behaviors->set('Sluggable', $mockedBehavior);
+    /**
+     * test call
+     *
+     * Setup a behavior, then replace it with a mock to verify methods are called.
+     * use dummy return values to verify the return value makes it back
+     *
+     * @return void
+     */
+    public function testCall()
+    {
+        $this->Behaviors->load('Sluggable');
+        $mockedBehavior = $this->getMockBuilder('Cake\ORM\Behavior')
+            ->setMethods(['slugify'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->Behaviors->set('Sluggable', $mockedBehavior);
 
-		$query = $this->getMock('Cake\ORM\Query', [], [null, null]);
-		$mockedBehavior
-			->expects($this->once())
-			->method('findNoSlug')
-			->with($query, [])
-			->will($this->returnValue('example'));
-		$return = $this->Behaviors->callFinder('noSlug', [$query, []]);
-		$this->assertSame('example', $return);
-	}
+        $mockedBehavior
+            ->expects($this->once())
+            ->method('slugify')
+            ->with(['some value'])
+            ->will($this->returnValue('some-thing'));
+        $return = $this->Behaviors->call('slugify', [['some value']]);
+        $this->assertSame('some-thing', $return);
+    }
 
-/**
- * Test errors on unknown methods.
- *
- * @expectedException \Cake\Error\Exception
- * @expectedExceptionMessage Cannot call finder "nope"
- */
-	public function testCallFinderError() {
-		$this->Behaviors->load('Sluggable');
-		$this->Behaviors->callFinder('nope');
-	}
+    /**
+     * Test errors on unknown methods.
+     *
+     * @expectedException \BadMethodCallException
+     * @expectedExceptionMessage Cannot call "nope"
+     */
+    public function testCallError()
+    {
+        $this->Behaviors->load('Sluggable');
+        $this->Behaviors->call('nope');
+    }
 
-/**
- * Test errors on unloaded behavior methods.
- *
- * @expectedException \Cake\Error\Exception
- * @expectedExceptionMessage Cannot call "slugify" it does not belong to any attached behavior.
- */
-	public function testUnloadBehaviorThenCall() {
-		$this->Behaviors->load('Sluggable');
-		$this->Behaviors->unload('Sluggable');
+    /**
+     * test call finder
+     *
+     * Setup a behavior, then replace it with a mock to verify methods are called.
+     * use dummy return values to verify the return value makes it back
+     *
+     * @return void
+     */
+    public function testCallFinder()
+    {
+        $this->Behaviors->load('Sluggable');
+        $mockedBehavior = $this->getMockBuilder('Cake\ORM\Behavior')
+            ->setMethods(['findNoSlug'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->Behaviors->set('Sluggable', $mockedBehavior);
 
-		$this->Behaviors->call('slugify');
-	}
+        $query = $this->getMock('Cake\ORM\Query', [], [null, null]);
+        $mockedBehavior
+            ->expects($this->once())
+            ->method('findNoSlug')
+            ->with($query, [])
+            ->will($this->returnValue('example'));
+        $return = $this->Behaviors->callFinder('noSlug', [$query, []]);
+        $this->assertSame('example', $return);
+    }
 
-/**
- * Test errors on unloaded behavior finders.
- *
- * @expectedException \Cake\Error\Exception
- * @expectedExceptionMessage Cannot call finder "noslug" it does not belong to any attached behavior.
- */
-	public function testUnloadBehaviorThenCallFinder() {
-		$this->Behaviors->load('Sluggable');
-		$this->Behaviors->unload('Sluggable');
+    /**
+     * Test errors on unknown methods.
+     *
+     * @expectedException \BadMethodCallException
+     * @expectedExceptionMessage Cannot call finder "nope"
+     */
+    public function testCallFinderError()
+    {
+        $this->Behaviors->load('Sluggable');
+        $this->Behaviors->callFinder('nope');
+    }
 
-		$this->Behaviors->callFinder('noSlug');
-	}
+    /**
+     * Test errors on unloaded behavior methods.
+     *
+     * @expectedException \BadMethodCallException
+     * @expectedExceptionMessage Cannot call "slugify" it does not belong to any attached behavior.
+     */
+    public function testUnloadBehaviorThenCall()
+    {
+        $this->Behaviors->load('Sluggable');
+        $this->Behaviors->unload('Sluggable');
 
-/**
- * Test that unloading then reloading a behavior does not throw any errors.
- *
- * @return void
- */
-	public function testUnloadBehaviorThenReload() {
-		$this->Behaviors->load('Sluggable');
-		$this->Behaviors->unload('Sluggable');
+        $this->Behaviors->call('slugify');
+    }
 
-		$this->assertEmpty($this->Behaviors->loaded());
+    /**
+     * Test errors on unloaded behavior finders.
+     *
+     * @expectedException \BadMethodCallException
+     * @expectedExceptionMessage Cannot call finder "noslug" it does not belong to any attached behavior.
+     */
+    public function testUnloadBehaviorThenCallFinder()
+    {
+        $this->Behaviors->load('Sluggable');
+        $this->Behaviors->unload('Sluggable');
 
-		$this->Behaviors->load('Sluggable');
+        $this->Behaviors->callFinder('noSlug');
+    }
 
-		$this->assertEquals(['Sluggable'], $this->Behaviors->loaded());
-	}
+    /**
+     * Test that unloading then reloading a behavior does not throw any errors.
+     *
+     * @return void
+     */
+    public function testUnloadBehaviorThenReload()
+    {
+        $this->Behaviors->load('Sluggable');
+        $this->Behaviors->unload('Sluggable');
 
+        $this->assertEmpty($this->Behaviors->loaded());
+
+        $this->Behaviors->load('Sluggable');
+
+        $this->assertEquals(['Sluggable'], $this->Behaviors->loaded());
+    }
 }

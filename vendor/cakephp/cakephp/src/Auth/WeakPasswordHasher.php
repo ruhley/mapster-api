@@ -15,6 +15,8 @@
 namespace Cake\Auth;
 
 use Cake\Auth\AbstractPasswordHasher;
+use Cake\Core\Configure;
+use Cake\Error\Debugger;
 use Cake\Utility\Security;
 
 /**
@@ -23,36 +25,49 @@ use Cake\Utility\Security;
  * not been migrated to a stronger algorithm yet.
  *
  */
-class WeakPasswordHasher extends AbstractPasswordHasher {
+class WeakPasswordHasher extends AbstractPasswordHasher
+{
 
-/**
- * Default config for this object.
- *
- * @var array
- */
-	protected $_defaultConfig = [
-		'hashType' => null
-	];
+    /**
+     * Default config for this object.
+     *
+     * @var array
+     */
+    protected $_defaultConfig = [
+        'hashType' => null
+    ];
 
-/**
- * Generates password hash.
- *
- * @param string $password Plain text password to hash.
- * @return string Password hash
- */
-	public function hash($password) {
-		return Security::hash($password, $this->_config['hashType'], true);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public function __construct(array $config = [])
+    {
+        if (Configure::read('debug')) {
+            Debugger::checkSecurityKeys();
+        }
+        parent::config($config);
+    }
 
-/**
- * Check hash. Generate hash for user provided password and check against existing hash.
- *
- * @param string $password Plain text password to hash.
- * @param string $hashedPassword Existing hashed password.
- * @return bool True if hashes match else false.
- */
-	public function check($password, $hashedPassword) {
-		return $hashedPassword === $this->hash($password);
-	}
+    /**
+     * Generates password hash.
+     *
+     * @param string $password Plain text password to hash.
+     * @return string Password hash
+     */
+    public function hash($password)
+    {
+        return Security::hash($password, $this->_config['hashType'], true);
+    }
 
+    /**
+     * Check hash. Generate hash for user provided password and check against existing hash.
+     *
+     * @param string $password Plain text password to hash.
+     * @param string $hashedPassword Existing hashed password.
+     * @return bool True if hashes match else false.
+     */
+    public function check($password, $hashedPassword)
+    {
+        return $hashedPassword === $this->hash($password);
+    }
 }

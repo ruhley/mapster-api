@@ -1,0 +1,2202 @@
+2015-01-09 02:29:51 Notice: Strict (2048): Declaration of App\Controller\AppController::beforeFilter() should be compatible with Cake\Controller\Controller::beforeFilter(Cake\Event\Event $event) in [/var/www/html/mapster-api/src/Controller/AppController.php, line 28]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+include - APP/Controller/AppController.php, line 28
+Composer\Autoload\includeFile - ROOT/vendor/composer/ClassLoader.php, line 386
+Composer\Autoload\ClassLoader::loadClass() - ROOT/vendor/composer/ClassLoader.php, line 278
+spl_autoload_call - [internal], line ??
+include - APP/Controller/UniversesController.php, line 6
+Composer\Autoload\includeFile - ROOT/vendor/composer/ClassLoader.php, line 386
+Composer\Autoload\ClassLoader::loadClass() - ROOT/vendor/composer/ClassLoader.php, line 278
+spl_autoload_call - [internal], line ??
+class_exists - [internal], line ??
+Cake\Core\App::_classExistsInBase() - CORE/src/Core/App.php, line 94
+Cake\Core\App::className() - CORE/src/Core/App.php, line 71
+Cake\Routing\Filter\ControllerFactoryFilter::_getController() - CORE/src/Routing/Filter/ControllerFactoryFilter.php, line 79
+Cake\Routing\Filter\ControllerFactoryFilter::beforeDispatch() - CORE/src/Routing/Filter/ControllerFactoryFilter.php, line 50
+Cake\Routing\DispatcherFilter::handle() - CORE/src/Routing/DispatcherFilter.php, line 145
+Cake\Event\EventManager::_callListener() - CORE/src/Event/EventManager.php, line 276
+Cake\Event\EventManager::dispatch() - CORE/src/Event/EventManager.php, line 242
+Cake\Routing\Dispatcher::dispatchEvent() - CORE/src/Event/EventManagerTrait.php, line 78
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 62
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-09 02:30:00 Notice: Strict (2048): Declaration of App\Controller\AppController::beforeFilter() should be compatible with Cake\Controller\Controller::beforeFilter(Cake\Event\Event $event) in [/var/www/html/mapster-api/src/Controller/AppController.php, line 28]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+include - APP/Controller/AppController.php, line 28
+Composer\Autoload\includeFile - ROOT/vendor/composer/ClassLoader.php, line 386
+Composer\Autoload\ClassLoader::loadClass() - ROOT/vendor/composer/ClassLoader.php, line 278
+spl_autoload_call - [internal], line ??
+include - APP/Controller/UniversesController.php, line 6
+Composer\Autoload\includeFile - ROOT/vendor/composer/ClassLoader.php, line 386
+Composer\Autoload\ClassLoader::loadClass() - ROOT/vendor/composer/ClassLoader.php, line 278
+spl_autoload_call - [internal], line ??
+class_exists - [internal], line ??
+Cake\Core\App::_classExistsInBase() - CORE/src/Core/App.php, line 94
+Cake\Core\App::className() - CORE/src/Core/App.php, line 71
+Cake\Routing\Filter\ControllerFactoryFilter::_getController() - CORE/src/Routing/Filter/ControllerFactoryFilter.php, line 79
+Cake\Routing\Filter\ControllerFactoryFilter::beforeDispatch() - CORE/src/Routing/Filter/ControllerFactoryFilter.php, line 50
+Cake\Routing\DispatcherFilter::handle() - CORE/src/Routing/DispatcherFilter.php, line 145
+Cake\Event\EventManager::_callListener() - CORE/src/Event/EventManager.php, line 276
+Cake\Event\EventManager::dispatch() - CORE/src/Event/EventManager.php, line 242
+Cake\Routing\Dispatcher::dispatchEvent() - CORE/src/Event/EventManagerTrait.php, line 78
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 62
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-09 02:30:09 Notice: Strict (2048): Declaration of App\Controller\AppController::beforeFilter() should be compatible with Cake\Controller\Controller::beforeFilter(Cake\Event\Event $event) in [/var/www/html/mapster-api/src/Controller/AppController.php, line 28]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+include - APP/Controller/AppController.php, line 28
+Composer\Autoload\includeFile - ROOT/vendor/composer/ClassLoader.php, line 386
+Composer\Autoload\ClassLoader::loadClass() - ROOT/vendor/composer/ClassLoader.php, line 278
+spl_autoload_call - [internal], line ??
+include - APP/Controller/UniversesController.php, line 6
+Composer\Autoload\includeFile - ROOT/vendor/composer/ClassLoader.php, line 386
+Composer\Autoload\ClassLoader::loadClass() - ROOT/vendor/composer/ClassLoader.php, line 278
+spl_autoload_call - [internal], line ??
+class_exists - [internal], line ??
+Cake\Core\App::_classExistsInBase() - CORE/src/Core/App.php, line 94
+Cake\Core\App::className() - CORE/src/Core/App.php, line 71
+Cake\Routing\Filter\ControllerFactoryFilter::_getController() - CORE/src/Routing/Filter/ControllerFactoryFilter.php, line 79
+Cake\Routing\Filter\ControllerFactoryFilter::beforeDispatch() - CORE/src/Routing/Filter/ControllerFactoryFilter.php, line 50
+Cake\Routing\DispatcherFilter::handle() - CORE/src/Routing/DispatcherFilter.php, line 145
+Cake\Event\EventManager::_callListener() - CORE/src/Event/EventManager.php, line 276
+Cake\Event\EventManager::dispatch() - CORE/src/Event/EventManager.php, line 242
+Cake\Routing\Dispatcher::dispatchEvent() - CORE/src/Event/EventManagerTrait.php, line 78
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 62
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-09 02:37:08 Notice: Notice (8): Array to string conversion in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Utility/Inflector.php, line 426]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+Cake\Utility\Inflector::_cache() - CORE/src/Utility/Inflector.php, line 426
+Cake\Utility\Inflector::underscore() - CORE/src/Utility/Inflector.php, line 602
+Cake\Routing\RouteBuilder::resources() - CORE/src/Routing/RouteBuilder.php, line 248
+Cake\Routing\Router::{closure}() - ROOT/config/routes.php, line 46
+Cake\Routing\RouteBuilder::scope() - CORE/src/Routing/RouteBuilder.php, line 554
+Cake\Routing\Router::scope() - CORE/src/Routing/Router.php, line 866
+include - ROOT/config/routes.php, line 95
+Cake\Routing\Router::_loadRoutes() - CORE/src/Routing/Router.php, line 943
+Cake\Routing\Router::parse() - CORE/src/Routing/Router.php, line 322
+Cake\Routing\Filter\RoutingFilter::beforeDispatch() - CORE/src/Routing/Filter/RoutingFilter.php, line 53
+Cake\Routing\DispatcherFilter::handle() - CORE/src/Routing/DispatcherFilter.php, line 145
+Cake\Event\EventManager::_callListener() - CORE/src/Event/EventManager.php, line 276
+Cake\Event\EventManager::dispatch() - CORE/src/Event/EventManager.php, line 242
+Cake\Routing\Dispatcher::dispatchEvent() - CORE/src/Event/EventManagerTrait.php, line 78
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 62
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-09 02:37:08 Notice: Notice (8): Array to string conversion in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Utility/Inflector.php, line 426]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+Cake\Utility\Inflector::_cache() - CORE/src/Utility/Inflector.php, line 426
+Cake\Utility\Inflector::underscore() - CORE/src/Utility/Inflector.php, line 604
+Cake\Routing\RouteBuilder::resources() - CORE/src/Routing/RouteBuilder.php, line 248
+Cake\Routing\Router::{closure}() - ROOT/config/routes.php, line 46
+Cake\Routing\RouteBuilder::scope() - CORE/src/Routing/RouteBuilder.php, line 554
+Cake\Routing\Router::scope() - CORE/src/Routing/Router.php, line 866
+include - ROOT/config/routes.php, line 95
+Cake\Routing\Router::_loadRoutes() - CORE/src/Routing/Router.php, line 943
+Cake\Routing\Router::parse() - CORE/src/Routing/Router.php, line 322
+Cake\Routing\Filter\RoutingFilter::beforeDispatch() - CORE/src/Routing/Filter/RoutingFilter.php, line 53
+Cake\Routing\DispatcherFilter::handle() - CORE/src/Routing/DispatcherFilter.php, line 145
+Cake\Event\EventManager::_callListener() - CORE/src/Event/EventManager.php, line 276
+Cake\Event\EventManager::dispatch() - CORE/src/Event/EventManager.php, line 242
+Cake\Routing\Dispatcher::dispatchEvent() - CORE/src/Event/EventManagerTrait.php, line 78
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 62
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-09 02:37:08 Notice: Notice (8): Array to string conversion in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Route/Route.php, line 248]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+Cake\Routing\Route\Route::getName() - CORE/src/Routing/Route/Route.php, line 248
+Cake\Routing\RouteCollection::add() - CORE/src/Routing/RouteCollection.php, line 84
+Cake\Routing\RouteBuilder::connect() - CORE/src/Routing/RouteBuilder.php, line 367
+Cake\Routing\RouteBuilder::resources() - CORE/src/Routing/RouteBuilder.php, line 276
+Cake\Routing\Router::{closure}() - ROOT/config/routes.php, line 46
+Cake\Routing\RouteBuilder::scope() - CORE/src/Routing/RouteBuilder.php, line 554
+Cake\Routing\Router::scope() - CORE/src/Routing/Router.php, line 866
+include - ROOT/config/routes.php, line 95
+Cake\Routing\Router::_loadRoutes() - CORE/src/Routing/Router.php, line 943
+Cake\Routing\Router::parse() - CORE/src/Routing/Router.php, line 322
+Cake\Routing\Filter\RoutingFilter::beforeDispatch() - CORE/src/Routing/Filter/RoutingFilter.php, line 53
+Cake\Routing\DispatcherFilter::handle() - CORE/src/Routing/DispatcherFilter.php, line 145
+Cake\Event\EventManager::_callListener() - CORE/src/Event/EventManager.php, line 276
+Cake\Event\EventManager::dispatch() - CORE/src/Event/EventManager.php, line 242
+Cake\Routing\Dispatcher::dispatchEvent() - CORE/src/Event/EventManagerTrait.php, line 78
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 62
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-09 02:37:08 Notice: Notice (8): Array to string conversion in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Route/Route.php, line 248]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+Cake\Routing\Route\Route::getName() - CORE/src/Routing/Route/Route.php, line 248
+Cake\Routing\RouteCollection::add() - CORE/src/Routing/RouteCollection.php, line 84
+Cake\Routing\RouteBuilder::connect() - CORE/src/Routing/RouteBuilder.php, line 367
+Cake\Routing\RouteBuilder::resources() - CORE/src/Routing/RouteBuilder.php, line 276
+Cake\Routing\Router::{closure}() - ROOT/config/routes.php, line 46
+Cake\Routing\RouteBuilder::scope() - CORE/src/Routing/RouteBuilder.php, line 554
+Cake\Routing\Router::scope() - CORE/src/Routing/Router.php, line 866
+include - ROOT/config/routes.php, line 95
+Cake\Routing\Router::_loadRoutes() - CORE/src/Routing/Router.php, line 943
+Cake\Routing\Router::parse() - CORE/src/Routing/Router.php, line 322
+Cake\Routing\Filter\RoutingFilter::beforeDispatch() - CORE/src/Routing/Filter/RoutingFilter.php, line 53
+Cake\Routing\DispatcherFilter::handle() - CORE/src/Routing/DispatcherFilter.php, line 145
+Cake\Event\EventManager::_callListener() - CORE/src/Event/EventManager.php, line 276
+Cake\Event\EventManager::dispatch() - CORE/src/Event/EventManager.php, line 242
+Cake\Routing\Dispatcher::dispatchEvent() - CORE/src/Event/EventManagerTrait.php, line 78
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 62
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-09 02:37:08 Notice: Notice (8): Array to string conversion in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Route/Route.php, line 248]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+Cake\Routing\Route\Route::getName() - CORE/src/Routing/Route/Route.php, line 248
+Cake\Routing\RouteCollection::add() - CORE/src/Routing/RouteCollection.php, line 84
+Cake\Routing\RouteBuilder::connect() - CORE/src/Routing/RouteBuilder.php, line 367
+Cake\Routing\RouteBuilder::resources() - CORE/src/Routing/RouteBuilder.php, line 276
+Cake\Routing\Router::{closure}() - ROOT/config/routes.php, line 46
+Cake\Routing\RouteBuilder::scope() - CORE/src/Routing/RouteBuilder.php, line 554
+Cake\Routing\Router::scope() - CORE/src/Routing/Router.php, line 866
+include - ROOT/config/routes.php, line 95
+Cake\Routing\Router::_loadRoutes() - CORE/src/Routing/Router.php, line 943
+Cake\Routing\Router::parse() - CORE/src/Routing/Router.php, line 322
+Cake\Routing\Filter\RoutingFilter::beforeDispatch() - CORE/src/Routing/Filter/RoutingFilter.php, line 53
+Cake\Routing\DispatcherFilter::handle() - CORE/src/Routing/DispatcherFilter.php, line 145
+Cake\Event\EventManager::_callListener() - CORE/src/Event/EventManager.php, line 276
+Cake\Event\EventManager::dispatch() - CORE/src/Event/EventManager.php, line 242
+Cake\Routing\Dispatcher::dispatchEvent() - CORE/src/Event/EventManagerTrait.php, line 78
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 62
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-09 02:37:08 Notice: Notice (8): Array to string conversion in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Route/Route.php, line 248]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+Cake\Routing\Route\Route::getName() - CORE/src/Routing/Route/Route.php, line 248
+Cake\Routing\RouteCollection::add() - CORE/src/Routing/RouteCollection.php, line 84
+Cake\Routing\RouteBuilder::connect() - CORE/src/Routing/RouteBuilder.php, line 367
+Cake\Routing\RouteBuilder::resources() - CORE/src/Routing/RouteBuilder.php, line 276
+Cake\Routing\Router::{closure}() - ROOT/config/routes.php, line 46
+Cake\Routing\RouteBuilder::scope() - CORE/src/Routing/RouteBuilder.php, line 554
+Cake\Routing\Router::scope() - CORE/src/Routing/Router.php, line 866
+include - ROOT/config/routes.php, line 95
+Cake\Routing\Router::_loadRoutes() - CORE/src/Routing/Router.php, line 943
+Cake\Routing\Router::parse() - CORE/src/Routing/Router.php, line 322
+Cake\Routing\Filter\RoutingFilter::beforeDispatch() - CORE/src/Routing/Filter/RoutingFilter.php, line 53
+Cake\Routing\DispatcherFilter::handle() - CORE/src/Routing/DispatcherFilter.php, line 145
+Cake\Event\EventManager::_callListener() - CORE/src/Event/EventManager.php, line 276
+Cake\Event\EventManager::dispatch() - CORE/src/Event/EventManager.php, line 242
+Cake\Routing\Dispatcher::dispatchEvent() - CORE/src/Event/EventManagerTrait.php, line 78
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 62
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-09 02:37:08 Notice: Notice (8): Array to string conversion in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Route/Route.php, line 248]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+Cake\Routing\Route\Route::getName() - CORE/src/Routing/Route/Route.php, line 248
+Cake\Routing\RouteCollection::add() - CORE/src/Routing/RouteCollection.php, line 84
+Cake\Routing\RouteBuilder::connect() - CORE/src/Routing/RouteBuilder.php, line 367
+Cake\Routing\RouteBuilder::resources() - CORE/src/Routing/RouteBuilder.php, line 276
+Cake\Routing\Router::{closure}() - ROOT/config/routes.php, line 46
+Cake\Routing\RouteBuilder::scope() - CORE/src/Routing/RouteBuilder.php, line 554
+Cake\Routing\Router::scope() - CORE/src/Routing/Router.php, line 866
+include - ROOT/config/routes.php, line 95
+Cake\Routing\Router::_loadRoutes() - CORE/src/Routing/Router.php, line 943
+Cake\Routing\Router::parse() - CORE/src/Routing/Router.php, line 322
+Cake\Routing\Filter\RoutingFilter::beforeDispatch() - CORE/src/Routing/Filter/RoutingFilter.php, line 53
+Cake\Routing\DispatcherFilter::handle() - CORE/src/Routing/DispatcherFilter.php, line 145
+Cake\Event\EventManager::_callListener() - CORE/src/Event/EventManager.php, line 276
+Cake\Event\EventManager::dispatch() - CORE/src/Event/EventManager.php, line 242
+Cake\Routing\Dispatcher::dispatchEvent() - CORE/src/Event/EventManagerTrait.php, line 78
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 62
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-09 02:37:52 Notice: Notice (8): Array to string conversion in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Utility/Inflector.php, line 426]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+Cake\Utility\Inflector::_cache() - CORE/src/Utility/Inflector.php, line 426
+Cake\Utility\Inflector::underscore() - CORE/src/Utility/Inflector.php, line 602
+Cake\Routing\RouteBuilder::resources() - CORE/src/Routing/RouteBuilder.php, line 248
+Cake\Routing\Router::{closure}() - ROOT/config/routes.php, line 46
+Cake\Routing\RouteBuilder::scope() - CORE/src/Routing/RouteBuilder.php, line 554
+Cake\Routing\Router::scope() - CORE/src/Routing/Router.php, line 866
+include - ROOT/config/routes.php, line 95
+Cake\Routing\Router::_loadRoutes() - CORE/src/Routing/Router.php, line 943
+Cake\Routing\Router::parse() - CORE/src/Routing/Router.php, line 322
+Cake\Routing\Filter\RoutingFilter::beforeDispatch() - CORE/src/Routing/Filter/RoutingFilter.php, line 53
+Cake\Routing\DispatcherFilter::handle() - CORE/src/Routing/DispatcherFilter.php, line 145
+Cake\Event\EventManager::_callListener() - CORE/src/Event/EventManager.php, line 276
+Cake\Event\EventManager::dispatch() - CORE/src/Event/EventManager.php, line 242
+Cake\Routing\Dispatcher::dispatchEvent() - CORE/src/Event/EventManagerTrait.php, line 78
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 62
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-09 02:37:52 Notice: Notice (8): Array to string conversion in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Utility/Inflector.php, line 426]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+Cake\Utility\Inflector::_cache() - CORE/src/Utility/Inflector.php, line 426
+Cake\Utility\Inflector::underscore() - CORE/src/Utility/Inflector.php, line 604
+Cake\Routing\RouteBuilder::resources() - CORE/src/Routing/RouteBuilder.php, line 248
+Cake\Routing\Router::{closure}() - ROOT/config/routes.php, line 46
+Cake\Routing\RouteBuilder::scope() - CORE/src/Routing/RouteBuilder.php, line 554
+Cake\Routing\Router::scope() - CORE/src/Routing/Router.php, line 866
+include - ROOT/config/routes.php, line 95
+Cake\Routing\Router::_loadRoutes() - CORE/src/Routing/Router.php, line 943
+Cake\Routing\Router::parse() - CORE/src/Routing/Router.php, line 322
+Cake\Routing\Filter\RoutingFilter::beforeDispatch() - CORE/src/Routing/Filter/RoutingFilter.php, line 53
+Cake\Routing\DispatcherFilter::handle() - CORE/src/Routing/DispatcherFilter.php, line 145
+Cake\Event\EventManager::_callListener() - CORE/src/Event/EventManager.php, line 276
+Cake\Event\EventManager::dispatch() - CORE/src/Event/EventManager.php, line 242
+Cake\Routing\Dispatcher::dispatchEvent() - CORE/src/Event/EventManagerTrait.php, line 78
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 62
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-09 02:37:52 Notice: Notice (8): Array to string conversion in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Route/Route.php, line 248]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+Cake\Routing\Route\Route::getName() - CORE/src/Routing/Route/Route.php, line 248
+Cake\Routing\RouteCollection::add() - CORE/src/Routing/RouteCollection.php, line 84
+Cake\Routing\RouteBuilder::connect() - CORE/src/Routing/RouteBuilder.php, line 367
+Cake\Routing\RouteBuilder::resources() - CORE/src/Routing/RouteBuilder.php, line 276
+Cake\Routing\Router::{closure}() - ROOT/config/routes.php, line 46
+Cake\Routing\RouteBuilder::scope() - CORE/src/Routing/RouteBuilder.php, line 554
+Cake\Routing\Router::scope() - CORE/src/Routing/Router.php, line 866
+include - ROOT/config/routes.php, line 95
+Cake\Routing\Router::_loadRoutes() - CORE/src/Routing/Router.php, line 943
+Cake\Routing\Router::parse() - CORE/src/Routing/Router.php, line 322
+Cake\Routing\Filter\RoutingFilter::beforeDispatch() - CORE/src/Routing/Filter/RoutingFilter.php, line 53
+Cake\Routing\DispatcherFilter::handle() - CORE/src/Routing/DispatcherFilter.php, line 145
+Cake\Event\EventManager::_callListener() - CORE/src/Event/EventManager.php, line 276
+Cake\Event\EventManager::dispatch() - CORE/src/Event/EventManager.php, line 242
+Cake\Routing\Dispatcher::dispatchEvent() - CORE/src/Event/EventManagerTrait.php, line 78
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 62
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-09 02:37:52 Notice: Notice (8): Array to string conversion in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Route/Route.php, line 248]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+Cake\Routing\Route\Route::getName() - CORE/src/Routing/Route/Route.php, line 248
+Cake\Routing\RouteCollection::add() - CORE/src/Routing/RouteCollection.php, line 84
+Cake\Routing\RouteBuilder::connect() - CORE/src/Routing/RouteBuilder.php, line 367
+Cake\Routing\RouteBuilder::resources() - CORE/src/Routing/RouteBuilder.php, line 276
+Cake\Routing\Router::{closure}() - ROOT/config/routes.php, line 46
+Cake\Routing\RouteBuilder::scope() - CORE/src/Routing/RouteBuilder.php, line 554
+Cake\Routing\Router::scope() - CORE/src/Routing/Router.php, line 866
+include - ROOT/config/routes.php, line 95
+Cake\Routing\Router::_loadRoutes() - CORE/src/Routing/Router.php, line 943
+Cake\Routing\Router::parse() - CORE/src/Routing/Router.php, line 322
+Cake\Routing\Filter\RoutingFilter::beforeDispatch() - CORE/src/Routing/Filter/RoutingFilter.php, line 53
+Cake\Routing\DispatcherFilter::handle() - CORE/src/Routing/DispatcherFilter.php, line 145
+Cake\Event\EventManager::_callListener() - CORE/src/Event/EventManager.php, line 276
+Cake\Event\EventManager::dispatch() - CORE/src/Event/EventManager.php, line 242
+Cake\Routing\Dispatcher::dispatchEvent() - CORE/src/Event/EventManagerTrait.php, line 78
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 62
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-09 02:37:52 Notice: Notice (8): Array to string conversion in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Route/Route.php, line 248]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+Cake\Routing\Route\Route::getName() - CORE/src/Routing/Route/Route.php, line 248
+Cake\Routing\RouteCollection::add() - CORE/src/Routing/RouteCollection.php, line 84
+Cake\Routing\RouteBuilder::connect() - CORE/src/Routing/RouteBuilder.php, line 367
+Cake\Routing\RouteBuilder::resources() - CORE/src/Routing/RouteBuilder.php, line 276
+Cake\Routing\Router::{closure}() - ROOT/config/routes.php, line 46
+Cake\Routing\RouteBuilder::scope() - CORE/src/Routing/RouteBuilder.php, line 554
+Cake\Routing\Router::scope() - CORE/src/Routing/Router.php, line 866
+include - ROOT/config/routes.php, line 95
+Cake\Routing\Router::_loadRoutes() - CORE/src/Routing/Router.php, line 943
+Cake\Routing\Router::parse() - CORE/src/Routing/Router.php, line 322
+Cake\Routing\Filter\RoutingFilter::beforeDispatch() - CORE/src/Routing/Filter/RoutingFilter.php, line 53
+Cake\Routing\DispatcherFilter::handle() - CORE/src/Routing/DispatcherFilter.php, line 145
+Cake\Event\EventManager::_callListener() - CORE/src/Event/EventManager.php, line 276
+Cake\Event\EventManager::dispatch() - CORE/src/Event/EventManager.php, line 242
+Cake\Routing\Dispatcher::dispatchEvent() - CORE/src/Event/EventManagerTrait.php, line 78
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 62
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-09 02:37:52 Notice: Notice (8): Array to string conversion in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Route/Route.php, line 248]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+Cake\Routing\Route\Route::getName() - CORE/src/Routing/Route/Route.php, line 248
+Cake\Routing\RouteCollection::add() - CORE/src/Routing/RouteCollection.php, line 84
+Cake\Routing\RouteBuilder::connect() - CORE/src/Routing/RouteBuilder.php, line 367
+Cake\Routing\RouteBuilder::resources() - CORE/src/Routing/RouteBuilder.php, line 276
+Cake\Routing\Router::{closure}() - ROOT/config/routes.php, line 46
+Cake\Routing\RouteBuilder::scope() - CORE/src/Routing/RouteBuilder.php, line 554
+Cake\Routing\Router::scope() - CORE/src/Routing/Router.php, line 866
+include - ROOT/config/routes.php, line 95
+Cake\Routing\Router::_loadRoutes() - CORE/src/Routing/Router.php, line 943
+Cake\Routing\Router::parse() - CORE/src/Routing/Router.php, line 322
+Cake\Routing\Filter\RoutingFilter::beforeDispatch() - CORE/src/Routing/Filter/RoutingFilter.php, line 53
+Cake\Routing\DispatcherFilter::handle() - CORE/src/Routing/DispatcherFilter.php, line 145
+Cake\Event\EventManager::_callListener() - CORE/src/Event/EventManager.php, line 276
+Cake\Event\EventManager::dispatch() - CORE/src/Event/EventManager.php, line 242
+Cake\Routing\Dispatcher::dispatchEvent() - CORE/src/Event/EventManagerTrait.php, line 78
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 62
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-09 02:37:52 Notice: Notice (8): Array to string conversion in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Routing/Route/Route.php, line 248]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+Cake\Routing\Route\Route::getName() - CORE/src/Routing/Route/Route.php, line 248
+Cake\Routing\RouteCollection::add() - CORE/src/Routing/RouteCollection.php, line 84
+Cake\Routing\RouteBuilder::connect() - CORE/src/Routing/RouteBuilder.php, line 367
+Cake\Routing\RouteBuilder::resources() - CORE/src/Routing/RouteBuilder.php, line 276
+Cake\Routing\Router::{closure}() - ROOT/config/routes.php, line 46
+Cake\Routing\RouteBuilder::scope() - CORE/src/Routing/RouteBuilder.php, line 554
+Cake\Routing\Router::scope() - CORE/src/Routing/Router.php, line 866
+include - ROOT/config/routes.php, line 95
+Cake\Routing\Router::_loadRoutes() - CORE/src/Routing/Router.php, line 943
+Cake\Routing\Router::parse() - CORE/src/Routing/Router.php, line 322
+Cake\Routing\Filter\RoutingFilter::beforeDispatch() - CORE/src/Routing/Filter/RoutingFilter.php, line 53
+Cake\Routing\DispatcherFilter::handle() - CORE/src/Routing/DispatcherFilter.php, line 145
+Cake\Event\EventManager::_callListener() - CORE/src/Event/EventManager.php, line 276
+Cake\Event\EventManager::dispatch() - CORE/src/Event/EventManager.php, line 242
+Cake\Routing\Dispatcher::dispatchEvent() - CORE/src/Event/EventManagerTrait.php, line 78
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 62
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 01:25:14 Notice: Strict (2048): Declaration of App\Controller\AppController::invokeAction() should be compatible with Cake\Controller\Controller::invokeAction() in [/var/www/html/mapster-api/src/Controller/AppController.php, line 29]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+include - APP/Controller/AppController.php, line 29
+Composer\Autoload\includeFile - ROOT/vendor/composer/ClassLoader.php, line 386
+Composer\Autoload\ClassLoader::loadClass() - ROOT/vendor/composer/ClassLoader.php, line 278
+spl_autoload_call - [internal], line ??
+include - APP/Controller/UniversesController.php, line 6
+Composer\Autoload\includeFile - ROOT/vendor/composer/ClassLoader.php, line 386
+Composer\Autoload\ClassLoader::loadClass() - ROOT/vendor/composer/ClassLoader.php, line 278
+spl_autoload_call - [internal], line ??
+class_exists - [internal], line ??
+Cake\Core\App::_classExistsInBase() - CORE/src/Core/App.php, line 94
+Cake\Core\App::className() - CORE/src/Core/App.php, line 71
+Cake\Routing\Filter\ControllerFactoryFilter::_getController() - CORE/src/Routing/Filter/ControllerFactoryFilter.php, line 79
+Cake\Routing\Filter\ControllerFactoryFilter::beforeDispatch() - CORE/src/Routing/Filter/ControllerFactoryFilter.php, line 50
+Cake\Routing\DispatcherFilter::handle() - CORE/src/Routing/DispatcherFilter.php, line 145
+Cake\Event\EventManager::_callListener() - CORE/src/Event/EventManager.php, line 276
+Cake\Event\EventManager::dispatch() - CORE/src/Event/EventManager.php, line 242
+Cake\Routing\Dispatcher::dispatchEvent() - CORE/src/Event/EventManagerTrait.php, line 78
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 62
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 01:25:14 Notice: Notice (8): Undefined variable: request in [/var/www/html/mapster-api/src/Controller/AppController.php, line 39]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 39
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 01:25:30 Notice: Notice (8): Undefined variable: request in [/var/www/html/mapster-api/src/Controller/AppController.php, line 39]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 39
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 01:26:09 Notice: Notice (8): Undefined variable: request in [/var/www/html/mapster-api/src/Controller/AppController.php, line 43]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 43
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 01:26:17 Notice: Notice (8): Undefined variable: request in [/var/www/html/mapster-api/src/Controller/AppController.php, line 43]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 43
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 01:27:06 Notice: Notice (8): Undefined variable: request in [/var/www/html/mapster-api/src/Controller/AppController.php, line 43]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 43
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 01:49:51 Notice: Notice (8): Trying to get property of non-object in [/var/www/html/mapster-api/src/Controller/AppController.php, line 70]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\AppController::edit() - APP/Controller/AppController.php, line 70
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 01:49:56 Notice: Notice (8): Undefined variable: origin in [/var/www/html/mapster-api/src/Controller/AppController.php, line 71]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\AppController::edit() - APP/Controller/AppController.php, line 71
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 01:49:56 Notice: Notice (8): Undefined variable: headers in [/var/www/html/mapster-api/src/Controller/AppController.php, line 72]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\AppController::edit() - APP/Controller/AppController.php, line 72
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 01:49:56 Notice: Notice (8): Undefined variable: methods in [/var/www/html/mapster-api/src/Controller/AppController.php, line 74]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\AppController::edit() - APP/Controller/AppController.php, line 74
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 01:49:56 Notice: Notice (8): Undefined offset: 1 in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Network/Response.php, line 587]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+Cake\Network\Response::header() - CORE/src/Network/Response.php, line 587
+App\Controller\AppController::edit() - APP/Controller/AppController.php, line 74
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 01:49:56 Notice: Notice (8): Undefined offset: 1 in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Network/Response.php, line 587]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+Cake\Network\Response::header() - CORE/src/Network/Response.php, line 587
+App\Controller\AppController::edit() - APP/Controller/AppController.php, line 74
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 01:49:56 Notice: Notice (8): Undefined offset: 1 in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Network/Response.php, line 587]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+Cake\Network\Response::header() - CORE/src/Network/Response.php, line 587
+App\Controller\AppController::edit() - APP/Controller/AppController.php, line 74
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 01:50:45 Notice: Notice (8): Trying to get property of non-object in [/var/www/html/mapster-api/src/Controller/AppController.php, line 59]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\AppController::add() - APP/Controller/AppController.php, line 59
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 01:56:10 Notice: Notice (8): Undefined offset: 1 in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Network/Response.php, line 587]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+Cake\Network\Response::header() - CORE/src/Network/Response.php, line 587
+App\Controller\AppController::edit() - APP/Controller/AppController.php, line 74
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 04:51:33 Notice: Notice (8): Trying to get property of non-object in [/var/www/html/mapster-api/src/Controller/AppController.php, line 59]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\AppController::add() - APP/Controller/AppController.php, line 59
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 04:52:31 Notice: Notice (8): Trying to get property of non-object in [/var/www/html/mapster-api/src/Controller/AppController.php, line 60]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\AppController::add() - APP/Controller/AppController.php, line 60
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 04:52:52 Notice: Notice (8): Trying to get property of non-object in [/var/www/html/mapster-api/src/Controller/AppController.php, line 60]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\AppController::add() - APP/Controller/AppController.php, line 60
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 04:52:53 Notice: Notice (8): Trying to get property of non-object in [/var/www/html/mapster-api/src/Controller/AppController.php, line 60]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\AppController::add() - APP/Controller/AppController.php, line 60
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 04:54:13 Notice: Notice (8): Undefined variable: webroot in [/var/www/html/mapster-api/src/Controller/Component/RequestComponent.php, line 91]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\Component\RequestComponent::parseData() - APP/Controller/Component/RequestComponent.php, line 91
+App\Controller\Component\ModelComponent::saveVersion() - APP/Controller/Component/ModelComponent.php, line 67
+App\Controller\AppController::edit() - APP/Controller/AppController.php, line 73
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 04:54:13 Notice: Notice (8): Undefined variable: webroot in [/var/www/html/mapster-api/src/Controller/Component/RequestComponent.php, line 91]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\Component\RequestComponent::parseData() - APP/Controller/Component/RequestComponent.php, line 91
+App\Controller\AppController::edit() - APP/Controller/AppController.php, line 76
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 04:55:02 Notice: Notice (8): Undefined variable: webroot in [/var/www/html/mapster-api/src/Controller/Component/RequestComponent.php, line 91]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\Component\RequestComponent::parseData() - APP/Controller/Component/RequestComponent.php, line 91
+App\Controller\Component\ModelComponent::saveVersion() - APP/Controller/Component/ModelComponent.php, line 67
+App\Controller\AppController::edit() - APP/Controller/AppController.php, line 73
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 04:55:02 Notice: Notice (8): Undefined variable: webroot in [/var/www/html/mapster-api/src/Controller/Component/RequestComponent.php, line 91]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\Component\RequestComponent::parseData() - APP/Controller/Component/RequestComponent.php, line 91
+App\Controller\AppController::edit() - APP/Controller/AppController.php, line 76
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 04:55:26 Notice: Notice (8): Undefined variable: webroot in [/var/www/html/mapster-api/src/Controller/Component/RequestComponent.php, line 91]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\Component\RequestComponent::parseData() - APP/Controller/Component/RequestComponent.php, line 91
+App\Controller\Component\ModelComponent::saveVersion() - APP/Controller/Component/ModelComponent.php, line 67
+App\Controller\AppController::edit() - APP/Controller/AppController.php, line 73
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 04:55:26 Notice: Notice (8): Undefined variable: webroot in [/var/www/html/mapster-api/src/Controller/Component/RequestComponent.php, line 91]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\Component\RequestComponent::parseData() - APP/Controller/Component/RequestComponent.php, line 91
+App\Controller\AppController::edit() - APP/Controller/AppController.php, line 76
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 04:55:55 Notice: Notice (8): Undefined variable: webroot in [/var/www/html/mapster-api/src/Controller/Component/RequestComponent.php, line 91]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\Component\RequestComponent::parseData() - APP/Controller/Component/RequestComponent.php, line 91
+App\Controller\Component\ModelComponent::saveVersion() - APP/Controller/Component/ModelComponent.php, line 67
+App\Controller\AppController::edit() - APP/Controller/AppController.php, line 73
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 04:55:55 Notice: Notice (8): Undefined variable: webroot in [/var/www/html/mapster-api/src/Controller/Component/RequestComponent.php, line 91]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\Component\RequestComponent::parseData() - APP/Controller/Component/RequestComponent.php, line 91
+App\Controller\AppController::edit() - APP/Controller/AppController.php, line 76
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 04:56:09 Notice: Notice (8): Undefined variable: webroot in [/var/www/html/mapster-api/src/Controller/Component/RequestComponent.php, line 91]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\Component\RequestComponent::parseData() - APP/Controller/Component/RequestComponent.php, line 91
+App\Controller\Component\ModelComponent::saveVersion() - APP/Controller/Component/ModelComponent.php, line 67
+App\Controller\AppController::edit() - APP/Controller/AppController.php, line 73
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 04:56:09 Notice: Notice (8): Undefined variable: webroot in [/var/www/html/mapster-api/src/Controller/Component/RequestComponent.php, line 91]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\Component\RequestComponent::parseData() - APP/Controller/Component/RequestComponent.php, line 91
+App\Controller\AppController::edit() - APP/Controller/AppController.php, line 76
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 04:56:22 Notice: Notice (8): Undefined variable: webroot in [/var/www/html/mapster-api/src/Controller/Component/RequestComponent.php, line 91]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\Component\RequestComponent::parseData() - APP/Controller/Component/RequestComponent.php, line 91
+App\Controller\Component\ModelComponent::saveVersion() - APP/Controller/Component/ModelComponent.php, line 67
+App\Controller\AppController::edit() - APP/Controller/AppController.php, line 73
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 04:56:22 Notice: Notice (8): Undefined variable: webroot in [/var/www/html/mapster-api/src/Controller/Component/RequestComponent.php, line 91]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\Component\RequestComponent::parseData() - APP/Controller/Component/RequestComponent.php, line 91
+App\Controller\AppController::edit() - APP/Controller/AppController.php, line 76
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 04:56:35 Notice: Notice (8): Undefined variable: webroot in [/var/www/html/mapster-api/src/Controller/Component/RequestComponent.php, line 91]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\Component\RequestComponent::parseData() - APP/Controller/Component/RequestComponent.php, line 91
+App\Controller\Component\ModelComponent::saveVersion() - APP/Controller/Component/ModelComponent.php, line 67
+App\Controller\AppController::edit() - APP/Controller/AppController.php, line 73
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 04:56:35 Notice: Notice (8): Undefined variable: webroot in [/var/www/html/mapster-api/src/Controller/Component/RequestComponent.php, line 91]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\Component\RequestComponent::parseData() - APP/Controller/Component/RequestComponent.php, line 91
+App\Controller\AppController::edit() - APP/Controller/AppController.php, line 76
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 04:57:06 Notice: Notice (8): Undefined variable: webroot in [/var/www/html/mapster-api/src/Controller/Component/RequestComponent.php, line 91]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\Component\RequestComponent::parseData() - APP/Controller/Component/RequestComponent.php, line 91
+App\Controller\Component\ModelComponent::saveVersion() - APP/Controller/Component/ModelComponent.php, line 67
+App\Controller\AppController::edit() - APP/Controller/AppController.php, line 74
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 04:57:06 Notice: Notice (8): Undefined variable: webroot in [/var/www/html/mapster-api/src/Controller/Component/RequestComponent.php, line 91]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\Component\RequestComponent::parseData() - APP/Controller/Component/RequestComponent.php, line 91
+App\Controller\AppController::edit() - APP/Controller/AppController.php, line 77
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 04:59:24 Notice: Notice (8): Undefined variable: webroot in [/var/www/html/mapster-api/src/Controller/Component/RequestComponent.php, line 91]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\Component\RequestComponent::parseData() - APP/Controller/Component/RequestComponent.php, line 91
+App\Controller\Component\ModelComponent::saveVersion() - APP/Controller/Component/ModelComponent.php, line 67
+App\Controller\AppController::edit() - APP/Controller/AppController.php, line 73
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 04:59:24 Notice: Notice (8): Undefined variable: webroot in [/var/www/html/mapster-api/src/Controller/Component/RequestComponent.php, line 91]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\Component\RequestComponent::parseData() - APP/Controller/Component/RequestComponent.php, line 91
+App\Controller\AppController::edit() - APP/Controller/AppController.php, line 76
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 05:00:00 Notice: Notice (8): Undefined variable: webroot in [/var/www/html/mapster-api/src/Controller/Component/RequestComponent.php, line 91]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\Component\RequestComponent::parseData() - APP/Controller/Component/RequestComponent.php, line 91
+App\Controller\Component\ModelComponent::saveVersion() - APP/Controller/Component/ModelComponent.php, line 67
+App\Controller\AppController::edit() - APP/Controller/AppController.php, line 73
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 05:00:00 Notice: Notice (8): Undefined variable: webroot in [/var/www/html/mapster-api/src/Controller/Component/RequestComponent.php, line 91]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\Component\RequestComponent::parseData() - APP/Controller/Component/RequestComponent.php, line 91
+App\Controller\AppController::edit() - APP/Controller/AppController.php, line 76
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 05:00:27 Notice: Notice (8): Undefined variable: webroot in [/var/www/html/mapster-api/src/Controller/Component/RequestComponent.php, line 91]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\Component\RequestComponent::parseData() - APP/Controller/Component/RequestComponent.php, line 91
+App\Controller\Component\ModelComponent::saveVersion() - APP/Controller/Component/ModelComponent.php, line 67
+App\Controller\AppController::edit() - APP/Controller/AppController.php, line 73
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 05:00:27 Notice: Notice (8): Undefined variable: webroot in [/var/www/html/mapster-api/src/Controller/Component/RequestComponent.php, line 91]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\Component\RequestComponent::parseData() - APP/Controller/Component/RequestComponent.php, line 91
+App\Controller\AppController::edit() - APP/Controller/AppController.php, line 76
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 05:00:55 Notice: Notice (8): Undefined variable: webroot in [/var/www/html/mapster-api/src/Controller/Component/RequestComponent.php, line 91]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\Component\RequestComponent::parseData() - APP/Controller/Component/RequestComponent.php, line 91
+App\Controller\Component\ModelComponent::saveVersion() - APP/Controller/Component/ModelComponent.php, line 67
+App\Controller\AppController::edit() - APP/Controller/AppController.php, line 73
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 05:00:55 Notice: Notice (8): Undefined variable: webroot in [/var/www/html/mapster-api/src/Controller/Component/RequestComponent.php, line 91]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\Component\RequestComponent::parseData() - APP/Controller/Component/RequestComponent.php, line 91
+App\Controller\AppController::edit() - APP/Controller/AppController.php, line 76
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 05:01:53 Notice: Notice (8): Undefined variable: webroot in [/var/www/html/mapster-api/src/Controller/Component/RequestComponent.php, line 81]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\Component\RequestComponent::parseData() - APP/Controller/Component/RequestComponent.php, line 81
+App\Controller\Component\ModelComponent::saveVersion() - APP/Controller/Component/ModelComponent.php, line 67
+App\Controller\AppController::edit() - APP/Controller/AppController.php, line 73
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 05:01:53 Notice: Notice (8): Undefined variable: webroot in [/var/www/html/mapster-api/src/Controller/Component/RequestComponent.php, line 81]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\Component\RequestComponent::parseData() - APP/Controller/Component/RequestComponent.php, line 81
+App\Controller\AppController::edit() - APP/Controller/AppController.php, line 76
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 05:02:11 Notice: Notice (8): Undefined variable: webroot in [/var/www/html/mapster-api/src/Controller/Component/RequestComponent.php, line 81]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\Component\RequestComponent::parseData() - APP/Controller/Component/RequestComponent.php, line 81
+App\Controller\Component\ModelComponent::saveVersion() - APP/Controller/Component/ModelComponent.php, line 67
+App\Controller\AppController::edit() - APP/Controller/AppController.php, line 73
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 05:02:11 Notice: Notice (8): Undefined variable: webroot in [/var/www/html/mapster-api/src/Controller/Component/RequestComponent.php, line 81]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\Component\RequestComponent::parseData() - APP/Controller/Component/RequestComponent.php, line 81
+App\Controller\AppController::edit() - APP/Controller/AppController.php, line 76
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 05:03:57 Notice: Notice (8): Undefined variable: webroot in [/var/www/html/mapster-api/src/Controller/Component/RequestComponent.php, line 81]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\Component\RequestComponent::parseData() - APP/Controller/Component/RequestComponent.php, line 81
+App\Controller\Component\ModelComponent::saveVersion() - APP/Controller/Component/ModelComponent.php, line 67
+App\Controller\AppController::edit() - APP/Controller/AppController.php, line 73
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 05:03:57 Notice: Notice (8): Undefined variable: webroot in [/var/www/html/mapster-api/src/Controller/Component/RequestComponent.php, line 81]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\Component\RequestComponent::parseData() - APP/Controller/Component/RequestComponent.php, line 81
+App\Controller\AppController::edit() - APP/Controller/AppController.php, line 76
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 05:59:41 Notice: Notice (8): Undefined variable: webroot in [/var/www/html/mapster-api/src/Controller/Component/RequestComponent.php, line 81]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\Component\RequestComponent::parseData() - APP/Controller/Component/RequestComponent.php, line 81
+App\Controller\AppController::edit() - APP/Controller/AppController.php, line 76
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-13 05:59:48 Notice: Notice (8): Undefined variable: webroot in [/var/www/html/mapster-api/src/Controller/Component/RequestComponent.php, line 81]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+App\Controller\Component\RequestComponent::parseData() - APP/Controller/Component/RequestComponent.php, line 81
+App\Controller\AppController::edit() - APP/Controller/AppController.php, line 76
+Cake\Controller\Controller::invokeAction() - CORE/src/Controller/Controller.php, line 406
+App\Controller\AppController::invokeAction() - APP/Controller/AppController.php, line 40
+Cake\Routing\Dispatcher::_invoke() - CORE/src/Routing/Dispatcher.php, line 114
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 87
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-14 03:38:34 Notice: Strict (2048): Declaration of App\Controller\AppController::beforeRender() should be compatible with Cake\Controller\Controller::beforeRender(Cake\Event\Event $event) in [/var/www/html/mapster-api/src/Controller/AppController.php, line 28]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+include - APP/Controller/AppController.php, line 28
+Composer\Autoload\includeFile - ROOT/vendor/composer/ClassLoader.php, line 386
+Composer\Autoload\ClassLoader::loadClass() - ROOT/vendor/composer/ClassLoader.php, line 278
+spl_autoload_call - [internal], line ??
+include - APP/Controller/MapsterEntitiesController.php, line 6
+Composer\Autoload\includeFile - ROOT/vendor/composer/ClassLoader.php, line 386
+Composer\Autoload\ClassLoader::loadClass() - ROOT/vendor/composer/ClassLoader.php, line 278
+spl_autoload_call - [internal], line ??
+class_exists - [internal], line ??
+Cake\Core\App::_classExistsInBase() - CORE/src/Core/App.php, line 94
+Cake\Core\App::className() - CORE/src/Core/App.php, line 71
+Cake\Routing\Filter\ControllerFactoryFilter::_getController() - CORE/src/Routing/Filter/ControllerFactoryFilter.php, line 79
+Cake\Routing\Filter\ControllerFactoryFilter::beforeDispatch() - CORE/src/Routing/Filter/ControllerFactoryFilter.php, line 50
+Cake\Routing\DispatcherFilter::handle() - CORE/src/Routing/DispatcherFilter.php, line 145
+Cake\Event\EventManager::_callListener() - CORE/src/Event/EventManager.php, line 276
+Cake\Event\EventManager::dispatch() - CORE/src/Event/EventManager.php, line 242
+Cake\Routing\Dispatcher::dispatchEvent() - CORE/src/Event/EventManagerTrait.php, line 78
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 62
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-14 03:38:43 Notice: Strict (2048): Declaration of App\Controller\AppController::beforeRender() should be compatible with Cake\Controller\Controller::beforeRender(Cake\Event\Event $event) in [/var/www/html/mapster-api/src/Controller/AppController.php, line 28]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+include - APP/Controller/AppController.php, line 28
+Composer\Autoload\includeFile - ROOT/vendor/composer/ClassLoader.php, line 386
+Composer\Autoload\ClassLoader::loadClass() - ROOT/vendor/composer/ClassLoader.php, line 278
+spl_autoload_call - [internal], line ??
+include - APP/Controller/MapsterEntitiesController.php, line 6
+Composer\Autoload\includeFile - ROOT/vendor/composer/ClassLoader.php, line 386
+Composer\Autoload\ClassLoader::loadClass() - ROOT/vendor/composer/ClassLoader.php, line 278
+spl_autoload_call - [internal], line ??
+class_exists - [internal], line ??
+Cake\Core\App::_classExistsInBase() - CORE/src/Core/App.php, line 94
+Cake\Core\App::className() - CORE/src/Core/App.php, line 71
+Cake\Routing\Filter\ControllerFactoryFilter::_getController() - CORE/src/Routing/Filter/ControllerFactoryFilter.php, line 79
+Cake\Routing\Filter\ControllerFactoryFilter::beforeDispatch() - CORE/src/Routing/Filter/ControllerFactoryFilter.php, line 50
+Cake\Routing\DispatcherFilter::handle() - CORE/src/Routing/DispatcherFilter.php, line 145
+Cake\Event\EventManager::_callListener() - CORE/src/Event/EventManager.php, line 276
+Cake\Event\EventManager::dispatch() - CORE/src/Event/EventManager.php, line 242
+Cake\Routing\Dispatcher::dispatchEvent() - CORE/src/Event/EventManagerTrait.php, line 78
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 62
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-14 03:39:14 Notice: Strict (2048): Declaration of App\Controller\AppController::beforeRender() should be compatible with Cake\Controller\Controller::beforeRender(Cake\Event\Event $event) in [/var/www/html/mapster-api/src/Controller/AppController.php, line 28]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE/src/Error/BaseErrorHandler.php, line 138
+include - APP/Controller/AppController.php, line 28
+Composer\Autoload\includeFile - ROOT/vendor/composer/ClassLoader.php, line 386
+Composer\Autoload\ClassLoader::loadClass() - ROOT/vendor/composer/ClassLoader.php, line 278
+spl_autoload_call - [internal], line ??
+include - APP/Controller/MapsterEntitiesController.php, line 6
+Composer\Autoload\includeFile - ROOT/vendor/composer/ClassLoader.php, line 386
+Composer\Autoload\ClassLoader::loadClass() - ROOT/vendor/composer/ClassLoader.php, line 278
+spl_autoload_call - [internal], line ??
+class_exists - [internal], line ??
+Cake\Core\App::_classExistsInBase() - CORE/src/Core/App.php, line 94
+Cake\Core\App::className() - CORE/src/Core/App.php, line 71
+Cake\Routing\Filter\ControllerFactoryFilter::_getController() - CORE/src/Routing/Filter/ControllerFactoryFilter.php, line 79
+Cake\Routing\Filter\ControllerFactoryFilter::beforeDispatch() - CORE/src/Routing/Filter/ControllerFactoryFilter.php, line 50
+Cake\Routing\DispatcherFilter::handle() - CORE/src/Routing/DispatcherFilter.php, line 145
+Cake\Event\EventManager::_callListener() - CORE/src/Event/EventManager.php, line 276
+Cake\Event\EventManager::dispatch() - CORE/src/Event/EventManager.php, line 242
+Cake\Routing\Dispatcher::dispatchEvent() - CORE/src/Event/EventManagerTrait.php, line 78
+Cake\Routing\Dispatcher::dispatch() - CORE/src/Routing/Dispatcher.php, line 62
+[main] - ROOT/webroot/index.php, line 37
+
+
+
+2015-01-14 05:42:13 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-14 05:42:36 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-14 05:43:12 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-14 06:02:37 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-14 06:02:45 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-14 06:03:21 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-14 06:03:33 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-14 06:07:23 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-14 06:07:38 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 05:58:19 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 05:58:19 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 05:58:19 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 05:58:19 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 05:58:19 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 05:58:19 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 05:58:19 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 05:58:19 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 05:58:19 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 05:58:34 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 05:58:34 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 05:58:34 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 05:58:34 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 05:58:34 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 05:58:34 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 05:58:34 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 05:58:34 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 05:58:34 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:00:47 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:00:47 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:00:47 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:00:47 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:00:47 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:00:47 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:00:47 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:00:47 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:00:47 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:02:37 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:02:37 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:02:37 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:02:37 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:02:37 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:02:37 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:02:37 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:02:37 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:02:37 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:02:40 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:02:40 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:02:40 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:02:40 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:02:40 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:02:40 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:02:40 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:02:40 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:02:40 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:02:54 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:02:54 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:02:54 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:02:54 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:02:54 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:02:54 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:02:54 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:02:54 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:02:54 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:03:06 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:03:06 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:03:06 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:03:06 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:03:06 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:03:06 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:03:06 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:03:07 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:03:07 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:03:17 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:03:17 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:03:17 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:03:17 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:03:17 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:03:17 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:03:17 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:03:17 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:03:17 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:03:38 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:03:38 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:03:38 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:03:38 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:03:38 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:03:38 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:03:38 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:03:38 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:03:38 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:04:05 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:04:05 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:04:05 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:04:05 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:04:05 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:04:05 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:04:05 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:04:05 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:04:05 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:04:21 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:04:21 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:04:21 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:04:21 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:04:21 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:04:21 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:04:21 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:04:21 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-16 06:04:21 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-19 22:58:57 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-19 22:58:57 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-19 22:58:57 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-19 22:58:57 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-19 22:58:57 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-19 22:58:57 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-19 22:58:57 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-19 22:58:57 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-19 22:58:57 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-19 23:00:58 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-19 23:00:58 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-19 23:00:58 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-19 23:00:58 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-19 23:00:58 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-19 23:00:58 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-19 23:00:59 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-19 23:00:59 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-19 23:00:59 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-20 05:33:57 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-20 05:33:57 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-20 05:33:57 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-20 05:33:57 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-20 05:33:57 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-20 05:33:57 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-20 05:33:57 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-20 05:33:57 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-20 05:33:57 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-20 05:34:02 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-20 05:34:02 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-20 05:34:02 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-20 05:34:02 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-20 05:34:02 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-20 05:34:02 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-20 05:34:02 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-20 05:34:02 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-20 05:34:02 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-20 05:34:27 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-20 05:34:27 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-20 05:34:27 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-20 05:34:27 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-20 05:34:27 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-20 05:34:27 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-20 05:34:27 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-20 05:34:27 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-20 05:34:27 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-20 05:34:39 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-20 05:34:39 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-20 05:34:39 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-20 05:34:39 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-20 05:34:39 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-20 05:34:39 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-20 05:34:39 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-20 05:34:39 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-20 05:34:39 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-22 01:50:44 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-22 01:58:05 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-22 01:58:05 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-22 01:58:05 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-22 01:58:05 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-22 01:58:05 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-22 01:58:05 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-22 01:58:05 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-22 01:58:05 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-22 01:58:05 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-22 01:58:15 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-22 01:58:15 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-22 01:58:23 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-22 01:58:48 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-22 01:58:48 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-22 01:58:48 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-22 01:58:48 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-22 01:58:48 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-22 01:58:48 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-22 01:58:48 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-22 01:58:48 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-22 01:58:48 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-22 01:58:51 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-22 01:58:51 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 01:53:55 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 01:58:54 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 01:59:51 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 02:00:05 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 04:17:35 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 04:17:35 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 04:21:01 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 04:21:01 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 04:21:07 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 04:21:07 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 04:22:12 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 04:22:12 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 04:22:17 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 04:22:17 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 04:22:29 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 04:22:29 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 04:25:35 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 04:25:35 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 04:26:03 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 04:26:03 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 04:26:13 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 04:26:13 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 04:26:52 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 04:26:52 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 04:27:25 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 04:27:25 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 04:28:20 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 04:28:20 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 04:28:23 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 04:28:23 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 04:29:01 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 04:29:01 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 04:29:44 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 04:29:44 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 04:32:15 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 04:32:15 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 04:32:22 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 04:32:23 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 04:32:43 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 04:32:43 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 04:33:06 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-23 04:33:06 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [/var/www/html/mapster-api/vendor/cakephp/cakephp/src/Error/BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:13:06 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:31:06 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:31:10 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:32:10 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:33:03 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:34:15 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:34:20 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:34:23 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:34:27 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:34:34 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:34:46 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:34:47 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:34:47 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:34:48 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:34:49 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:35:15 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:35:28 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:36:07 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:36:10 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:36:42 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:36:44 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:36:44 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:36:44 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:36:45 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:36:45 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:36:46 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:36:46 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:36:46 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:36:46 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:36:47 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:36:47 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:36:48 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:36:48 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:36:48 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:37:10 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:37:11 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:37:50 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:37:50 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:37:51 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:37:52 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:37:52 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:37:52 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:37:53 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:37:54 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:37:54 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:37:54 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:37:55 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:45:35 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:45:35 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:45:35 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:45:35 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:45:35 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:45:35 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:45:35 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:45:35 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:45:35 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:52:51 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:52:51 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:52:51 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:52:51 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:52:51 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:52:51 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:52:51 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:52:51 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:52:51 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:53:21 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:53:22 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:53:22 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:53:22 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:53:22 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:53:22 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:53:22 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:53:22 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:53:22 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:55:23 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:55:23 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:55:23 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:55:23 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:55:23 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:55:23 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:55:23 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:55:23 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:55:23 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:58:57 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:58:58 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:58:58 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:58:58 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:58:58 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:58:58 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:58:58 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:58:58 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 21:58:58 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 22:00:25 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 22:00:26 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 22:00:26 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 22:00:26 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 22:00:26 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 22:00:26 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 22:00:26 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 22:00:26 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 22:00:26 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 22:00:47 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 22:00:48 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 22:00:48 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 22:00:48 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 22:00:48 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 22:00:48 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 22:00:48 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 22:00:48 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 22:00:48 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 22:02:11 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 22:02:11 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 22:02:11 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 22:02:11 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 22:02:11 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 22:02:11 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 22:02:11 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 22:02:11 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 22:02:11 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 22:02:22 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 22:02:22 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 22:02:22 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 22:02:22 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 22:02:22 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 22:02:22 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 22:02:22 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 22:02:22 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+
+2015-01-30 22:02:22 Notice: Notice (8): Undefined property: App\Error\AppError::$_options in [C:\wamp\www\mapster-api\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 233]
+
+

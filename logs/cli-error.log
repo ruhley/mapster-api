@@ -1,0 +1,19 @@
+2015-01-09 03:48:13 Error: [Cake\Database\Exception] SQLSTATE[42S02]: Base table or view not found: 1146 Table 'mapster.mapsterentity' doesn't exist
+Stack Trace:
+#0 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Schema/Collection.php(96): Cake\Database\Schema\Collection->_reflect('Column', 'mapsterentity', Array, Object(Cake\Database\Schema\Table))
+#1 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Database/Schema/CachedCollection.php(65): Cake\Database\Schema\Collection->describe('mapsterentity', Array)
+#2 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(364): Cake\Database\Schema\CachedCollection->describe('mapsterentity')
+#3 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/ORM/Table.php(440): Cake\ORM\Table->schema()
+#4 /var/www/html/mapster-api/plugins/Bake/src/Shell/Task/ModelTask.php(192): Cake\ORM\Table->primaryKey()
+#5 /var/www/html/mapster-api/plugins/Bake/src/Shell/Task/ModelTask.php(109): Bake\Shell\Task\ModelTask->getAssociations(Object(Cake\ORM\Table))
+#6 /var/www/html/mapster-api/plugins/Bake/src/Shell/Task/ModelTask.php(95): Bake\Shell\Task\ModelTask->bake('Mapsterentity')
+#7 [internal function]: Bake\Shell\Task\ModelTask->main('mapsterentity')
+#8 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Console/Shell.php(387): call_user_func_array(Array, Array)
+#9 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Console/Shell.php(382): Cake\Console\Shell->runCommand(Array, false)
+#10 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Console/ShellDispatcher.php(200): Cake\Console\Shell->runCommand(Array, true)
+#11 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Console/ShellDispatcher.php(171): Cake\Console\ShellDispatcher->_dispatch()
+#12 /var/www/html/mapster-api/vendor/cakephp/cakephp/src/Console/ShellDispatcher.php(122): Cake\Console\ShellDispatcher->dispatch()
+#13 /var/www/html/mapster-api/bin/cake.php(20): Cake\Console\ShellDispatcher::run(Array)
+#14 {main}
+
+

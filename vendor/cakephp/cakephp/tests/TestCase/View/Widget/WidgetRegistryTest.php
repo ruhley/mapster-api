@@ -14,6 +14,7 @@
  */
 namespace Cake\Test\TestCase\View\Widget;
 
+use Cake\Core\Plugin;
 use Cake\TestSuite\TestCase;
 use Cake\View\StringTemplate;
 use Cake\View\View;
@@ -22,157 +23,214 @@ use Cake\View\Widget\WidgetRegistry;
 /**
  * WidgetRegistry test case
  */
-class WidgetRegistryTestCase extends TestCase {
+class WidgetRegistryTestCase extends TestCase
+{
 
-/**
- * setup method
- *
- * @return void
- */
-	public function setUp() {
-		parent::setUp();
-		$this->templates = new StringTemplate();
-		$this->view = new View();
-	}
+    /**
+     * setup method
+     *
+     * @return void
+     */
+    public function setUp()
+    {
+        parent::setUp();
+        $this->templates = new StringTemplate();
+        $this->view = new View();
+    }
 
-/**
- * Test adding new widgets.
- *
- * @return void
- */
-	public function testAddInConstructor() {
-		$widgets = [
-			'text' => ['Cake\View\Widget\Basic'],
-		];
-		$inputs = new WidgetRegistry($this->templates, $this->view, $widgets);
-		$result = $inputs->get('text');
-		$this->assertInstanceOf('Cake\View\Widget\Basic', $result);
-	}
+    /**
+     * Test adding new widgets.
+     *
+     * @return void
+     */
+    public function testAddInConstructor()
+    {
+        $widgets = [
+            'text' => ['Cake\View\Widget\BasicWidget'],
+            'label' => ['Label'],
+        ];
+        $inputs = new WidgetRegistry($this->templates, $this->view, $widgets);
+        $result = $inputs->get('text');
+        $this->assertInstanceOf('Cake\View\Widget\BasicWidget', $result);
 
-/**
- * Test adding new widgets.
- *
- * @return void
- */
-	public function testAdd() {
-		$inputs = new WidgetRegistry($this->templates, $this->view);
-		$result = $inputs->add([
-			'text' => ['Cake\View\Widget\Basic'],
-		]);
-		$this->assertNull($result);
-		$result = $inputs->get('text');
-		$this->assertInstanceOf('Cake\View\Widget\WidgetInterface', $result);
+        $result = $inputs->get('label');
+        $this->assertInstanceOf('Cake\View\Widget\LabelWidget', $result);
+    }
 
-		$inputs = new WidgetRegistry($this->templates, $this->view);
-		$result = $inputs->add([
-			'hidden' => 'Cake\View\Widget\Basic',
-		]);
-		$this->assertNull($result);
-		$result = $inputs->get('hidden');
-		$this->assertInstanceOf('Cake\View\Widget\WidgetInterface', $result);
-	}
+    /**
+     * Test getting view instance from registry.
+     *
+     * @return void
+     */
+    public function testGetViewInstance()
+    {
+        $inputs = new WidgetRegistry($this->templates, $this->view, []);
 
-/**
- * Test adding an instance of an invalid type.
- *
- * @expectedException \RuntimeException
- * @expectedExceptionMessage Input objects must implement Cake\View\Widget\WidgetInterface
- * @return void
- */
-	public function testAddInvalidType() {
-		$inputs = new WidgetRegistry($this->templates, $this->view);
-		$inputs->add([
-			'text' => new \StdClass()
-		]);
-		$inputs->get('text');
-	}
+        $result = $inputs->get('_view');
+        $this->assertInstanceOf('Cake\View\View', $result);
+    }
 
-/**
- * Test getting registered widgets.
- *
- * @return void
- */
-	public function testGet() {
-		$inputs = new WidgetRegistry($this->templates, $this->view);
-		$inputs->add([
-			'text' => ['Cake\View\Widget\Basic'],
-		]);
-		$result = $inputs->get('text');
-		$this->assertInstanceOf('Cake\View\Widget\Basic', $result);
-		$this->assertSame($result, $inputs->get('text'));
-	}
+    /**
+     * Test loading widgets files in the app.
+     *
+     * @return void
+     */
+    public function testAddWidgetsFromConfigInConstuctor()
+    {
+        $widgets = [
+            'text' => ['Cake\View\Widget\BasicWidget'],
+            'test_widgets',
+        ];
+        $inputs = new WidgetRegistry($this->templates, $this->view, $widgets);
+        $this->assertInstanceOf('Cake\View\Widget\LabelWidget', $inputs->get('text'));
+    }
 
-/**
- * Test getting fallback widgets.
- *
- * @return void
- */
-	public function testGetFallback() {
-		$inputs = new WidgetRegistry($this->templates, $this->view);
-		$inputs->add([
-			'_default' => ['Cake\View\Widget\Basic'],
-		]);
-		$result = $inputs->get('text');
-		$this->assertInstanceOf('Cake\View\Widget\Basic', $result);
+    /**
+     * Test loading templates files from a plugin
+     *
+     * @return void
+     */
+    public function testAddPluginWidgetsFromConfigInConstuctor()
+    {
+        Plugin::load('TestPlugin');
+        $widgets = [
+            'text' => ['Cake\View\Widget\BasicWidget'],
+            'TestPlugin.test_widgets',
+        ];
+        $inputs = new WidgetRegistry($this->templates, $this->view, $widgets);
+        $this->assertInstanceOf('Cake\View\Widget\LabelWidget', $inputs->get('text'));
+    }
 
-		$result2 = $inputs->get('hidden');
-		$this->assertSame($result, $result2);
-	}
+    /**
+     * Test adding new widgets.
+     *
+     * @return void
+     */
+    public function testAdd()
+    {
+        $inputs = new WidgetRegistry($this->templates, $this->view);
+        $result = $inputs->add([
+            'text' => ['Cake\View\Widget\BasicWidget'],
+        ]);
+        $this->assertNull($result);
+        $result = $inputs->get('text');
+        $this->assertInstanceOf('Cake\View\Widget\WidgetInterface', $result);
 
-/**
- * Test getting errors
- *
- * @expectedException RuntimeException
- * @expectedExceptionMessage Unknown widget "foo"
- * @return void
- */
-	public function testGetNoFallbackError() {
-		$inputs = new WidgetRegistry($this->templates, $this->view);
-		$inputs->clear();
-		$inputs->get('foo');
-	}
+        $inputs = new WidgetRegistry($this->templates, $this->view);
+        $result = $inputs->add([
+            'hidden' => 'Cake\View\Widget\BasicWidget',
+        ]);
+        $this->assertNull($result);
+        $result = $inputs->get('hidden');
+        $this->assertInstanceOf('Cake\View\Widget\WidgetInterface', $result);
+    }
 
-/**
- * Test getting resolve dependency
- *
- * @return void
- */
-	public function testGetResolveDependency() {
-		$inputs = new WidgetRegistry($this->templates, $this->view);
-		$inputs->clear();
-		$inputs->add([
-			'label' => ['Cake\View\Widget\Label'],
-			'multicheckbox' => ['Cake\View\Widget\MultiCheckbox', 'label']
-		]);
-		$result = $inputs->get('multicheckbox');
-		$this->assertInstanceOf('Cake\View\Widget\MultiCheckbox', $result);
-	}
+    /**
+     * Test adding an instance of an invalid type.
+     *
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessage Widget objects must implement Cake\View\Widget\WidgetInterface
+     * @return void
+     */
+    public function testAddInvalidType()
+    {
+        $inputs = new WidgetRegistry($this->templates, $this->view);
+        $inputs->add([
+            'text' => new \StdClass()
+        ]);
+    }
 
-/**
- * Test getting resolve dependency missing class
- *
- * @expectedException RuntimeException
- * @expectedExceptionMessage Unable to locate widget class "TestApp\View\Derp"
- * @return void
- */
-	public function testGetResolveDependencyMissingClass() {
-		$inputs = new WidgetRegistry($this->templates, $this->view);
-		$inputs->add(['test' => ['TestApp\View\Derp']]);
-		$inputs->get('test');
-	}
+    /**
+     * Test getting registered widgets.
+     *
+     * @return void
+     */
+    public function testGet()
+    {
+        $inputs = new WidgetRegistry($this->templates, $this->view);
+        $inputs->add([
+            'text' => ['Cake\View\Widget\BasicWidget'],
+        ]);
+        $result = $inputs->get('text');
+        $this->assertInstanceOf('Cake\View\Widget\BasicWidget', $result);
+        $this->assertSame($result, $inputs->get('text'));
+    }
 
-/**
- * Test getting resolve dependency missing dependency
- *
- * @expectedException RuntimeException
- * @expectedExceptionMessage Unknown widget "label"
- * @return void
- */
-	public function testGetResolveDependencyMissingDependency() {
-		$inputs = new WidgetRegistry($this->templates, $this->view);
-		$inputs->clear();
-		$inputs->add(['multicheckbox' => ['Cake\View\Widget\MultiCheckbox', 'label']]);
-		$inputs->get('multicheckbox');
-	}
+    /**
+     * Test getting fallback widgets.
+     *
+     * @return void
+     */
+    public function testGetFallback()
+    {
+        $inputs = new WidgetRegistry($this->templates, $this->view);
+        $inputs->add([
+            '_default' => ['Cake\View\Widget\BasicWidget'],
+        ]);
+        $result = $inputs->get('text');
+        $this->assertInstanceOf('Cake\View\Widget\BasicWidget', $result);
 
+        $result2 = $inputs->get('hidden');
+        $this->assertSame($result, $result2);
+    }
+
+    /**
+     * Test getting errors
+     *
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessage Unknown widget "foo"
+     * @return void
+     */
+    public function testGetNoFallbackError()
+    {
+        $inputs = new WidgetRegistry($this->templates, $this->view);
+        $inputs->clear();
+        $inputs->get('foo');
+    }
+
+    /**
+     * Test getting resolve dependency
+     *
+     * @return void
+     */
+    public function testGetResolveDependency()
+    {
+        $inputs = new WidgetRegistry($this->templates, $this->view);
+        $inputs->clear();
+        $inputs->add([
+            'label' => ['Cake\View\Widget\LabelWidget'],
+            'multicheckbox' => ['Cake\View\Widget\MultiCheckboxWidget', 'label']
+        ]);
+        $result = $inputs->get('multicheckbox');
+        $this->assertInstanceOf('Cake\View\Widget\MultiCheckboxWidget', $result);
+    }
+
+    /**
+     * Test getting resolve dependency missing class
+     *
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessage Unable to locate widget class "TestApp\View\DerpWidget"
+     * @return void
+     */
+    public function testGetResolveDependencyMissingClass()
+    {
+        $inputs = new WidgetRegistry($this->templates, $this->view);
+        $inputs->add(['test' => ['TestApp\View\DerpWidget']]);
+        $inputs->get('test');
+    }
+
+    /**
+     * Test getting resolve dependency missing dependency
+     *
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessage Unknown widget "label"
+     * @return void
+     */
+    public function testGetResolveDependencyMissingDependency()
+    {
+        $inputs = new WidgetRegistry($this->templates, $this->view);
+        $inputs->clear();
+        $inputs->add(['multicheckbox' => ['Cake\View\Widget\MultiCheckboxWidget', 'label']]);
+        $inputs->get('multicheckbox');
+    }
 }

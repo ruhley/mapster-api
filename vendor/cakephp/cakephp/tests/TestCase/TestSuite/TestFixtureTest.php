@@ -16,408 +16,443 @@ namespace Cake\Test\TestCase\TestSuite;
 
 use Cake\Core\Configure;
 use Cake\Datasource\ConnectionManager;
+use Cake\Log\Log;
 use Cake\Model\Model;
 use Cake\TestSuite\Fixture\TestFixture;
 use Cake\TestSuite\TestCase;
 use Cake\Utility\ClassRegistry;
 
 /**
- * ArticleFixture class
+ * ArticlesFixture class
  *
  */
-class ArticleFixture extends TestFixture {
+class ArticlesFixture extends TestFixture
+{
 
-/**
- * Table property
- *
- * @var string
- */
-	public $table = 'articles';
+    /**
+     * Table property
+     *
+     * @var string
+     */
+    public $table = 'articles';
 
-/**
- * Fields array
- *
- * @var array
- */
-	public $fields = [
-		'id' => ['type' => 'integer'],
-		'name' => ['type' => 'string', 'length' => '255'],
-		'created' => ['type' => 'datetime'],
-		'_constraints' => [
-			'primary' => ['type' => 'primary', 'columns' => ['id']]
-		]
-	];
+    /**
+     * Fields array
+     *
+     * @var array
+     */
+    public $fields = [
+        'id' => ['type' => 'integer'],
+        'name' => ['type' => 'string', 'length' => '255'],
+        'created' => ['type' => 'datetime'],
+        '_constraints' => [
+            'primary' => ['type' => 'primary', 'columns' => ['id']]
+        ]
+    ];
 
-/**
- * Records property
- *
- * @var array
- */
-	public $records = array(
-		array('name' => 'Gandalf', 'created' => '2009-04-28 19:20:00'),
-		array('name' => 'Captain Picard', 'created' => '2009-04-28 19:20:00'),
-		array('name' => 'Chewbacca', 'created' => '2009-04-28 19:20:00')
-	);
+    /**
+     * Records property
+     *
+     * @var array
+     */
+    public $records = [
+        ['name' => 'Gandalf', 'created' => '2009-04-28 19:20:00'],
+        ['name' => 'Captain Picard', 'created' => '2009-04-28 19:20:00'],
+        ['name' => 'Chewbacca', 'created' => '2009-04-28 19:20:00']
+    ];
 }
 
 /**
- * StringFieldsTestFixture class
+ * StringsTestsFixture class
  *
  */
-class StringsTestFixture extends TestFixture {
+class StringsTestsFixture extends TestFixture
+{
 
-/**
- * Table property
- *
- * @var string
- */
-	public $table = 'strings';
+    /**
+     * Table property
+     *
+     * @var string
+     */
+    public $table = 'strings';
 
-/**
- * Fields array
- *
- * @var array
- */
-	public $fields = array(
-		'id' => array('type' => 'integer'),
-		'name' => array('type' => 'string', 'length' => '255'),
-		'email' => array('type' => 'string', 'length' => '255'),
-		'age' => array('type' => 'integer', 'default' => 10)
-	);
+    /**
+     * Fields array
+     *
+     * @var array
+     */
+    public $fields = [
+        'id' => ['type' => 'integer'],
+        'name' => ['type' => 'string', 'length' => '255'],
+        'email' => ['type' => 'string', 'length' => '255'],
+        'age' => ['type' => 'integer', 'default' => 10]
+    ];
 
-/**
- * Records property
- *
- * @var array
- */
-	public $records = array(
-		array('name' => 'Mark Doe', 'email' => 'mark.doe@email.com'),
-		array('name' => 'John Doe', 'email' => 'john.doe@email.com', 'age' => 20),
-		array('email' => 'jane.doe@email.com', 'name' => 'Jane Doe', 'age' => 30)
-	);
+    /**
+     * Records property
+     *
+     * @var array
+     */
+    public $records = [
+        ['name' => 'Mark Doe', 'email' => 'mark.doe@email.com'],
+        ['name' => 'John Doe', 'email' => 'john.doe@email.com', 'age' => 20],
+        ['email' => 'jane.doe@email.com', 'name' => 'Jane Doe', 'age' => 30]
+    ];
 }
 
 
 /**
- * ImportFixture class
+ * ImportsFixture class
  *
  */
-class ImportFixture extends TestFixture {
+class ImportsFixture extends TestFixture
+{
 
-/**
- * Import property
- *
- * @var mixed
- */
-	public $import = ['table' => 'posts', 'connection' => 'test'];
+    /**
+     * Import property
+     *
+     * @var mixed
+     */
+    public $import = ['table' => 'posts', 'connection' => 'test'];
 
-/**
- * Records property
- *
- * @var array
- */
-	public $records = array(
-		array('title' => 'Hello!', 'body' => 'Hello world!')
-	);
+    /**
+     * Records property
+     *
+     * @var array
+     */
+    public $records = [
+        ['title' => 'Hello!', 'body' => 'Hello world!']
+    ];
 }
 
 /**
  * Test case for TestFixture
  *
  */
-class TestFixtureTest extends TestCase {
+class TestFixtureTest extends TestCase
+{
 
-/**
- * Fixtures for this test.
- *
- * @var array
- */
-	public $fixtures = ['core.post'];
+    /**
+     * Fixtures for this test.
+     *
+     * @var array
+     */
+    public $fixtures = ['core.posts'];
 
-/**
- * test initializing a static fixture
- *
- * @return void
- */
-	public function testInitStaticFixture() {
-		$Fixture = new ArticleFixture();
-		$this->assertEquals('articles', $Fixture->table);
+    /**
+     * Set up
+     *
+     * @return void
+     */
+    public function setUp()
+    {
+        parent::setUp();
+        Log::reset();
+    }
 
-		$Fixture = new ArticleFixture();
-		$Fixture->table = null;
-		$Fixture->init();
-		$this->assertEquals('articles', $Fixture->table);
+    /**
+     * Tear down
+     *
+     * @return void
+     */
+    public function tearDown()
+    {
+        parent::tearDown();
+        Log::reset();
+    }
 
-		$schema = $Fixture->schema();
-		$this->assertInstanceOf('Cake\Database\Schema\Table', $schema);
+    /**
+     * test initializing a static fixture
+     *
+     * @return void
+     */
+    public function testInitStaticFixture()
+    {
+        $Fixture = new ArticlesFixture();
+        $this->assertEquals('articles', $Fixture->table);
 
-		$fields = $Fixture->fields;
-		unset($fields['_constraints'], $fields['_indexes']);
-		$this->assertEquals(
-			array_keys($fields),
-			$schema->columns(),
-			'Fields do not match'
-		);
-		$this->assertEquals(array_keys($Fixture->fields['_constraints']), $schema->constraints());
-		$this->assertEmpty($schema->indexes());
-	}
+        $Fixture = new ArticlesFixture();
+        $Fixture->table = null;
+        $Fixture->init();
+        $this->assertEquals('articles', $Fixture->table);
 
-/**
- * test import fixture initialization
- *
- * @return void
- */
-	public function testInitImport() {
-		$fixture = new ImportFixture();
-		$fixture->fields = $fixture->records = null;
-		$fixture->import = [
-			'table' => 'posts',
-			'connection' => 'test',
-		];
-		$fixture->init();
+        $schema = $Fixture->schema();
+        $this->assertInstanceOf('Cake\Database\Schema\Table', $schema);
 
-		$expected = [
-			'id',
-			'author_id',
-			'title',
-			'body',
-			'published',
-		];
-		$this->assertEquals($expected, $fixture->schema()->columns());
-	}
+        $fields = $Fixture->fields;
+        unset($fields['_constraints'], $fields['_indexes']);
+        $this->assertEquals(
+            array_keys($fields),
+            $schema->columns(),
+            'Fields do not match'
+        );
+        $this->assertEquals(array_keys($Fixture->fields['_constraints']), $schema->constraints());
+        $this->assertEmpty($schema->indexes());
+    }
 
-/**
- * test create method
- *
- * @return void
- */
-	public function testCreate() {
-		$fixture = new ArticleFixture();
-		$db = $this->getMock('Cake\Database\Connection', [], [], '', false);
-		$table = $this->getMock('Cake\Database\Schema\Table', [], ['articles']);
-		$table->expects($this->once())
-			->method('createSql')
-			->with($db)
-			->will($this->returnValue(['sql', 'sql']));
-		$fixture->schema($table);
+    /**
+     * test import fixture initialization
+     *
+     * @return void
+     */
+    public function testInitImport()
+    {
+        $fixture = new ImportsFixture();
+        $fixture->fields = $fixture->records = null;
+        $fixture->import = [
+            'table' => 'posts',
+            'connection' => 'test',
+        ];
+        $fixture->init();
 
-		$statement = $this->getMock('\PDOStatement', ['closeCursor']);
-		$statement->expects($this->atLeastOnce())->method('closeCursor');
-		$db->expects($this->exactly(2))->method('execute')
-			->will($this->returnValue($statement));
-		$this->assertTrue($fixture->create($db));
-	}
+        $expected = [
+            'id',
+            'author_id',
+            'title',
+            'body',
+            'published',
+        ];
+        $this->assertEquals($expected, $fixture->schema()->columns());
+    }
 
-/**
- * test create method, trigger error
- *
- * @expectedException PHPUnit_Framework_Error
- * @return void
- */
-	public function testCreateError() {
-		$fixture = new ArticleFixture();
-		$db = $this->getMock('Cake\Database\Connection', [], [], '', false);
-		$table = $this->getMock('Cake\Database\Schema\Table', [], ['articles']);
-		$table->expects($this->once())
-			->method('createSql')
-			->with($db)
-			->will($this->throwException(new \Exception('oh noes')));
-		$fixture->schema($table);
+    /**
+     * test create method
+     *
+     * @return void
+     */
+    public function testCreate()
+    {
+        $fixture = new ArticlesFixture();
+        $db = $this->getMock('Cake\Database\Connection', [], [], '', false);
+        $table = $this->getMock('Cake\Database\Schema\Table', [], ['articles']);
+        $table->expects($this->once())
+            ->method('createSql')
+            ->with($db)
+            ->will($this->returnValue(['sql', 'sql']));
+        $fixture->schema($table);
 
-		$fixture->create($db);
-	}
+        $statement = $this->getMock('\PDOStatement', ['closeCursor']);
+        $statement->expects($this->atLeastOnce())->method('closeCursor');
+        $db->expects($this->exactly(2))->method('execute')
+            ->will($this->returnValue($statement));
+        $this->assertTrue($fixture->create($db));
+    }
 
-/**
- * test the insert method
- *
- * @return void
- */
-	public function testInsert() {
-		$fixture = new ArticleFixture();
+    /**
+     * test create method, trigger error
+     *
+     * @expectedException \PHPUnit_Framework_Error
+     * @return void
+     */
+    public function testCreateError()
+    {
+        $fixture = new ArticlesFixture();
+        $db = $this->getMock('Cake\Database\Connection', [], [], '', false);
+        $table = $this->getMock('Cake\Database\Schema\Table', [], ['articles']);
+        $table->expects($this->once())
+            ->method('createSql')
+            ->with($db)
+            ->will($this->throwException(new \Exception('oh noes')));
+        $fixture->schema($table);
 
-		$db = $this->getMock('Cake\Database\Connection', [], [], '', false);
-		$query = $this->getMock('Cake\Database\Query', [], [$db]);
-		$db->expects($this->once())
-			->method('newQuery')
-			->will($this->returnValue($query));
+        $fixture->create($db);
+    }
 
-		$query->expects($this->once())
-			->method('insert')
-			->with(['name', 'created'], ['name' => 'string', 'created' => 'datetime'])
-			->will($this->returnSelf());
+    /**
+     * test the insert method
+     *
+     * @return void
+     */
+    public function testInsert()
+    {
+        $fixture = new ArticlesFixture();
 
-		$query->expects($this->once())
-			->method('into')
-			->with('articles')
-			->will($this->returnSelf());
+        $db = $this->getMock('Cake\Database\Connection', [], [], '', false);
+        $query = $this->getMock('Cake\Database\Query', [], [$db]);
+        $db->expects($this->once())
+            ->method('newQuery')
+            ->will($this->returnValue($query));
 
-		$expected = [
-			['name' => 'Gandalf', 'created' => '2009-04-28 19:20:00'],
-			['name' => 'Captain Picard', 'created' => '2009-04-28 19:20:00'],
-			['name' => 'Chewbacca', 'created' => '2009-04-28 19:20:00']
-		];
-		$query->expects($this->at(2))
-			->method('values')
-			->with($expected[0])
-			->will($this->returnSelf());
-		$query->expects($this->at(3))
-			->method('values')
-			->with($expected[1])
-			->will($this->returnSelf());
-		$query->expects($this->at(4))
-			->method('values')
-			->with($expected[2])
-			->will($this->returnSelf());
+        $query->expects($this->once())
+            ->method('insert')
+            ->with(['name', 'created'], ['name' => 'string', 'created' => 'datetime'])
+            ->will($this->returnSelf());
 
-		$statement = $this->getMock('\PDOStatement', ['closeCursor']);
-		$statement->expects($this->once())->method('closeCursor');
-		$query->expects($this->once())
-			->method('execute')
-			->will($this->returnValue($statement));
+        $query->expects($this->once())
+            ->method('into')
+            ->with('articles')
+            ->will($this->returnSelf());
 
-		$this->assertSame($statement, $fixture->insert($db));
-	}
+        $expected = [
+            ['name' => 'Gandalf', 'created' => '2009-04-28 19:20:00'],
+            ['name' => 'Captain Picard', 'created' => '2009-04-28 19:20:00'],
+            ['name' => 'Chewbacca', 'created' => '2009-04-28 19:20:00']
+        ];
+        $query->expects($this->at(2))
+            ->method('values')
+            ->with($expected[0])
+            ->will($this->returnSelf());
+        $query->expects($this->at(3))
+            ->method('values')
+            ->with($expected[1])
+            ->will($this->returnSelf());
+        $query->expects($this->at(4))
+            ->method('values')
+            ->with($expected[2])
+            ->will($this->returnSelf());
 
-/**
- * test the insert method
- *
- * @return void
- */
-	public function testInsertImport() {
-		$fixture = new ImportFixture();
+        $statement = $this->getMock('\PDOStatement', ['closeCursor']);
+        $statement->expects($this->once())->method('closeCursor');
+        $query->expects($this->once())
+            ->method('execute')
+            ->will($this->returnValue($statement));
 
-		$db = $this->getMock('Cake\Database\Connection', [], [], '', false);
-		$query = $this->getMock('Cake\Database\Query', [], [$db]);
-		$db->expects($this->once())
-			->method('newQuery')
-			->will($this->returnValue($query));
+        $this->assertSame($statement, $fixture->insert($db));
+    }
 
-		$query->expects($this->once())
-			->method('insert')
-			->with(['title', 'body'], ['title' => 'string', 'body' => 'text'])
-			->will($this->returnSelf());
+    /**
+     * test the insert method
+     *
+     * @return void
+     */
+    public function testInsertImport()
+    {
+        $fixture = new ImportsFixture();
 
-		$query->expects($this->once())
-			->method('into')
-			->with('posts')
-			->will($this->returnSelf());
+        $db = $this->getMock('Cake\Database\Connection', [], [], '', false);
+        $query = $this->getMock('Cake\Database\Query', [], [$db]);
+        $db->expects($this->once())
+            ->method('newQuery')
+            ->will($this->returnValue($query));
 
-		$expected = [
-			['title' => 'Hello!', 'body' => 'Hello world!'],
-		];
-		$query->expects($this->at(2))
-			->method('values')
-			->with($expected[0])
-			->will($this->returnSelf());
+        $query->expects($this->once())
+            ->method('insert')
+            ->with(['title', 'body'], ['title' => 'string', 'body' => 'text'])
+            ->will($this->returnSelf());
 
-		$statement = $this->getMock('\PDOStatement', ['closeCursor']);
-		$statement->expects($this->once())->method('closeCursor');
-		$query->expects($this->once())
-			->method('execute')
-			->will($this->returnValue($statement));
+        $query->expects($this->once())
+            ->method('into')
+            ->with('posts')
+            ->will($this->returnSelf());
 
-		$this->assertSame($statement, $fixture->insert($db));
-	}
+        $expected = [
+            ['title' => 'Hello!', 'body' => 'Hello world!'],
+        ];
+        $query->expects($this->at(2))
+            ->method('values')
+            ->with($expected[0])
+            ->will($this->returnSelf());
 
-/**
- * test the insert method
- *
- * @return void
- */
-	public function testInsertStrings() {
-		$fixture = new StringsTestFixture();
+        $statement = $this->getMock('\PDOStatement', ['closeCursor']);
+        $statement->expects($this->once())->method('closeCursor');
+        $query->expects($this->once())
+            ->method('execute')
+            ->will($this->returnValue($statement));
 
-		$db = $this->getMock('Cake\Database\Connection', [], [], '', false);
-		$query = $this->getMock('Cake\Database\Query', [], [$db]);
-		$db->expects($this->once())
-			->method('newQuery')
-			->will($this->returnValue($query));
+        $this->assertSame($statement, $fixture->insert($db));
+    }
 
-		$query->expects($this->once())
-			->method('insert')
-			->with(['name', 'email', 'age'], ['name' => 'string', 'email' => 'string', 'age' => 'integer'])
-			->will($this->returnSelf());
+    /**
+     * test the insert method
+     *
+     * @return void
+     */
+    public function testInsertStrings()
+    {
+        $fixture = new StringsTestsFixture();
 
-		$query->expects($this->once())
-			->method('into')
-			->with('strings')
-			->will($this->returnSelf());
+        $db = $this->getMock('Cake\Database\Connection', [], [], '', false);
+        $query = $this->getMock('Cake\Database\Query', [], [$db]);
+        $db->expects($this->once())
+            ->method('newQuery')
+            ->will($this->returnValue($query));
 
-		$expected = [
-			['name' => 'Mark Doe', 'email' => 'mark.doe@email.com', 'age' => null],
-			['name' => 'John Doe', 'email' => 'john.doe@email.com', 'age' => 20],
-			['name' => 'Jane Doe', 'email' => 'jane.doe@email.com', 'age' => 30],
-		];
-		$query->expects($this->at(2))
-			->method('values')
-			->with($expected[0])
-			->will($this->returnSelf());
-		$query->expects($this->at(3))
-			->method('values')
-			->with($expected[1])
-			->will($this->returnSelf());
-		$query->expects($this->at(4))
-			->method('values')
-			->with($expected[2])
-			->will($this->returnSelf());
+        $query->expects($this->once())
+            ->method('insert')
+            ->with(['name', 'email', 'age'], ['name' => 'string', 'email' => 'string', 'age' => 'integer'])
+            ->will($this->returnSelf());
 
-		$statement = $this->getMock('\PDOStatement', ['closeCursor']);
-		$statement->expects($this->once())->method('closeCursor');
-		$query->expects($this->once())
-			->method('execute')
-			->will($this->returnValue($statement));
+        $query->expects($this->once())
+            ->method('into')
+            ->with('strings')
+            ->will($this->returnSelf());
 
-		$this->assertSame($statement, $fixture->insert($db));
-	}
+        $expected = [
+            ['name' => 'Mark Doe', 'email' => 'mark.doe@email.com', 'age' => null],
+            ['name' => 'John Doe', 'email' => 'john.doe@email.com', 'age' => 20],
+            ['name' => 'Jane Doe', 'email' => 'jane.doe@email.com', 'age' => 30],
+        ];
+        $query->expects($this->at(2))
+            ->method('values')
+            ->with($expected[0])
+            ->will($this->returnSelf());
+        $query->expects($this->at(3))
+            ->method('values')
+            ->with($expected[1])
+            ->will($this->returnSelf());
+        $query->expects($this->at(4))
+            ->method('values')
+            ->with($expected[2])
+            ->will($this->returnSelf());
 
-/**
- * Test the drop method
- *
- * @return void
- */
-	public function testDrop() {
-		$fixture = new ArticleFixture();
+        $statement = $this->getMock('\PDOStatement', ['closeCursor']);
+        $statement->expects($this->once())->method('closeCursor');
+        $query->expects($this->once())
+            ->method('execute')
+            ->will($this->returnValue($statement));
 
-		$db = $this->getMock('Cake\Database\Connection', [], [], '', false);
-		$statement = $this->getMock('\PDOStatement', ['closeCursor']);
-		$statement->expects($this->once())->method('closeCursor');
-		$db->expects($this->once())->method('execute')
-			->with('sql')
-			->will($this->returnValue($statement));
+        $this->assertSame($statement, $fixture->insert($db));
+    }
 
-		$table = $this->getMock('Cake\Database\Schema\Table', [], ['articles']);
-		$table->expects($this->once())
-			->method('dropSql')
-			->with($db)
-			->will($this->returnValue(['sql']));
-		$fixture->schema($table);
+    /**
+     * Test the drop method
+     *
+     * @return void
+     */
+    public function testDrop()
+    {
+        $fixture = new ArticlesFixture();
 
-		$this->assertTrue($fixture->drop($db));
-	}
+        $db = $this->getMock('Cake\Database\Connection', [], [], '', false);
+        $statement = $this->getMock('\PDOStatement', ['closeCursor']);
+        $statement->expects($this->once())->method('closeCursor');
+        $db->expects($this->once())->method('execute')
+            ->with('sql')
+            ->will($this->returnValue($statement));
 
-/**
- * Test the truncate method.
- *
- * @return void
- */
-	public function testTruncate() {
-		$fixture = new ArticleFixture();
+        $table = $this->getMock('Cake\Database\Schema\Table', [], ['articles']);
+        $table->expects($this->once())
+            ->method('dropSql')
+            ->with($db)
+            ->will($this->returnValue(['sql']));
+        $fixture->schema($table);
 
-		$db = $this->getMock('Cake\Database\Connection', [], [], '', false);
-		$statement = $this->getMock('\PDOStatement', ['closeCursor']);
-		$statement->expects($this->once())->method('closeCursor');
-		$db->expects($this->once())->method('execute')
-			->with('sql')
-			->will($this->returnValue($statement));
+        $this->assertTrue($fixture->drop($db));
+    }
 
-		$table = $this->getMock('Cake\Database\Schema\Table', [], ['articles']);
-		$table->expects($this->once())
-			->method('truncateSql')
-			->with($db)
-			->will($this->returnValue(['sql']));
-		$fixture->schema($table);
+    /**
+     * Test the truncate method.
+     *
+     * @return void
+     */
+    public function testTruncate()
+    {
+        $fixture = new ArticlesFixture();
 
-		$this->assertTrue($fixture->truncate($db));
-	}
+        $db = $this->getMock('Cake\Database\Connection', [], [], '', false);
+        $statement = $this->getMock('\PDOStatement', ['closeCursor']);
+        $statement->expects($this->once())->method('closeCursor');
+        $db->expects($this->once())->method('execute')
+            ->with('sql')
+            ->will($this->returnValue($statement));
 
+        $table = $this->getMock('Cake\Database\Schema\Table', [], ['articles']);
+        $table->expects($this->once())
+            ->method('truncateSql')
+            ->with($db)
+            ->will($this->returnValue(['sql']));
+        $fixture->schema($table);
+
+        $this->assertTrue($fixture->truncate($db));
+    }
 }

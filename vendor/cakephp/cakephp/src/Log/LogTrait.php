@@ -13,26 +13,26 @@
  */
 namespace Cake\Log;
 
+use Psr\Log\LogLevel;
+
 /**
  * A trait providing an object short-cut method
  * to logging.
  */
-trait LogTrait {
+trait LogTrait
+{
 
-/**
- * Convenience method to write a message to Log. See Log::write()
- * for more information on writing to logs.
- *
- * @param string $msg Log message.
- * @param int|string $level Error level.
- * @param string|array $scope The name of the log scope.
- * @return bool Success of log write.
- */
-	public function log($msg, $level = LOG_ERR, $scope = []) {
-		if (!is_string($msg)) {
-			$msg = print_r($msg, true);
-		}
-		return Log::write($level, $msg, $scope);
-	}
-
+    /**
+     * Convenience method to write a message to Log. See Log::write()
+     * for more information on writing to logs.
+     *
+     * @param mixed $msg Log message.
+     * @param int|string $level Error level.
+     * @param string|array $context Additional log data relevant to this message.
+     * @return bool Success of log write.
+     */
+    public function log($msg, $level = LogLevel::ERROR, $context = [])
+    {
+        return Log::write($level, $msg, $context);
+    }
 }
