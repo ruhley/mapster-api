@@ -67,37 +67,37 @@ class SelectBoxWidget implements WidgetInterface
      *
      * You can generate simple options using a basic associative array:
      *
-     * {{{
+     * ```
      * 'options' => ['elk' => 'Elk', 'beaver' => 'Beaver']
-     * }}}
+     * ```
      *
      * If you need to define additional attributes on your option elements
      * you can use the complex form for options:
      *
-     * {{{
+     * ```
      * 'options' => [
      *   ['value' => 'elk', 'text' => 'Elk', 'data-foo' => 'bar'],
      * ]
-     * }}}
+     * ```
      *
      * This form **requires** that both the `value` and `text` keys be defined.
      * If either is not set options will not be generated correctly.
      *
      * If you need to define option groups you can do those using nested arrays:
      *
-     * {{{
+     * ```
      * 'options' => [
      *  'Mammals' => [
      *    'elk' => 'Elk',
      *    'beaver' => 'Beaver'
      *  ]
      * ]
-     * }}}
+     * ```
      *
      * And finally, if you need to put attributes on your optgroup elements you
      * can do that with a more complex nested array form:
      *
-     * {{{
+     * ```
      * 'options' => [
      *   [
      *     'text' => 'Mammals',
@@ -108,7 +108,7 @@ class SelectBoxWidget implements WidgetInterface
      *     ]
      *  ],
      * ]
-     * }}}
+     * ```
      *
      * You are free to mix each of the forms in the same option set, and
      * nest complex types as required.
@@ -227,8 +227,7 @@ class SelectBoxWidget implements WidgetInterface
         foreach ($options as $key => $val) {
             // Option groups
             $arrayVal = (is_array($val) || $val instanceof Traversable);
-            if (
-                (!is_int($key) && $arrayVal) ||
+            if ((!is_int($key) && $arrayVal) ||
                 (is_int($key) && $arrayVal && isset($val['options']))
             ) {
                 $out[] = $this->_renderOptgroup($key, $val, $disabled, $selected, $escape);

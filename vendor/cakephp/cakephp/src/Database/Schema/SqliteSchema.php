@@ -122,10 +122,19 @@ class SqliteSchema extends BaseSchema
             'null' => !$row['notnull'],
             'default' => $row['dflt_value'] === null ? null : trim($row['dflt_value'], "'"),
         ];
-        if ($row['pk']) {
+        $primary = $table->constraint('primary');
+
+        if ($row['pk'] && empty($primary)) {
             $field['null'] = false;
             $field['autoIncrement'] = true;
         }
+
+        // SQLite does not support autoincrement on composite keys.
+        if ($row['pk'] && !empty($primary)) {
+            $existingColumn = $primary['columns'][0];
+            $table->addColumn($existingColumn, ['autoIncrement' => null] + $table->column($existingColumn));
+        }
+
         $table->addColumn($row['name'], $field);
         if ($row['pk']) {
             $constraint = (array)$table->constraint('primary') + [
@@ -239,8 +248,7 @@ class SqliteSchema extends BaseSchema
         $out = $this->_driver->quoteIdentifier($name);
         $hasUnsigned = ['biginteger', 'integer', 'float', 'decimal'];
 
-        if (
-            in_array($data['type'], $hasUnsigned, true) &&
+        if (in_array($data['type'], $hasUnsigned, true) &&
             isset($data['unsigned']) && $data['unsigned'] === true
         ) {
             $out .= ' UNSIGNED';
@@ -252,8 +260,7 @@ class SqliteSchema extends BaseSchema
             $out .= '(' . (int)$data['length'] . ')';
         }
         $hasPrecision = ['float', 'decimal'];
-        if (
-            in_array($data['type'], $hasPrecision, true) &&
+        if (in_array($data['type'], $hasPrecision, true) &&
             (isset($data['length']) || isset($data['precision']))
         ) {
             $out .= '(' . (int)$data['length'] . ',' . (int)$data['precision'] . ')';
@@ -287,8 +294,7 @@ class SqliteSchema extends BaseSchema
     public function constraintSql(Table $table, $name)
     {
         $data = $table->constraint($name);
-        if (
-            $data['type'] === Table::CONSTRAINT_PRIMARY &&
+        if ($data['type'] === Table::CONSTRAINT_PRIMARY &&
             count($data['columns']) === 1 &&
             $table->column($data['columns'][0])['type'] === 'integer'
         ) {
@@ -374,10 +380,10 @@ class SqliteSchema extends BaseSchema
     }
 
     /**
-     * Returns whether there is any table in this connection to SQLite contianing
+     * Returns whether there is any table in this connection to SQLite containing
      * sequences
      *
-     * @return void
+     * @return bool
      */
     public function hasSequences()
     {

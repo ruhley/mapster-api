@@ -118,7 +118,7 @@ class CollectionTest extends TestCase
         $items = ['a' => 1, 'b' => 2, 'c' => 3];
         $collection = new Collection($items);
         $result = $collection->reject(function ($v, $k, $items) use ($collection) {
-            $this->assertSame($collection, $items);
+            $this->assertSame($collection->getInnerIterator(), $items);
             return $v > 2;
         });
         $this->assertEquals(['a' => 1, 'b' => 2], iterator_to_array($result));
@@ -244,7 +244,7 @@ class CollectionTest extends TestCase
         $items = ['a' => 1, 'b' => 2, 'c' => 3];
         $collection = new Collection($items);
         $map = $collection->map(function ($v, $k, $it) use ($collection) {
-            $this->assertSame($collection, $it);
+            $this->assertSame($collection->getInnerIterator(), $it);
             return $v * $v;
         });
         $this->assertInstanceOf('Cake\Collection\Iterator\ReplaceIterator', $map);
@@ -252,11 +252,11 @@ class CollectionTest extends TestCase
     }
 
     /**
-     * Tests reduce
+     * Tests reduce with initial value
      *
      * @return void
      */
-    public function testReduce()
+    public function testReduceWithInitialValue()
     {
         $items = ['a' => 1, 'b' => 2, 'c' => 3];
         $collection = new Collection($items);
@@ -274,6 +274,31 @@ class CollectionTest extends TestCase
             ->with(13, 3, 'c')
             ->will($this->returnValue(16));
         $this->assertEquals(16, $collection->reduce($callable, 10));
+    }
+
+    /**
+     * Tests reduce without initial value
+     *
+     * @return void
+     */
+    public function testReduceWithoutInitialValue()
+    {
+        $items = ['a' => 1, 'b' => 2, 'c' => 3, 'd' => 4];
+        $collection = new Collection($items);
+        $callable = $this->getMock('stdClass', ['__invoke']);
+        $callable->expects($this->at(0))
+            ->method('__invoke')
+            ->with(1, 2, 'b')
+            ->will($this->returnValue(3));
+        $callable->expects($this->at(1))
+            ->method('__invoke')
+            ->with(3, 3, 'c')
+            ->will($this->returnValue(6));
+        $callable->expects($this->at(2))
+            ->method('__invoke')
+            ->with(6, 4, 'd')
+            ->will($this->returnValue(10));
+        $this->assertEquals(10, $collection->reduce($callable));
     }
 
     /**
@@ -306,11 +331,11 @@ class CollectionTest extends TestCase
         $map = $collection->sortBy('a.b.c');
         $this->assertInstanceOf('Cake\Collection\Collection', $map);
         $expected = [
-            2 => ['a' => ['b' => ['c' => 10]]],
-            1 => ['a' => ['b' => ['c' => 6]]],
-            0 => ['a' => ['b' => ['c' => 4]]],
+            ['a' => ['b' => ['c' => 10]]],
+            ['a' => ['b' => ['c' => 6]]],
+            ['a' => ['b' => ['c' => 4]]],
         ];
-        $this->assertEquals($expected, iterator_to_array($map));
+        $this->assertEquals($expected, $map->toList());
     }
 
     /**
@@ -529,7 +554,19 @@ class CollectionTest extends TestCase
     }
 
     /**
-     * Test json enconding
+     * Test toList method
+     *
+     * @return void
+     */
+    public function testToList()
+    {
+        $data = [100 => 1, 300 => 2, 500 => 3, 1 => 4];
+        $collection = new Collection($data);
+        $this->assertEquals(array_values($data), $collection->toList());
+    }
+
+    /**
+     * Test json encoding
      *
      * @return void
      */
@@ -923,7 +960,7 @@ class CollectionTest extends TestCase
     }
 
     /**
-     * Provider for testing each of the direcations for listNested
+     * Provider for testing each of the directions for listNested
      *
      * @return void
      */
@@ -1094,5 +1131,36 @@ class CollectionTest extends TestCase
         });
         $expected = [1, 2, 2, 3, 4, 3, 4, 5, 6];
         $this->assertEquals($expected, $collection->toArray(false));
+    }
+
+    /**
+     * Tests the through() method
+     *
+     * @return void
+     */
+    public function testThrough()
+    {
+        $items = [1, 2, 3];
+        $collection = (new Collection($items))->through(function ($collection) {
+            return $collection->append($collection->toList());
+        });
+
+        $this->assertEquals([1, 2, 3, 1, 2, 3], $collection->toList());
+    }
+
+    /**
+     * Tests the through method when it returns an array
+     *
+     * @return void
+     */
+    public function testThroughReturnArray()
+    {
+        $items = [1, 2, 3];
+        $collection = (new Collection($items))->through(function ($collection) {
+            $list = $collection->toList();
+            return array_merge($list, $list);
+        });
+
+        $this->assertEquals([1, 2, 3, 1, 2, 3], $collection->toList());
     }
 }

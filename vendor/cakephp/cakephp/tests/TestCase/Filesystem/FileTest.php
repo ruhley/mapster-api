@@ -599,7 +599,7 @@ class FileTest extends TestCase
         // Copy the test file to the temporary location
         $TestFile->copy($TmpFile->path, true);
 
-        // Replace the contents of the tempory file
+        // Replace the contents of the temporary file
         $result = $TmpFile->replaceText('welcome.php', 'welcome.tmp');
         $this->assertTrue($result);
 
@@ -611,7 +611,7 @@ class FileTest extends TestCase
         $search = ['This is the', 'welcome.php file', 'in tmp directory'];
         $replace = ['This should be a', 'welcome.tmp file', 'in the Lib directory'];
 
-        // Replace the contents of the tempory file
+        // Replace the contents of the temporary file
         $result = $TmpFile->replaceText($search, $replace);
         $this->assertTrue($result);
 
@@ -621,5 +621,18 @@ class FileTest extends TestCase
         $this->assertContains($expected, $contents);
 
         $TmpFile->delete();
+    }
+
+    /**
+     * Tests that no path is being set for passed file paths that
+     * do not exist.
+     *
+     * @return void
+     */
+    public function testNoPartialPathBeingSetForNonExistentPath()
+    {
+        $TmpFile = new File('/non/existent/file');
+        $this->assertNull($TmpFile->pwd());
+        $this->assertNull($TmpFile->path);
     }
 }

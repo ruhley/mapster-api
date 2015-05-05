@@ -59,47 +59,52 @@ class Router
     protected static $_fullBaseUrl;
 
     /**
- * Regular expression for action names
- *
- * @var string
- */
+     * Regular expression for action names
+     *
+     * @var string
+     */
     const ACTION = 'index|show|add|create|edit|update|remove|del|delete|view|item';
 
     /**
- * Regular expression for years
- *
- * @var string
- */
+     * Regular expression for years
+     *
+     * @var string
+     */
     const YEAR = '[12][0-9]{3}';
 
     /**
- * Regular expression for months
- *
- * @var string
- */
+     * Regular expression for months
+     *
+     * @var string
+     */
     const MONTH = '0[1-9]|1[012]';
 
     /**
- * Regular expression for days
- *
- * @var string
- */
+     * Regular expression for days
+     *
+     * @var string
+     */
     const DAY = '0[1-9]|[12][0-9]|3[01]';
 
     /**
- * Regular expression for auto increment IDs
- *
- * @var string
- */
+     * Regular expression for auto increment IDs
+     *
+     * @var string
+     */
     const ID = '[0-9]+';
 
     /**
- * Regular expression for UUIDs
- *
- * @var string
- */
+     * Regular expression for UUIDs
+     *
+     * @var string
+     */
     const UUID = '[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}';
 
+    /**
+     * The route collection routes would be added to.
+     *
+     * @var \Cake\Routing\RouteCollection
+     */
     protected static $_collection;
 
     /**
@@ -239,16 +244,16 @@ class Router
      *
      * Connect resource routes for an app controller:
      *
-     * {{{
+     * ```
      * Router::mapResources('Posts');
-     * }}}
+     * ```
      *
      * Connect resource routes for the Comment controller in the
      * Comments plugin:
      *
-     * {{{
+     * ```
      * Router::mapResources('Comments.Comment');
-     * }}}
+     * ```
      *
      * Plugins will create lower_case underscored resource routes. e.g
      * `/comments/comment`
@@ -256,9 +261,9 @@ class Router
      * Connect resource routes for the Posts controller in the
      * Admin prefix:
      *
-     * {{{
+     * ```
      * Router::mapResources('Posts', ['prefix' => 'admin']);
-     * }}}
+     * ```
      *
      * Prefixes will create lower_case underscored resource routes. e.g
      * `/admin/posts`
@@ -269,9 +274,14 @@ class Router
      *    integer values and UUIDs.
      * - 'prefix' - Routing prefix to use for the generated routes. Defaults to ''.
      *   Using this option will create prefixed routes, similar to using Routing.prefixes.
+     * - 'only' - Only connect the specific list of actions.
+     * - 'actions' - Override the method names used for connecting actions.
+     * - 'map' - Additional resource routes that should be connected. If you define 'only' and 'map',
+     *   make sure that your mapped methods are also in the 'only' list.
      *
      * @param string|array $controller A controller name or array of controller names (i.e. "Posts" or "ListItems")
      * @param array $options Options to use when generating REST routes
+     * @see \Cake\Routing\RouteBuilder::resources()
      * @return void
      */
     public static function mapResources($controller, $options = [])
@@ -294,18 +304,22 @@ class Router
             if ($plugin && $prefix) {
                 $path = '/' . implode('/', [$prefix, $pluginUrl]);
                 $params = ['prefix' => $prefix, 'plugin' => $plugin];
-                return static::scope($path, $params, $callback);
+                static::scope($path, $params, $callback);
+                return;
             }
 
             if ($prefix) {
-                return static::prefix($prefix, $callback);
+                static::prefix($prefix, $callback);
+                return;
             }
 
             if ($plugin) {
-                return static::plugin($plugin, $callback);
+                static::plugin($plugin, $callback);
+                return;
             }
 
-            return static::scope('/', $callback);
+            static::scope('/', $callback);
+            return;
         }
     }
 
@@ -458,14 +472,14 @@ class Router
      *
      * URL filters allow you to easily implement features like persistent parameters.
      *
-     * {{{
+     * ```
      * Router::addUrlFilter(function ($params, $request) {
-     *  if (isset($request->params['lang']) && !isset($params['lang']) {
+     *  if (isset($request->params['lang']) && !isset($params['lang'])) {
      *    $params['lang'] = $request->params['lang'];
      *  }
      *  return $params;
      * });
-     * }}}
+     * ```
      *
      * @param callable $function The function to add
      * @return void
@@ -582,8 +596,7 @@ class Router
 
             if (!isset($url['_name'])) {
                 // Copy the current action if the controller is the current one.
-                if (
-                    empty($url['action']) &&
+                if (empty($url['action']) &&
                     (empty($url['controller']) || $params['controller'] === $url['controller'])
                 ) {
                     $url['action'] = $params['action'];
@@ -603,7 +616,7 @@ class Router
             }
 
             $url = static::_applyUrlFilters($url);
-            $output = static::$_collection->match($url, static::$_requestContext);
+            $output = static::$_collection->match($url, static::$_requestContext + ['params' => $params]);
         } else {
             $plainString = (
                 strpos($url, 'javascript:') === 0 ||
@@ -833,11 +846,11 @@ class Router
      *
      * ### Example
      *
-     * {{{
+     * ```
      * Router::scope('/blog', ['plugin' => 'Blog'], function ($routes) {
      *    $routes->connect('/', ['controller' => 'Articles']);
      * });
-     * }}}
+     * ```
      *
      * The above would result in a `/blog/` route being created, with both the
      * plugin & controller default parameters set.
@@ -881,14 +894,21 @@ class Router
      * to the `Controller\Admin\Api\` namespace.
      *
      * @param string $name The prefix name to use.
+     * @param array|callable $params An array of routing defaults to add to each connected route.
+     *   If you have no parameters, this argument can be a callable.
      * @param callable $callback The callback to invoke that builds the prefixed routes.
      * @return void
      */
-    public static function prefix($name, $callback)
+    public static function prefix($name, $params = [], $callback = null)
     {
+        if ($callback === null) {
+            $callback = $params;
+            $params = [];
+        }
         $name = Inflector::underscore($name);
         $path = '/' . $name;
-        static::scope($path, ['prefix' => $name], $callback);
+        $params = array_merge($params, ['prefix' => $name]);
+        static::scope($path, $params, $callback);
     }
 
     /**
@@ -943,6 +963,3 @@ class Router
         include CONFIG . 'routes.php';
     }
 }
-
-//Save the initial state
-Router::reload();

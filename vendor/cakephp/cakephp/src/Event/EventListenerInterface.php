@@ -28,15 +28,16 @@ interface EventListenerInterface
      *
      * ### Example:
      *
-     * {{{
-     *  public function implementedEvents() {
+     * ```
+     *  public function implementedEvents()
+     *  {
      *      return [
      *          'Order.complete' => 'sendEmail',
      *          'Article.afterBuy' => 'decrementInventory',
      *          'User.onRegister' => ['callable' => 'logRegistration', 'priority' => 20, 'passParams' => true]
      *      ];
      *  }
-     * }}}
+     * ```
      *
      * @return array associative array or event key names pointing to the function
      * that should be called in the object when the respective event is fired

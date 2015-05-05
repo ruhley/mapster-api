@@ -274,6 +274,11 @@ class ConnectionTest extends TestCase
         $this->assertEquals(2, $result['total']);
         $total->closeCursor();
 
+        $total->execute();
+        $result = $total->fetch('assoc');
+        $this->assertEquals(2, $result['total']);
+        $total->closeCursor();
+
         $result = $this->connection->execute('SELECT title, body  FROM things');
         $row = $result->fetch('assoc');
         $this->assertEquals('a title', $row['title']);
@@ -283,6 +288,11 @@ class ConnectionTest extends TestCase
         $result->closeCursor();
         $this->assertEquals('another title', $row['title']);
         $this->assertEquals('another body', $row['body']);
+
+        $result->execute();
+        $row = $result->fetch('assoc');
+        $result->closeCursor();
+        $this->assertEquals('a title', $row['title']);
     }
 
     /**
@@ -565,6 +575,68 @@ class ConnectionTest extends TestCase
         $this->connection->commit();
         $result = $this->connection->execute('SELECT * FROM things');
         $this->assertCount(1, $result);
+    }
+
+    /**
+     * Tests inTransaction()
+     *
+     * @return void
+     */
+    public function testInTransaction()
+    {
+        $this->connection->begin();
+        $this->assertTrue($this->connection->inTransaction());
+
+        $this->connection->begin();
+        $this->assertTrue($this->connection->inTransaction());
+
+        $this->connection->commit();
+        $this->assertTrue($this->connection->inTransaction());
+
+        $this->connection->commit();
+        $this->assertFalse($this->connection->inTransaction());
+
+        $this->connection->begin();
+        $this->assertTrue($this->connection->inTransaction());
+
+        $this->connection->begin();
+        $this->connection->rollback();
+        $this->assertFalse($this->connection->inTransaction());
+    }
+
+    /**
+     * Tests inTransaction() with save points
+     *
+     * @return void
+     */
+    public function testInTransactionWithSavePoints()
+    {
+        $this->skipIf(
+            $this->connection->driver() instanceof \Cake\Database\Driver\Sqlserver,
+            'SQLServer fails when this test is included.'
+        );
+        $this->skipIf(!$this->connection->useSavePoints(true));
+        $this->connection->begin();
+        $this->assertTrue($this->connection->inTransaction());
+
+        $this->connection->begin();
+        $this->assertTrue($this->connection->inTransaction());
+
+        $this->connection->commit();
+        $this->assertTrue($this->connection->inTransaction());
+
+        $this->connection->commit();
+        $this->assertFalse($this->connection->inTransaction());
+
+        $this->connection->begin();
+        $this->assertTrue($this->connection->inTransaction());
+
+        $this->connection->begin();
+        $this->connection->rollback();
+        $this->assertTrue($this->connection->inTransaction());
+
+        $this->connection->rollback();
+        $this->assertFalse($this->connection->inTransaction());
     }
 
     /**

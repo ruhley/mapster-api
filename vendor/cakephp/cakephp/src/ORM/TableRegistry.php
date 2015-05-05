@@ -32,9 +32,9 @@ use RuntimeException;
  * will be used when creating instances. If you modify configuration after
  * an instance is made, the instances *will not* be updated.
  *
- * {{{
+ * ```
  * TableRegistry::config('Users', ['table' => 'my_users']);
- * }}}
+ * ```
  *
  * Configuration data is stored *per alias* if you use the same table with
  * multiple aliases you will need to set configuration multiple times.
@@ -46,9 +46,9 @@ use RuntimeException;
  * This is used to make the ORM use less memory and help make cyclic references easier
  * to solve.
  *
- * {{{
+ * ```
  * $table = TableRegistry::get('Users', $config);
- * }}}
+ * ```
  *
  */
 class TableRegistry
@@ -101,7 +101,6 @@ class TableRegistry
      */
     public static function config($alias = null, $options = null)
     {
-        list(, $alias) = pluginSplit($alias);
         if ($alias === null) {
             return static::$_config;
         }
@@ -148,36 +147,41 @@ class TableRegistry
      * If no `connection` option is passed the table's defaultConnectionName() method
      * will be called to get the default connection name to use.
      *
-     * @param string $name The alias name you want to get.
+     * @param string $alias The alias name you want to get.
      * @param array $options The options you want to build the table with.
      *   If a table has already been loaded the options will be ignored.
      * @return \Cake\ORM\Table
-     * @throws RuntimeException When you try to configure an alias that already exists.
+     * @throws \RuntimeException When you try to configure an alias that already exists.
      */
-    public static function get($name, array $options = [])
+    public static function get($alias, array $options = [])
     {
-        list(, $alias) = pluginSplit($name);
-        $exists = isset(static::$_instances[$alias]);
-
-        if ($exists && !empty($options)) {
-            if (static::$_options[$alias] !== $options) {
+        if (isset(static::$_instances[$alias])) {
+            if (!empty($options) && static::$_options[$alias] !== $options) {
                 throw new RuntimeException(sprintf(
                     'You cannot configure "%s", it already exists in the registry.',
                     $alias
                 ));
             }
-        }
-        if ($exists) {
             return static::$_instances[$alias];
         }
+
         static::$_options[$alias] = $options;
-        $options = ['alias' => $alias] + $options;
+        list(, $classAlias) = pluginSplit($alias);
+        $options = ['alias' => $classAlias] + $options;
 
         if (empty($options['className'])) {
-            $options['className'] = Inflector::camelize($name);
+            $options['className'] = Inflector::camelize($alias);
         }
         $className = App::className($options['className'], 'Model/Table', 'Table');
-        $options['className'] = $className ?: 'Cake\ORM\Table';
+        if ($className) {
+            $options['className'] = $className;
+        } else {
+            if (!isset($options['table']) && strpos($options['className'], '\\') === false) {
+                list(, $table) = pluginSplit($options['className']);
+                $options['table'] = Inflector::underscore($table);
+            }
+            $options['className'] = 'Cake\ORM\Table';
+        }
 
         if (isset(static::$_config[$alias])) {
             $options += static::$_config[$alias];
@@ -187,6 +191,7 @@ class TableRegistry
             $options['connection'] = ConnectionManager::get($connectionName);
         }
 
+        $options['registryAlias'] = $alias;
         static::$_instances[$alias] = new $options['className']($options);
 
         if ($options['className'] === 'Cake\ORM\Table') {
@@ -199,15 +204,11 @@ class TableRegistry
     /**
      * Check to see if an instance exists in the registry.
      *
-     * Plugin names will be trimmed off of aliases as instances
-     * stored in the registry will be without the plugin name as well.
-     *
      * @param string $alias The alias to check for.
      * @return bool
      */
     public static function exists($alias)
     {
-        list(, $alias) = pluginSplit($alias);
         return isset(static::$_instances[$alias]);
     }
 
@@ -220,7 +221,6 @@ class TableRegistry
      */
     public static function set($alias, Table $object)
     {
-        list(, $alias) = pluginSplit($alias);
         return static::$_instances[$alias] = $object;
     }
 
@@ -252,16 +252,11 @@ class TableRegistry
     /**
      * Removes an instance from the registry.
      *
-     * Plugin name will be trimmed off of aliases as instances
-     * stored in the registry will be without the plugin name as well.
-     *
      * @param string $alias The alias to remove.
      * @return void
      */
     public static function remove($alias)
     {
-        list(, $alias) = pluginSplit($alias);
-
         unset(
             static::$_instances[$alias],
             static::$_config[$alias],

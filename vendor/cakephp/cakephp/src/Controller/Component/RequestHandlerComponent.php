@@ -179,7 +179,7 @@ class RequestHandlerComponent extends Component
      * determines which type will be set.
      *
      * If html is one of the preferred types, no content type will be set, this
-     * is to avoid issues with browsers that prefer html and several other content types.
+     * is to avoid issues with browsers that prefer HTML and several other content types.
      *
      * @param \Cake\Network\Request $request The request instance.
      * @param \Cake\Network\Response $response The response instance.
@@ -218,7 +218,7 @@ class RequestHandlerComponent extends Component
      *   `controller/action` is requested with `Accept-Type: application/xml` in the headers
      *   the view path will become `app/View/Controller/xml/action.ctp`. Layout and template
      *   types will only switch to mime-types recognized by Cake\Network\Response. If you need to declare
-     *   additional mime-types, you can do so using Cake\Network\Response::type() in your controllers beforeFilter()
+     *   additional mime-types, you can do so using Cake\Network\Response::type() in your controller's beforeFilter()
      *   method.
      * - If a helper with the same name as the extension exists, it is added to the controller.
      * - If the extension is of a type that RequestHandler understands, it will set that
@@ -290,7 +290,7 @@ class RequestHandlerComponent extends Component
             return;
         }
         if (is_array($url)) {
-            $url = Router::url($url + ['base' => false]);
+            $url = Router::url($url + ['_base' => false]);
         }
         $controller = $event->subject();
         $response->body($controller->requestAction($url, [

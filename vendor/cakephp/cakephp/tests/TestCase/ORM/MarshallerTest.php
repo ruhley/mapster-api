@@ -47,12 +47,53 @@ class ProtectedArticle extends Entity
 }
 
 /**
+ * Test stub for greedy find operations.
+ */
+class GreedyCommentsTable extends Table
+{
+    /**
+     * initialize hook
+     *
+     * @param $config Config data.
+     * @return void
+     */
+    public function initialize(array $config)
+    {
+        $this->table('comments');
+        $this->alias('Comments');
+    }
+
+    /**
+     * Overload find to cause issues.
+     *
+     * @param string $type Find type
+     * @param array $options find options
+     * @return object
+     */
+    public function find($type = 'all', $options = [])
+    {
+        if (empty($options['conditions'])) {
+            $options['conditions'] = [];
+        }
+        $options['conditions'] = array_merge($options['conditions'], ['Comments.published' => 'Y']);
+        return parent::find($type, $options);
+    }
+}
+
+/**
  * Marshaller test case
  */
 class MarshallerTest extends TestCase
 {
 
-    public $fixtures = ['core.tags', 'core.articles_tags', 'core.articles', 'core.users', 'core.comments'];
+    public $fixtures = [
+        'core.tags',
+        'core.articles_tags',
+        'core.articles',
+        'core.users',
+        'core.comments',
+        'core.special_tags'
+    ];
 
     /**
      * setup
@@ -454,6 +495,69 @@ class MarshallerTest extends TestCase
     }
 
     /**
+     * Test one() with with id and _joinData.
+     *
+     * @return void
+     */
+    public function testOneBelongsToManyJoinDataAssociatedWithIds()
+    {
+        $data = [
+            'title' => 'My title',
+            'body' => 'My content',
+            'author_id' => 1,
+            'tags' => [
+                3 => [
+                    'id' => 1,
+                    '_joinData' => [
+                        'active' => 1,
+                        'user' => ['username' => 'MyLux'],
+                    ]
+                ],
+                5 => [
+                    'id' => 2,
+                    '_joinData' => [
+                        'active' => 0,
+                        'user' => ['username' => 'IronFall'],
+                    ]
+                ],
+            ],
+        ];
+
+        $articlesTags = TableRegistry::get('ArticlesTags');
+        $tags = TableRegistry::get('Tags');
+        $t1 = $tags->find('all')->where(['id' => 1])->first();
+        $t2 = $tags->find('all')->where(['id' => 2])->first();
+        $articlesTags->belongsTo('Users');
+
+        $marshall = new Marshaller($this->articles);
+        $result = $marshall->one($data, ['associated' => ['Tags._joinData.Users']]);
+        $this->assertInstanceOf(
+            'Cake\ORM\Entity',
+            $result->tags[0]
+        );
+        $this->assertInstanceOf(
+            'Cake\ORM\Entity',
+            $result->tags[1]
+        );
+
+        $this->assertInstanceOf(
+            'Cake\ORM\Entity',
+            $result->tags[0]->_joinData->user
+        );
+
+        $this->assertInstanceOf(
+            'Cake\ORM\Entity',
+            $result->tags[1]->_joinData->user
+        );
+        $this->assertFalse($result->tags[0]->isNew(), 'Should not be new, as id is in db.');
+        $this->assertFalse($result->tags[1]->isNew(), 'Should not be new, as id is in db.');
+        $this->assertEquals($t1->tag, $result->tags[0]->tag);
+        $this->assertEquals($t2->tag, $result->tags[1]->tag);
+        $this->assertEquals($data['tags'][3]['_joinData']['user']['username'], $result->tags[0]->_joinData->user->username);
+        $this->assertEquals($data['tags'][5]['_joinData']['user']['username'], $result->tags[1]->_joinData->user->username);
+    }
+
+    /**
      * Test one() with deeper associations.
      *
      * @return void
@@ -723,7 +827,7 @@ class MarshallerTest extends TestCase
             'password' => 'secret'
         ]);
         $entity = new Entity([
-            'tile' => 'My Title',
+            'title' => 'My Title',
             'user' => $user
         ]);
         $user->accessible('*', true);
@@ -753,7 +857,7 @@ class MarshallerTest extends TestCase
     public function testMergeCreateAssociation()
     {
         $entity = new Entity([
-            'tile' => 'My Title'
+            'title' => 'My Title'
         ]);
         $entity->accessible('*', true);
         $data = [
@@ -989,6 +1093,125 @@ class MarshallerTest extends TestCase
     }
 
     /**
+     * Test that invalid _joinData (scalar data) is not marshalled.
+     *
+     * @return void
+     */
+    public function testMergeBelongsToManyJoinDataScalar()
+    {
+        TableRegistry::clear();
+        $articles = TableRegistry::get('Articles');
+        $articles->belongsToMany('Tags', [
+            'through' => 'SpecialTags'
+        ]);
+
+        $entity = $articles->get(1, ['contain' => 'Tags']);
+        $data = [
+            'title' => 'Haz data',
+            'tags' => [
+                ['id' => 3, 'tag' => 'Cake', '_joinData' => 'Invalid'],
+            ]
+        ];
+        $marshall = new Marshaller($articles);
+        $result = $marshall->merge($entity, $data, ['associated' => 'Tags._joinData']);
+
+        $articles->save($entity, ['associated' => ['Tags._joinData']]);
+        $this->assertFalse($entity->tags[0]->dirty('_joinData'));
+        $this->assertEmpty($entity->tags[0]->_joinData);
+    }
+
+    /**
+     * Test merging the _joinData entity for belongstomany associations when * is not
+     * accessible.
+     *
+     * @return void
+     */
+    public function testMergeBelongsToManyJoinDataNotAccessible()
+    {
+        TableRegistry::clear();
+        $articles = TableRegistry::get('Articles');
+        $articles->belongsToMany('Tags', [
+            'through' => 'SpecialTags'
+        ]);
+
+        $entity = $articles->get(1, ['contain' => 'Tags']);
+        $data = [
+            'title' => 'Haz data',
+            'tags' => [
+                ['id' => 3, 'tag' => 'Cake', '_joinData' => ['highlighted' => '1', 'author_id' => '99']],
+            ]
+        ];
+        // Make only specific fields accessible, but not _joinData.
+        $entity->tags[0]->accessible('*', false);
+        $entity->tags[0]->accessible(['article_id', 'tag_id'], true);
+
+        $marshall = new Marshaller($articles);
+        $result = $marshall->merge($entity, $data, ['associated' => 'Tags._joinData']);
+
+        $this->assertTrue($entity->tags[0]->dirty('_joinData'));
+        $this->assertTrue($result->tags[0]->_joinData->dirty('author_id'), 'Field not modified');
+        $this->assertTrue($result->tags[0]->_joinData->dirty('highlighted'), 'Field not modified');
+        $this->assertSame(99, $result->tags[0]->_joinData->author_id);
+        $this->assertTrue($result->tags[0]->_joinData->highlighted);
+    }
+
+    /**
+     * Test merging belongsToMany data doesn't create 'new' entities.
+     *
+     * @return void
+     */
+    public function testMergeBelongsToManyJoinDataAssociatedWithIds()
+    {
+        $data = [
+            'title' => 'My title',
+            'tags' => [
+                [
+                    'id' => 1,
+                    '_joinData' => [
+                        'active' => 1,
+                        'user' => ['username' => 'MyLux'],
+                    ]
+                ],
+                [
+                    'id' => 2,
+                    '_joinData' => [
+                        'active' => 0,
+                        'user' => ['username' => 'IronFall'],
+                    ]
+                ],
+            ],
+        ];
+        $articlesTags = TableRegistry::get('ArticlesTags');
+        $articlesTags->belongsTo('Users');
+
+        $marshall = new Marshaller($this->articles);
+        $article = $this->articles->get(1, ['associated' => 'Tags']);
+        $result = $marshall->merge($article, $data, ['associated' => ['Tags._joinData.Users']]);
+
+        $this->assertInstanceOf('Cake\ORM\Entity', $result->tags[0]);
+        $this->assertInstanceOf('Cake\ORM\Entity', $result->tags[1]);
+        $this->assertInstanceOf('Cake\ORM\Entity', $result->tags[0]->_joinData->user);
+
+        $this->assertInstanceOf('Cake\ORM\Entity', $result->tags[1]->_joinData->user);
+        $this->assertFalse($result->tags[0]->isNew(), 'Should not be new, as id is in db.');
+        $this->assertFalse($result->tags[1]->isNew(), 'Should not be new, as id is in db.');
+        $this->assertEquals(1, $result->tags[0]->id);
+        $this->assertEquals(2, $result->tags[1]->id);
+
+        $this->assertEquals(1, $result->tags[0]->_joinData->active);
+        $this->assertEquals(0, $result->tags[1]->_joinData->active);
+
+        $this->assertEquals(
+            $data['tags'][0]['_joinData']['user']['username'],
+            $result->tags[0]->_joinData->user->username
+        );
+        $this->assertEquals(
+            $data['tags'][1]['_joinData']['user']['username'],
+            $result->tags[1]->_joinData->user->username
+        );
+    }
+
+    /**
      * Test merging the _joinData entity for belongstomany associations.
      *
      * @return void
@@ -1017,7 +1240,7 @@ class MarshallerTest extends TestCase
             ],
         ];
 
-        $options = ['associated' => ['Tags' => ['associated' => ['_joinData']]]];
+        $options = ['associated' => ['Tags._joinData']];
         $marshall = new Marshaller($this->articles);
         $entity = $marshall->one($data, $options);
         $entity->accessible('*', true);
@@ -1212,6 +1435,38 @@ class MarshallerTest extends TestCase
     }
 
     /**
+     * Test mergeMany() when the exist check returns nothing.
+     *
+     * @return void
+     */
+    public function testMergeManyExistQueryFails()
+    {
+        $entities = [
+            new Entity(['id' => 1, 'comment' => 'First post', 'user_id' => 2]),
+            new Entity(['id' => 2, 'comment' => 'Second post', 'user_id' => 2])
+        ];
+        $entities[0]->clean();
+        $entities[1]->clean();
+
+        $data = [
+            ['id' => 2, 'comment' => 'Changed 2', 'user_id' => 2],
+            ['id' => 1, 'comment' => 'Changed 1', 'user_id' => 1],
+            ['id' => 3, 'comment' => 'New 1'],
+        ];
+        $comments = TableRegistry::get('GreedyComments', [
+            'className' => __NAMESPACE__ . '\\GreedyCommentsTable'
+        ]);
+        $marshall = new Marshaller($comments);
+        $result = $marshall->mergeMany($entities, $data);
+
+        $this->assertCount(3, $result);
+        $this->assertEquals('Changed 1', $result[0]->comment);
+        $this->assertEquals(1, $result[0]->user_id);
+        $this->assertEquals('Changed 2', $result[1]->comment);
+        $this->assertEquals('New 1', $result[2]->comment);
+    }
+
+    /**
      * Tests merge with data types that need to be marshalled
      *
      * @return void
@@ -1245,7 +1500,7 @@ class MarshallerTest extends TestCase
         $data = [
             'title' => 'My title',
             'body' => 'My content',
-            'author_id' => 1
+            'author_id' => null
         ];
         $marshall = new Marshaller($this->articles);
         $result = $marshall->one($data, ['fieldList' => ['title', 'author_id']]);
@@ -1264,12 +1519,13 @@ class MarshallerTest extends TestCase
     {
         $data = [
             'title' => 'My title',
+            'body' => null,
             'author_id' => 1
         ];
         $marshall = new Marshaller($this->articles);
         $entity = new Entity([
             'title' => 'Foo',
-            'body' => 'My Content',
+            'body' => 'My content',
             'author_id' => 2
         ]);
         $entity->accessible('*', false);
@@ -1279,7 +1535,7 @@ class MarshallerTest extends TestCase
 
         $expected = [
             'title' => 'My title',
-            'body' => 'My Content',
+            'body' => null,
             'author_id' => 2
         ];
 
@@ -1743,5 +1999,128 @@ class MarshallerTest extends TestCase
         $result = $marshall->merge($entity, $data, []);
         $this->assertNotEmpty($result->errors('author_id'));
         $this->assertNotEmpty($result->errors('thing'));
+    }
+
+    /**
+     * Test Model.beforeMarshal event.
+     *
+     * @return void
+     */
+    public function testBeforeMarshalEvent()
+    {
+        $data = [
+            'title' => 'My title',
+            'body' => 'My content',
+            'user' => [
+                'name' => 'Robert',
+                'username' => 'rob'
+            ]
+        ];
+
+        $marshall = new Marshaller($this->articles);
+
+        $this->articles->eventManager()->attach(function ($e, $data, $options) {
+            $data['title'] = 'Modified title';
+            $data['user']['username'] = 'robert';
+
+            $options['associated'] = ['Users'];
+        }, 'Model.beforeMarshal');
+
+        $entity = $marshall->one($data);
+
+        $this->assertEquals('Modified title', $entity->title);
+        $this->assertEquals('My content', $entity->body);
+        $this->assertEquals('Robert', $entity->user->name);
+        $this->assertEquals('robert', $entity->user->username);
+    }
+
+    /**
+     * Test Model.beforeMarshal event on associated tables.
+     *
+     * @return void
+     */
+    public function testBeforeMarshalEventOnAssociations()
+    {
+        $data = [
+            'title' => 'My title',
+            'body' => 'My content',
+            'author_id' => 1,
+            'user' => [
+                'username' => 'mark',
+                'password' => 'secret'
+            ],
+            'comments' => [
+                ['comment' => 'First post', 'user_id' => 2],
+                ['comment' => 'Second post', 'user_id' => 2],
+            ],
+            'tags' => [
+                ['tag' => 'news', '_joinData' => ['active' => 1]],
+                ['tag' => 'cakephp', '_joinData' => ['active' => 0]],
+            ],
+        ];
+
+        $marshall = new Marshaller($this->articles);
+
+        $this->articles->users->eventManager()->attach(function ($e, $data) {
+            $data['secret'] = 'h45h3d';
+        }, 'Model.beforeMarshal');
+
+        $this->articles->comments->eventManager()->attach(function ($e, $data) {
+            $data['comment'] .= ' (modified)';
+        }, 'Model.beforeMarshal');
+
+        $this->articles->tags->eventManager()->attach(function ($e, $data) {
+            $data['tag'] .= ' (modified)';
+        }, 'Model.beforeMarshal');
+
+        $this->articles->tags->junction()->eventManager()->attach(function ($e, $data) {
+            $data['modified_by'] = 1;
+        }, 'Model.beforeMarshal');
+
+        $entity = $marshall->one($data, [
+            'associated' => ['Users', 'Comments', 'Tags']
+        ]);
+
+        $this->assertEquals('h45h3d', $entity->user->secret);
+        $this->assertEquals('First post (modified)', $entity->comments[0]->comment);
+        $this->assertEquals('Second post (modified)', $entity->comments[1]->comment);
+        $this->assertEquals('news (modified)', $entity->tags[0]->tag);
+        $this->assertEquals('cakephp (modified)', $entity->tags[1]->tag);
+        $this->assertEquals(1, $entity->tags[0]->_joinData->modified_by);
+        $this->assertEquals(1, $entity->tags[1]->_joinData->modified_by);
+    }
+
+    /**
+     * Tests that patching an association resulting in no changes, will
+     * not mark the parent entity as dirty
+     *
+     * @return void
+     */
+    public function testAssociationNoChanges()
+    {
+        $options = ['markClean' => true, 'isNew' => false];
+        $entity = new Entity([
+            'title' => 'My Title',
+            'user' => new Entity([
+                'username' => 'mark',
+                'password' => 'not a secret'
+            ], $options)
+        ], $options);
+
+        $data = [
+            'body' => 'My Content',
+            'user' => [
+                'username' => 'mark',
+                'password' => 'not a secret'
+            ]
+        ];
+        $marshall = new Marshaller($this->articles);
+        $marshall->merge($entity, $data, ['associated' => ['Users']]);
+        $this->assertEquals('My Content', $entity->body);
+        $this->assertInstanceOf('Cake\ORM\Entity', $entity->user);
+        $this->assertEquals('mark', $entity->user->username);
+        $this->assertEquals('not a secret', $entity->user->password);
+        $this->assertFalse($entity->dirty('user'));
+        $this->assertTrue($entity->user->isNew());
     }
 }

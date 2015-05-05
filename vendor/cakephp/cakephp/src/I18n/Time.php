@@ -46,7 +46,7 @@ class Time extends Carbon implements JsonSerializable
     /**
      * The format to use when formatting a time using `Cake\I18n\Time::nice()`
      *
-     * The format should be eiter the formatting constants from IntlDateFormatter as
+     * The format should be either the formatting constants from IntlDateFormatter as
      * described in (http://www.php.net/manual/en/class.intldateformatter.php) or a pattern
      * as specified in (http://www.icu-project.org/apiref/icu4c/classSimpleDateFormat.html#details)
      *
@@ -113,7 +113,8 @@ class Time extends Carbon implements JsonSerializable
     public function __construct($time = null, $tz = null)
     {
         if ($time instanceof \DateTime) {
-            list($time, $tz) = [$time->format('Y-m-d H:i:s'), $time->getTimeZone()];
+            $tz = $time->getTimeZone();
+            $time = $time->format('Y-m-d H:i:s');
         }
 
         if (is_numeric($time)) {
@@ -496,13 +497,13 @@ class Time extends Carbon implements JsonSerializable
      *
      * ### Examples
      *
-     * {{{
+     * ```
      * $time = new Time('2014-04-20 22:10');
      * $time->i18nFormat(); // outputs '4/20/14, 10:10 PM' for the en-US locale
      * $time->i18nFormat(\IntlDateFormatter::FULL); // Use the full date and time format
      * $time->i18nFormat([\IntlDateFormatter::FULL, \IntlDateFormatter::SHORT]); // Use full date but short time format
-     * $time->i18nFormat('YYYY-MM-dd HH:mm:ss'); // outputs '2014-04-20 22:10'
-     * }}}
+     * $time->i18nFormat('yyyy-MM-dd HH:mm:ss'); // outputs '2014-04-20 22:10'
+     * ```
      *
      * If you wish to control the default format to be used for this method, you can alter
      * the value of the static `Time::$defaultLocale` variable and set it to one of the
@@ -520,11 +521,11 @@ class Time extends Carbon implements JsonSerializable
      *
      * ### Examples
      *
-     * {{{
+     * ```
      * $time = new Time('2014-04-20 22:10');
      * $time->i18nFormat(null, null, 'de-DE');
      * $time->i18nFormat(\IntlDateFormatter::FULL, 'Europe/Berlin', 'de-DE');
-     * }}}
+     * ```
      *
      * You can control the default locale to be used by setting the static variable
      * `Time::$defaultLocale` to a  valid locale string. If empty, the default will be
@@ -658,12 +659,124 @@ class Time extends Carbon implements JsonSerializable
     /**
      * Sets the default format used when type converting instances of this type to string
      *
-     * @param string|int $format Format.
+     * @param string|array|int $format Format.
      * @return void
      */
     public static function setToStringFormat($format)
     {
         static::$_toStringFormat = $format;
+    }
+
+    /**
+     * Returns a new Time object after parsing the provided time string based on
+     * the passed or configured date time format. This method is locale dependent,
+     * Any string that is passed to this function will be interpreted as a locale
+     * dependent string.
+     *
+     * When no $format is provided, the `toString` format will be used.
+     *
+     * If it was impossible to parse the provided time, null will be returned.
+     *
+     * Example:
+     *
+     * ```
+     *  $time = Time::parseDateTime('10/13/2013 12:54am');
+     *  $time = Time::parseDateTime('13 Oct, 2013 13:54', 'dd MMM, y H:mm');
+     *  $time = Time::parseDateTime('10/10/2015', [IntlDateFormatter::SHORT, -1]);
+     * ```
+     *
+     * @param string $time The time string to parse.
+     * @param string|array $format Any format accepted by IntlDateFormatter.
+     * @return static|null
+     */
+    public static function parseDateTime($time, $format = null)
+    {
+        $dateFormat = $format ?: static::$_toStringFormat;
+        $timeFormat = $pattern = null;
+
+        if (is_array($dateFormat)) {
+            list($newDateFormat, $timeFormat) = $dateFormat;
+            $dateFormat = $newDateFormat;
+        } else {
+            $pattern = $dateFormat;
+            $dateFormat = null;
+        }
+
+        $formatter = datefmt_create(
+            static::$defaultLocale,
+            $dateFormat,
+            $timeFormat,
+            null,
+            null,
+            $pattern
+        );
+        $time = $formatter->parse($time);
+        if ($time) {
+            $result = new static('@' . $time);
+            $result->setTimezone(date_default_timezone_get());
+            return $result;
+        }
+        return null;
+    }
+
+    /**
+     * Returns a new Time object after parsing the provided $date string based on
+     * the passed or configured date time format. This method is locale dependent,
+     * Any string that is passed to this function will be interpreted as a locale
+     * dependent string.
+     *
+     * When no $format is provided, the `wordFormat` format will be used.
+     *
+     * If it was impossible to parse the provided time, null will be returned.
+     *
+     * Example:
+     *
+     * ```
+     *  $time = Time::parseDate('10/13/2013');
+     *  $time = Time::parseDate('13 Oct, 2013', 'dd MMM, y');
+     *  $time = Time::parseDate('13 Oct, 2013', IntlDateFormatter::SHORT);
+     * ```
+     *
+     * @param string $date The date string to parse.
+     * @param string|int $format Any format accepted by IntlDateFormatter.
+     * @return static|null
+     */
+    public static function parseDate($date, $format = null)
+    {
+        if (is_int($format)) {
+            $format = [$format, -1];
+        }
+        $format = $format ?: static::$wordFormat;
+        return static::parseDateTime($date, $format);
+    }
+
+    /**
+     * Returns a new Time object after parsing the provided $time string based on
+     * the passed or configured date time format. This method is locale dependent,
+     * Any string that is passed to this function will be interpreted as a locale
+     * dependent string.
+     *
+     * When no $format is provided, the IntlDateFormatter::SHORT format will be used.
+     *
+     * If it was impossible to parse the provided time, null will be returned.
+     *
+     * Example:
+     *
+     * ```
+     *  $time = Time::parseDate('11:23pm');
+     * ```
+     *
+     * @param string $time The time string to parse.
+     * @param string|int $format Any format accepted by IntlDateFormatter.
+     * @return static|null
+     */
+    public static function parseTime($time, $format = null)
+    {
+        if (is_int($format)) {
+            $format = [-1, $format];
+        }
+        $format = $format ?: [-1, IntlDateFormatter::SHORT];
+        return static::parseDateTime($time, $format);
     }
 
     /**

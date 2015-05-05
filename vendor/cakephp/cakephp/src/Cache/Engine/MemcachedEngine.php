@@ -40,7 +40,7 @@ class MemcachedEngine extends CacheEngine
     protected $_Memcached = null;
 
     /**
-     * The default config used unless overriden by runtime configuration
+     * The default config used unless overridden by runtime configuration
      *
      * - `compress` Whether to compress data
      * - `duration` Specify how long items in this cache configuration last.
@@ -68,9 +68,11 @@ class MemcachedEngine extends CacheEngine
         'compress' => false,
         'duration' => 3600,
         'groups' => [],
+        'host' => null,
         'username' => null,
         'password' => null,
         'persistent' => false,
+        'port' => null,
         'prefix' => 'cake_',
         'probability' => 100,
         'serialize' => 'php',
@@ -113,6 +115,14 @@ class MemcachedEngine extends CacheEngine
         }
 
         parent::init($config);
+
+        if (!empty($config['host'])) {
+            if (empty($config['port'])) {
+                $config['servers'] = [$config['host']];
+            } else {
+                $config['servers'] = [sprintf('%s:%d', $config['host'], $config['port'])];
+            }
+        }
 
         if (isset($config['servers'])) {
             $this->config('servers', $config['servers'], false);
@@ -159,7 +169,8 @@ class MemcachedEngine extends CacheEngine
         }
 
         if ($this->_config['username'] !== null && $this->_config['password'] !== null) {
-            if (!method_exists($this->_Memcached, 'setSaslAuthData')) {
+            $sasl = method_exists($this->_Memcached, 'setSaslAuthData') && ini_get('memcached.use_sasl');
+            if (!$sasl) {
                 throw new InvalidArgumentException(
                     'Memcached extension is not build with SASL support'
                 );
@@ -230,7 +241,7 @@ class MemcachedEngine extends CacheEngine
      */
     protected function _parseServerString($server)
     {
-        if ($server[0] === 'u') {
+        if (strpos($server, 'unix://') === 0) {
             return [$server, 0];
         }
         if (substr($server, 0, 1) === '[') {

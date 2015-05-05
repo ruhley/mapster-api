@@ -143,10 +143,10 @@ class ResultSet implements ResultSetInterface
         $this->_hydrate = $this->_query->hydrate();
         $this->_entityClass = $repository->entityClass();
         $this->_useBuffering = $query->bufferResults();
-        $this->count();
 
         if ($this->_useBuffering) {
-            $this->_results = new SplFixedArray($this->_count);
+            $count = $this->count();
+            $this->_results = new SplFixedArray($count);
         }
     }
 
@@ -217,24 +217,46 @@ class ResultSet implements ResultSetInterface
      */
     public function valid()
     {
-        if (isset($this->_results[$this->_index])) {
-            $this->_current = $this->_results[$this->_index];
-            return true;
+        $valid = true;
+        if ($this->_useBuffering) {
+            $valid = $this->_index < $this->_count;
+            if ($valid && $this->_results[$this->_index] !== null) {
+                $this->_current = $this->_results[$this->_index];
+                return true;
+            }
+            if (!$valid) {
+                return $valid;
+            }
         }
 
         $this->_current = $this->_fetchResult();
         $valid = $this->_current !== false;
-        $hasNext = $this->_index < $this->_count;
 
-        if ($this->_statement && !($valid && $hasNext)) {
+        if ($valid && $this->_useBuffering) {
+            $this->_results[$this->_index] = $this->_current;
+        }
+        if (!$valid && $this->_statement !== null) {
             $this->_statement->closeCursor();
         }
 
-        if ($valid) {
-            $this->_bufferResult($this->_current);
-        }
-
         return $valid;
+    }
+
+    /**
+     * Get the first record from a result set.
+     *
+     * This method will also close the underlying statement cursor.
+     *
+     * @return array|object
+     */
+    public function first()
+    {
+        foreach ($this as $result) {
+            if ($this->_statement && !$this->_useBuffering) {
+                $this->_statement->closeCursor();
+            }
+            return $result;
+        }
     }
 
     /**
@@ -263,6 +285,8 @@ class ResultSet implements ResultSetInterface
     public function unserialize($serialized)
     {
         $this->_results = unserialize($serialized);
+        $this->_useBuffering = true;
+        $this->_count = count($this->_results);
     }
 
     /**
@@ -448,7 +472,7 @@ class ResultSet implements ResultSetInterface
             $results[$defaultAlias]['_matchingData'] = $results['_matchingData'];
         }
 
-        $options['source'] = $defaultAlias;
+        $options['source'] = $this->_defaultTable->registryAlias();
         $results = $results[$defaultAlias];
         if ($this->_hydrate && !($results instanceof Entity)) {
             $results = new $this->_entityClass($results, $options);
@@ -484,19 +508,6 @@ class ResultSet implements ResultSetInterface
         }
 
         return $values;
-    }
-
-    /**
-     * Conditionally buffer the passed result
-     *
-     * @param array $result the result fetch from the database
-     * @return void
-     */
-    protected function _bufferResult($result)
-    {
-        if ($this->_useBuffering) {
-            $this->_results[$this->_index] = $result;
-        }
     }
 
     /**

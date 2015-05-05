@@ -434,7 +434,7 @@ class TimeHelperTest extends TestCase
     }
 
     /**
-     * Cusotm assert to allow for variation in the version of the intl library, where
+     * Custom assert to allow for variation in the version of the intl library, where
      * some translations contain a few extra commas.
      *
      * @param string $expected
@@ -447,5 +447,20 @@ class TimeHelperTest extends TestCase
             str_replace([',', '(', ')', ' at'], '', $expected),
             str_replace([',', '(', ')', ' at'], '', $result)
         );
+    }
+
+    /**
+     * Test formatting in case the $time parameter is not set
+     *
+     * @return void
+     */
+    public function testNullDateFormat()
+    {
+        $result = $this->Time->format(null);
+        $this->assertSame(false, $result);
+
+        $fallback = 'Date invalid or not set';
+        $result = $this->Time->format(null, \IntlDateFormatter::FULL, $fallback);
+        $this->assertEquals($fallback, $result);
     }
 }

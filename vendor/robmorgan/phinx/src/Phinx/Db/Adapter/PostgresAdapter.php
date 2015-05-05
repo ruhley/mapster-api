@@ -3,7 +3,7 @@
  * Phinx
  *
  * (The MIT license)
- * Copyright (c) 2014 Rob Morgan
+ * Copyright (c) 2015 Rob Morgan
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated * documentation files (the "Software"), to
@@ -75,18 +75,6 @@ class PostgresAdapter extends PdoAdapter implements AdapterInterface
             }
 
             $this->setConnection($db);
-
-            // Create the public/custom schema if it doesn't already exist
-            if (false === $this->hasSchema($this->getSchemaName())) {
-                $this->createSchema($this->getSchemaName());
-            }
-
-            $this->fetchAll(sprintf('SET search_path TO %s', $this->getSchemaName()));
-
-            // Create the schema table if it doesn't already exist
-            if (!$this->hasSchemaTable()) {
-                $this->createSchemaTable();
-            }
         }
     }
 
@@ -320,6 +308,10 @@ class PostgresAdapter extends PdoAdapter implements AdapterInterface
                    ->setDefault($columnInfo['column_default'])
                    ->setIdentity($columnInfo['is_identity'] == 'YES');
 
+            if (preg_match('/\bwith time zone$/', $columnInfo['data_type'])) {
+                $column->setTimezone(true);
+            }
+
             if (isset($columnInfo['character_maximum_length'])) {
                 $column->setLimit($columnInfo['character_maximum_length']);
             }
@@ -407,8 +399,11 @@ class PostgresAdapter extends PdoAdapter implements AdapterInterface
             $this->quoteColumnName($columnName),
             $this->getColumnSqlDefinition($newColumn)
         );
-        $sql = preg_replace('/ NOT NULL$/', '', $sql);
-        $sql = preg_replace('/ NULL$/', '', $sql);
+        //NULL and DEFAULT cannot be set while changing column type
+        $sql = preg_replace('/ NOT NULL/', '', $sql);
+        $sql = preg_replace('/ NULL/', '', $sql);
+        //If it is set, DEFAULT is the last definition
+        $sql = preg_replace('/DEFAULT .*/', '', $sql);
         $this->execute($sql);
         // process null
         $sql = sprintf(
@@ -422,6 +417,27 @@ class PostgresAdapter extends PdoAdapter implements AdapterInterface
             $sql .= ' SET NOT NULL';
         }
         $this->execute($sql);
+        if (!is_null($newColumn->getDefault())) {
+            //change default
+            $this->execute(
+                sprintf(
+                    'ALTER TABLE %s ALTER COLUMN %s SET %s',
+                    $this->quoteTableName($tableName),
+                    $this->quoteColumnName($columnName),
+                    $this->getDefaultValueDefinition($newColumn->getDefault())
+                )
+            );
+        }
+        else {
+            //drop default
+            $this->execute(
+                sprintf(
+                    'ALTER TABLE %s ALTER COLUMN %s DROP DEFAULT',
+                    $this->quoteTableName($tableName),
+                    $this->quoteColumnName($columnName)
+                )
+            );
+        }
         // rename column
         if ($columnName !== $newColumn->getName()) {
             $this->execute(
@@ -688,7 +704,7 @@ class PostgresAdapter extends PdoAdapter implements AdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function getSqlType($type)
+    public function getSqlType($type, $limit = null)
     {
         switch ($type) {
             case static::PHINX_TYPE_INTEGER:
@@ -730,6 +746,10 @@ class PostgresAdapter extends PdoAdapter implements AdapterInterface
                 return array('name' => 'geography', 'polygon', 4326);
                 break;
             default:
+                if ($this->isArrayType($type)) {
+                    return array('name' => $type);
+                }
+                // Return array type
                 throw new \RuntimeException('The type: "' . $type . '" is not supported');
         }
     }
@@ -859,7 +879,16 @@ class PostgresAdapter extends PdoAdapter implements AdapterInterface
             if ('integer' !== $sqlType['name'] && ($column->getLimit() || isset($sqlType['limit']))) {
                 $buffer[] = sprintf('(%s)', $column->getLimit() ? $column->getLimit() : $sqlType['limit']);
             }
+
+            $timeTypes = array(
+                'time',
+                'timestamp',
+            );
+            if (in_array($sqlType['name'], $timeTypes) && $column->isTimezone()) {
+                $buffer[] = strtoupper('with time zone');
+            }
         }
+
         $buffer[] = $column->isNull() ? 'NULL' : 'NOT NULL';
 
         if (!is_null($column->getDefault())) {
@@ -947,18 +976,14 @@ class PostgresAdapter extends PdoAdapter implements AdapterInterface
      */
     public function createSchemaTable()
     {
-        try {
-            $options = array(
-                'id' => false
-            );
-            $table = new \Phinx\Db\Table($this->getSchemaTableName(), $options, $this);
-            $table->addColumn('version', 'biginteger')
-                  ->addColumn('start_time', 'timestamp')
-                  ->addColumn('end_time', 'timestamp')
-                  ->save();
-        } catch(\Exception $exception) {
-            throw new \InvalidArgumentException('There was a problem creating the schema table');
+        // Create the public/custom schema if it doesn't already exist
+        if (false === $this->hasSchema($this->getSchemaName())) {
+            $this->createSchema($this->getSchemaName());
         }
+
+        $this->fetchAll(sprintf('SET search_path TO %s', $this->getSchemaName()));
+
+        return parent::createSchemaTable();
     }
 
      /**
@@ -1076,7 +1101,32 @@ class PostgresAdapter extends PdoAdapter implements AdapterInterface
      */
     public function getColumnTypes()
     {
-        return array_merge(parent::getColumnTypes(), array('json', 'uuid'));
+        return array_merge(parent::getColumnTypes(), array('json'));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isValidColumnType(Column $column)
+    {
+        // If not a standard column type, maybe it is array type?
+        return (parent::isValidColumnType($column) || $this->isArrayType($column->getType()));
+    }
+
+    /**
+     * Check if the given column is an array of a valid type.
+     *
+     * @param  string $columnType
+     * @return bool
+     */
+    protected function isArrayType($columnType)
+    {
+        if (!preg_match('/^([a-z]+)(?:\[\]){1,}$/', $columnType, $matches)) {
+            return false;
+        }
+
+        $baseType = $matches[1];
+        return in_array($baseType, $this->getColumnTypes());
     }
 
     /**

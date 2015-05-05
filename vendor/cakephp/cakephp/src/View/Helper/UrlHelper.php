@@ -27,7 +27,7 @@ class UrlHelper extends Helper
 {
 
     /**
-     * Returns a URL based on provided provided parameters.
+     * Returns a URL based on provided parameters.
      *
      * @param string|array $url Either a relative string url like `/products/view/23` or
      *    an array of URL parameters. Using an array for URLs will allow you to leverage
@@ -66,8 +66,7 @@ class UrlHelper extends Helper
         if (!empty($options['pathPrefix']) && $path[0] !== '/') {
             $path = $options['pathPrefix'] . $path;
         }
-        if (
-            !empty($options['ext']) &&
+        if (!empty($options['ext']) &&
             strpos($path, '?') === false &&
             substr($path, -strlen($options['ext'])) !== $options['ext']
         ) {

@@ -28,9 +28,9 @@ use InvalidArgumentException;
  * You can configure log adapters in your applications `config/app.php` file.
  * A sample configuration would look like:
  *
- * {{{
+ * ```
  * Log::config('my_log', ['className' => 'FileLog']);
- * }}}
+ * ```
  *
  * You can define the className as any fully namespaced classname or use a short hand
  * classname to use loggers in the `App\Log\Engine` & `Cake\Log\Engine` namespaces.
@@ -47,13 +47,13 @@ use InvalidArgumentException;
  * When configuring loggers, you can set which levels a logger will handle.
  * This allows you to disable debug messages in production for example:
  *
- * {{{
+ * ```
  * Log::config('default', [
  *     'className' => 'File',
  *     'path' => LOGS,
  *     'levels' => ['error', 'critical', 'alert', 'emergency']
  * ]);
- * }}}
+ * ```
  *
  * The above logger would only log error messages or higher. Any
  * other log messages would be discarded.
@@ -65,12 +65,12 @@ use InvalidArgumentException;
  * logger. If you don't define any scopes an adapter will catch
  * all scopes that match the handled levels.
  *
- * {{{
+ * ```
  * Log::config('payments', [
  *     'className' => 'File',
  *     'scopes' => ['payment', 'order']
  * ]);
- * }}}
+ * ```
  *
  * The above logger will only capture log entries made in the
  * `payment` and `order` scopes. All other scopes including the
@@ -86,10 +86,10 @@ use InvalidArgumentException;
  * RFC 5424. When logging messages you can either use the named methods,
  * or the correct constants with `write()`:
  *
- * {{{
+ * ```
  * Log::error('Something horrible happened');
  * Log::write(LOG_ERR, 'Something horrible happened');
- * }}}
+ * ```
  *
  * ### Logging scopes
  *
@@ -367,9 +367,13 @@ class Log
                 $levels = $logger->levels();
                 $scopes = $logger->scopes();
             }
+            if ($scopes === null) {
+                $scopes = [];
+            }
 
             $correctLevel = empty($levels) || in_array($level, $levels);
-            $inScope = empty($scopes) || array_intersect($context['scope'], $scopes);
+            $inScope = $scopes === false && empty($context['scope']) || $scopes === [] ||
+                is_array($scopes) && array_intersect($context['scope'], $scopes);
 
             if ($correctLevel && $inScope) {
                 $logger->log($level, $message, $context);

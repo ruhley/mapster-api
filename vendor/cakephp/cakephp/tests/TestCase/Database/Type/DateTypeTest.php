@@ -112,6 +112,10 @@ class DateTypeTest extends TestCase
 
             // valid array types
             [
+                ['year' => '', 'month' => '', 'day' => ''],
+                null,
+            ],
+            [
                 ['year' => 2014, 'month' => 2, 'day' => 14, 'hour' => 13, 'minute' => 14, 'second' => 15],
                 new Time('2014-02-14 00:00:00')
             ],
@@ -171,5 +175,33 @@ class DateTypeTest extends TestCase
         } else {
             $this->assertSame($expected, $result);
         }
+    }
+
+    /**
+     * Tests marshalling dates using the locale aware parser
+     *
+     * @return void
+     */
+    public function testMarshalWithLocaleParsing()
+    {
+        $this->type->useLocaleParser();
+        $expected = new Time('13-10-2013');
+        $result = $this->type->marshal('10/13/2013');
+        $this->assertEquals($expected->format('Y-m-d'), $result->format('Y-m-d'));
+
+        $this->assertNull($this->type->marshal('11/derp/2013'));
+    }
+
+    /**
+     * Tests marshalling dates using the locale aware parser and custom format
+     *
+     * @return void
+     */
+    public function testMarshalWithLocaleParsingWithFormat()
+    {
+        $this->type->useLocaleParser()->setLocaleFormat('dd MMM, y');
+        $expected = new Time('13-10-2013');
+        $result = $this->type->marshal('13 Oct, 2013');
+        $this->assertEquals($expected->format('Y-m-d'), $result->format('Y-m-d'));
     }
 }

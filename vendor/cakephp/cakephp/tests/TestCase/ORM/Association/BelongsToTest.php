@@ -36,7 +36,7 @@ class BelongsToTest extends TestCase
      *
      * @var array
      */
-    public $fixtures = ['core.articles', 'core.comments'];
+    public $fixtures = ['core.articles', 'core.comments', 'core.authors'];
 
     /**
      * Don't autoload fixtures as most tests uses mocks.
@@ -100,6 +100,28 @@ class BelongsToTest extends TestCase
     {
         $assoc = new BelongsTo('Test');
         $this->assertTrue($assoc->canBeJoined());
+    }
+
+    /**
+     * Tests that the alias set on associations is actually on the Entity
+     *
+     * @return void
+     */
+    public function testCustomAlias()
+    {
+        $table = TableRegistry::get('Articles', [
+            'className' => 'TestPlugin.Articles'
+        ]);
+        $table->addAssociations([
+            'belongsTo' => [
+                'FooAuthors' => ['className' => 'TestPlugin.Authors', 'foreignKey' => 'author_id']
+            ]
+        ]);
+        $article = $table->find()->contain(['FooAuthors'])->first();
+
+        $this->assertTrue(isset($article->foo_author));
+        $this->assertEquals($article->foo_author->name, 'mariano');
+        $this->assertNull($article->Authors);
     }
 
     /**
@@ -355,7 +377,7 @@ class BelongsToTest extends TestCase
             ->with(
                 $this->isInstanceOf('\Cake\Event\Event'),
                 $this->isInstanceOf('\Cake\ORM\Query'),
-                [],
+                $this->isInstanceOf('\ArrayObject'),
                 false
             );
         $association->attachTo($query);
@@ -378,7 +400,7 @@ class BelongsToTest extends TestCase
         $listener = $this->getMock('stdClass', ['__invoke']);
         $this->company->eventManager()->attach($listener, 'Model.beforeFind');
         $association = new BelongsTo('Companies', $config);
-        $options = ['something' => 'more'];
+        $options = new \ArrayObject(['something' => 'more']);
         $listener->expects($this->once())->method('__invoke')
             ->with(
                 $this->isInstanceOf('\Cake\Event\Event'),

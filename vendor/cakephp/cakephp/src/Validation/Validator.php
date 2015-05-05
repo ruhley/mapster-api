@@ -99,7 +99,7 @@ class Validator implements \ArrayAccess, \IteratorAggregate, \Countable
             $keyPresent = array_key_exists($name, $data);
 
             if (!$keyPresent && !$this->_checkPresence($field, $newRecord)) {
-                $errors[$name][] = isset($this->_presenceMessages[$name])
+                $errors[$name]['_required'] = isset($this->_presenceMessages[$name])
                     ? $this->_presenceMessages[$name]
                     : $requiredMessage;
                 continue;
@@ -115,7 +115,7 @@ class Validator implements \ArrayAccess, \IteratorAggregate, \Countable
             $isEmpty = $this->_fieldIsEmpty($data[$name]);
 
             if (!$canBeEmpty && $isEmpty) {
-                $errors[$name][] = isset($this->_allowEmptyMessages[$name])
+                $errors[$name]['_empty'] = isset($this->_allowEmptyMessages[$name])
                     ? $this->_allowEmptyMessages[$name]
                     : $emptyMessage;
                 continue;
@@ -269,7 +269,7 @@ class Validator implements \ArrayAccess, \IteratorAggregate, \Countable
      *
      * ### Example:
      *
-     * {{{
+     * ```
      *      $validator
      *          ->add('title', 'required', ['rule' => 'notEmpty'])
      *          ->add('user_id', 'valid', ['rule' => 'numeric', 'message' => 'Invalid User'])
@@ -278,7 +278,7 @@ class Validator implements \ArrayAccess, \IteratorAggregate, \Countable
      *          'size' => ['rule' => ['between', 8, 20]],
      *          'hasSpecialCharacter' => ['rule' => 'validateSpecialchar', 'message' => 'not valid']
      *      ]);
-     * }}}
+     * ```
      *
      * @param string $field The name of the field from which the rule will be removed
      * @param array|string $name The alias for a single rule or multiple rules array
@@ -307,11 +307,11 @@ class Validator implements \ArrayAccess, \IteratorAggregate, \Countable
      *
      * ### Example:
      *
-     * {{{
+     * ```
      *      $validator
      *          ->remove('title', 'required')
      *          ->remove('user_id')
-     * }}}
+     * ```
      *
      * @param string $field The name of the field from which the rule will be removed
      * @param string|null $rule the name of the rule to be removed
@@ -353,21 +353,23 @@ class Validator implements \ArrayAccess, \IteratorAggregate, \Countable
      *
      * ### Example:
      *
-     * {{{
-     * $validator->allowEmpty('email'); // Email cannot be empty
+     * ```
+     * $validator->allowEmpty('email'); // Email can be empty
      * $validator->allowEmpty('email', 'create'); // Email can be empty on create
      * $validator->allowEmpty('email', 'update'); // Email can be empty on update
-     * }}}
+     * ```
      *
      * It is possible to conditionally allow emptiness on a field by passing a callback
      * as a second argument. The callback will receive the validation context array as
      * argument:
      *
-     * {{{
+     * ```
      * $validator->allowEmpty('email', function ($context) {
      *  return !$context['newRecord'] || $context['data']['role'] === 'admin';
      * });
-     * }}}
+     * ```
+     *
+     * This method will correctly detect empty file uploads and date/time/datetime fields.
      *
      * Because this and `notEmpty()` modify the same internal state, the last
      * method called will take precedence.
@@ -375,7 +377,7 @@ class Validator implements \ArrayAccess, \IteratorAggregate, \Countable
      * @param string $field the name of the field
      * @param bool|string|callable $when Indicates when the field is allowed to be empty
      * Valid values are true (always), 'create', 'update'. If a callable is passed then
-     * the field will allowed to be empty only when the callaback returns true.
+     * the field will allowed to be empty only when the callback returns true.
      * @return $this
      */
     public function allowEmpty($field, $when = true)
@@ -393,22 +395,22 @@ class Validator implements \ArrayAccess, \IteratorAggregate, \Countable
      *
      * ### Example:
      *
-     * {{{
+     * ```
      * $message = 'This field cannot be empty';
      * $validator->notEmpty('email'); // Email cannot be empty
      * $validator->notEmpty('email', $message, 'create'); // Email can be empty on update
      * $validator->notEmpty('email', $message, 'update'); // Email can be empty on create
-     * }}}
+     * ```
      *
      * It is possible to conditionally disallow emptiness on a field by passing a callback
      * as the third argument. The callback will receive the validation context array as
      * argument:
      *
-     * {{{
+     * ```
      * $validator->notEmpty('email', 'Email is required', function ($context) {
      *   return $context['newRecord'] && $context['data']['role'] !== 'admin';
      * });
-     * }}}
+     * ```
      *
      * Because this and `allowEmpty()` modify the same internal state, the last
      * method called will take precedence.
@@ -418,7 +420,7 @@ class Validator implements \ArrayAccess, \IteratorAggregate, \Countable
      * @param bool|string|callable $when  Indicates when the field is not allowed
      * to be empty. Valid values are true (always), 'create', 'update'. If a
      * callable is passed then the field will allowed be empty only when
-     * the callaback returns false.
+     * the callback returns false.
      * @return $this
      */
     public function notEmpty($field, $message = null, $when = false)
@@ -524,6 +526,14 @@ class Validator implements \ArrayAccess, \IteratorAggregate, \Countable
     {
         if (empty($data) && $data !== '0' && $data !== false && $data !== 0 && $data !== 0.0) {
             return true;
+        }
+        $isArray = is_array($data);
+        if ($isArray && (isset($data['year']) || isset($data['hour']))) {
+            $value = implode('', $data);
+            return strlen($value) === 0;
+        }
+        if ($isArray && isset($data['name'], $data['type'], $data['tmp_name'], $data['error'])) {
+            return (int)$data['error'] === UPLOAD_ERR_NO_FILE;
         }
         return false;
     }

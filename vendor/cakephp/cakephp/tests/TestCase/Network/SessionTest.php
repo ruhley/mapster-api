@@ -72,7 +72,7 @@ class SessionTest extends TestCase
      */
     public static function setupBeforeClass()
     {
-        // Make sure garbage colector will be called
+        // Make sure garbage collector will be called
         static::$_gcDivisor = ini_get('session.gc_divisor');
         ini_set('session.gc_divisor', '1');
     }
@@ -302,7 +302,22 @@ class SessionTest extends TestCase
     }
 
     /**
-     * testDel method
+     * testClear method
+     *
+     * @return void
+     */
+    public function testClear()
+    {
+        $session = new Session();
+        $session->write('Delete.me', 'Clearing out');
+
+        $session->clear();
+        $this->assertFalse($session->check('Delete.me'));
+        $this->assertFalse($session->check('Delete'));
+    }
+
+    /**
+     * testDelete method
      *
      * @return void
      */
@@ -315,6 +330,11 @@ class SessionTest extends TestCase
         $this->assertTrue($session->check('Delete'));
 
         $session->write('Clearing.sale', 'everything must go');
+        $session->delete('');
+        $this->assertTrue($session->check('Clearing.sale'));
+        $session->delete(null);
+        $this->assertTrue($session->check('Clearing.sale'));
+
         $session->delete('Clearing');
         $this->assertFalse($session->check('Clearing.sale'));
         $this->assertFalse($session->check('Clearing'));

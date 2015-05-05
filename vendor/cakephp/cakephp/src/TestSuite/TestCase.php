@@ -291,13 +291,13 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      * Checks for an input tag with a name attribute (contains any non-empty value) and an id
      * attribute that contains 'my-input':
      *
-     * {{{
+     * ```
      * ['input' => ['name', 'id' => 'my-input']]
-     * }}}
+     * ```
      *
      * Checks for two p elements with some text in them:
      *
-     * {{{
+     * ```
      * [
      *   ['p' => true],
      *   'textA',
@@ -306,17 +306,17 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      *   'textB',
      *   '/p'
      * ]
-     * }}}
+     * ```
      *
      * You can also specify a pattern expression as part of the attribute values, or the tag
      * being defined, if you prepend the value with preg: and enclose it with slashes, like so:
      *
-     * {{{
+     * ```
      * [
      *   ['input' => ['name', 'id' => 'preg:/FieldName\d+/']],
      *   'preg:/My\s+field/'
      * ]
-     * }}}
+     * ```
      *
      * Important: This function is very forgiving about whitespace and also accepts any
      * permutation of attribute order. It will also allow whitespace between specified tags.
@@ -324,7 +324,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      * @param array $expected An array, see above
      * @param string $string An HTML/XHTML/XML string
      * @param bool $fullDebug Whether or not more verbose output should be used.
-     * @return void
+     * @return bool
      */
     public function assertHtml($expected, $string, $fullDebug = false)
     {
@@ -463,7 +463,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      *
      * @param array $assertions Assertions to run.
      * @param string $string The HTML string to check.
-     * @return void
+     * @return string
      */
     protected function _assertAttributes($assertions, $string)
     {

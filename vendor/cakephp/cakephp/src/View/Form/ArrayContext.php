@@ -41,7 +41,7 @@ use Cake\Utility\Hash;
  *
  *  ### Example
  *
- *  {{{
+ *  ```
  *  $data = [
  *    'schema' => [
  *      'id' => ['type' => 'integer'],
@@ -55,7 +55,7 @@ use Cake\Utility\Hash;
  *      'title' => 'First post!',
  *    ]
  *  ];
- *  }}}
+ *  ```
  */
 class ArrayContext implements ContextInterface
 {
@@ -99,8 +99,7 @@ class ArrayContext implements ContextInterface
      */
     public function primaryKey()
     {
-        if (
-            empty($this->_context['schema']['_constraints']) ||
+        if (empty($this->_context['schema']['_constraints']) ||
             !is_array($this->_context['schema']['_constraints'])
         ) {
             return [];

@@ -1209,7 +1209,7 @@ class QueryTest extends TestCase
     }
 
     /**
-     * Tests that it is possible to use an expresison object
+     * Tests that it is possible to use an expression object
      * as the field for a between expression
      *
      * @return void
@@ -1472,17 +1472,20 @@ class QueryTest extends TestCase
      */
     public function testSelectDistinctON()
     {
-        $this->skipIf(
-            $this->connection->driver() instanceof \Cake\Database\Driver\Sqlserver,
-            'Not implemented yet in SqlServer'
-        );
         $query = new Query($this->connection);
         $result = $query
             ->select(['id', 'author_id'])
             ->distinct(['author_id'])
             ->from(['a' => 'articles'])
+            ->order(['author_id' => 'ASC'])
             ->execute();
         $this->assertCount(2, $result);
+        $results = $result->fetchAll('assoc');
+        $this->assertEquals(['id', 'author_id'], array_keys($results[0]));
+        $this->assertEquals(
+            [3, 1],
+            collection($results)->sortBy('author_id')->extract('author_id')->toList()
+        );
     }
 
     /**
@@ -1942,6 +1945,35 @@ class QueryTest extends TestCase
         $result = $query->execute();
         $this->assertCount(self::COMMENT_COUNT + self::ARTICLE_COUNT, $result);
         $this->assertEquals($rows, $result->fetchAll());
+    }
+
+    /**
+     * Tests that it is possible to run unions with order statements
+     *
+     * @return void
+     */
+    public function testUnionOrderBy()
+    {
+        $this->skipIf(
+            ($this->connection->driver() instanceof \Cake\Database\Driver\Sqlite ||
+            $this->connection->driver() instanceof \Cake\Database\Driver\Sqlserver),
+            'Driver does not support ORDER BY in UNIONed queries.'
+        );
+        $union = (new Query($this->connection))
+            ->select(['id', 'title'])
+            ->from(['a' => 'articles'])
+            ->order(['a.id' => 'asc']);
+
+        $query = new Query($this->connection);
+        $result = $query->select(['id', 'comment'])
+            ->from(['c' => 'comments'])
+            ->order(['c.id' => 'asc'])
+            ->union($union)
+            ->execute();
+        $this->assertCount(self::COMMENT_COUNT + self::ARTICLE_COUNT, $result);
+
+        $rows = $result->fetchAll();
+        $this->assertCount(self::COMMENT_COUNT + self::ARTICLE_COUNT, $result);
     }
 
     /**
@@ -3129,6 +3161,40 @@ class QueryTest extends TestCase
         $this->assertEquals('Published', $results[2]['status']);
         $this->assertEquals('Not published', $results[3]['status']);
         $this->assertEquals('None', $results[6]['status']);
+    }
+
+    /**
+     * Shows that bufferResults(false) will prevent client-side results buffering
+     *
+     * @return void
+     */
+    public function testUnbufferedQuery()
+    {
+        $query = new Query($this->connection);
+        $result = $query->select(['body', 'author_id'])
+            ->from('articles')
+            ->bufferResults(false)
+            ->execute();
+
+        if (!method_exists($result, 'bufferResults')) {
+            $result->closeCursor();
+            $this->skipIf(true, 'This driver does not support unbuffered queries');
+        }
+
+        $this->assertCount(0, $result);
+        $list = $result->fetchAll('assoc');
+        $this->assertCount(3, $list);
+        $result->closeCursor();
+
+        $query = new Query($this->connection);
+        $result = $query->select(['body', 'author_id'])
+            ->from('articles')
+            ->execute();
+
+        $this->assertCount(3, $result);
+        $list = $result->fetchAll('assoc');
+        $this->assertCount(3, $list);
+        $result->closeCursor();
     }
 
     /**

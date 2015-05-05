@@ -15,6 +15,7 @@
 namespace Cake\Database\Driver;
 
 use Cake\Database\Dialect\SqlserverDialectTrait;
+use Cake\Database\Query;
 use Cake\Database\Statement\SqlserverStatement;
 use PDO;
 
@@ -100,7 +101,12 @@ class Sqlserver extends \Cake\Database\Driver
     public function prepare($query)
     {
         $this->connect();
-        $statement = $this->_connection->prepare((string)$query, [PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL]);
+        $options = [PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL];
+        $isObject = $query instanceof Query;
+        if ($isObject && $query->bufferResults() === false) {
+            $options = [];
+        }
+        $statement = $this->_connection->prepare($isObject ? $query->sql() : $query, $options);
         return new SqlserverStatement($statement, $this);
     }
 }

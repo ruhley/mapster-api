@@ -36,7 +36,7 @@ interface EntityInterface extends ArrayAccess, JsonSerializable
      * keys are `setter` and `guard`
      * @return \Cake\Datasource\EntityInterface
      */
-    public function set($property, $value = null, $options = []);
+    public function set($property, $value = null, array $options = []);
 
     /**
      * Returns the value of a property by name
@@ -161,7 +161,7 @@ interface EntityInterface extends ArrayAccess, JsonSerializable
      *
      * @param string|array $field The field to get errors for.
      * @param string|array|null $errors The errors to be set for $field
-     * @param bool $overwrite Whether or not to overwite pre-existing errors for $field
+     * @param bool $overwrite Whether or not to overwrite pre-existing errors for $field
      * @return array|\Cake\Datasource\EntityInterface
      */
     public function errors($field = null, $errors = null, $overwrite = false);

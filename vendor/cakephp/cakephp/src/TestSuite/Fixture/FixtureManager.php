@@ -150,13 +150,12 @@ class FixtureManager
             } elseif ($type === 'app') {
                 $baseNamespace = Configure::read('App.namespace');
             } elseif ($type === 'plugin') {
-                if (strlen($additionalPath)) {
-                    list($plugin, $additionalPath) = explode('.', $additionalPath);
-                } else {
-                    list($plugin, $name) = explode('.', $name);
-                }
-                $baseNamespace = Inflector::camelize(str_replace('\\', '\ ', $plugin));
+                list($plugin, $name) = explode('.', $pathName);
+                $path = implode('\\', explode('/', $plugin));
+                $baseNamespace = Inflector::camelize(str_replace('\\', '\ ', $path));
+                $additionalPath = null;
             } else {
+                $baseNamespace = '';
                 $name = $fixture;
             }
             $name = Inflector::camelize($name);

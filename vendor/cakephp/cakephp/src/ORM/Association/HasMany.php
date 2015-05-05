@@ -45,7 +45,14 @@ class HasMany extends Association
      *
      * @var string
      */
-    protected $_strategy = parent::STRATEGY_SELECT;
+    protected $_strategy = self::STRATEGY_SELECT;
+
+    /**
+     * Valid strategies for this type of association
+     *
+     * @var array
+     */
+    protected $_validStrategies = [self::STRATEGY_SELECT, self::STRATEGY_SUBQUERY];
 
     /**
      * Returns whether or not the passed table is the owning side for this
@@ -128,6 +135,11 @@ class HasMany extends Association
     {
         $links = [];
         $name = $this->alias();
+        if ($options['foreignKey'] === false) {
+            $msg = 'Cannot have foreignKey = false for hasMany associations. ' .
+                   'You must provide a foreignKey column.';
+            throw new \RuntimeException($msg);
+        }
 
         foreach ((array)$options['foreignKey'] as $key) {
             $links[] = sprintf('%s.%s', $name, $key);

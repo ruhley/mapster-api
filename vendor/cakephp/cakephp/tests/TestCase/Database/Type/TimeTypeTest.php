@@ -111,6 +111,14 @@ class TimeTypeTest extends TestCase
 
             // valid array types
             [
+                ['hour' => '', 'minute' => '', 'second' => ''],
+                null,
+            ],
+            [
+                ['hour' => '', 'minute' => '', 'meridian' => ''],
+                null,
+            ],
+            [
                 ['year' => 2014, 'month' => 2, 'day' => 14, 'hour' => 13, 'minute' => 14, 'second' => 15],
                 new Time('2014-02-14 13:14:15')
             ],
@@ -166,5 +174,20 @@ class TimeTypeTest extends TestCase
         } else {
             $this->assertSame($expected, $result);
         }
+    }
+
+    /**
+     * Tests marshalling dates using the locale aware parser
+     *
+     * @return void
+     */
+    public function testMarshalWithLocaleParsing()
+    {
+        $this->type->useLocaleParser();
+        $expected = new Time('23:23:00');
+        $result = $this->type->marshal('11:23pm');
+        $this->assertEquals($expected->format('H:i'), $result->format('H:i'));
+
+        $this->assertNull($this->type->marshal('derp:23'));
     }
 }

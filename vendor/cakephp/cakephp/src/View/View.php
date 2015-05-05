@@ -262,24 +262,24 @@ class View
     protected $_stack = [];
 
     /**
- * Constant for view file type 'view'
- *
- * @var string
- */
+     * Constant for view file type 'view'
+     *
+     * @var string
+     */
     const TYPE_VIEW = 'view';
 
     /**
- * Constant for view file type 'element'
- *
- * @var string
- */
+     * Constant for view file type 'element'
+     *
+     * @var string
+     */
     const TYPE_ELEMENT = 'element';
 
     /**
- * Constant for view file type 'layout'
- *
- * @var string
- */
+     * Constant for view file type 'layout'
+     *
+     * @var string
+     */
     const TYPE_LAYOUT = 'layout';
 
     /**
@@ -446,7 +446,7 @@ class View
      *
      * @param string|null $view Name of view file to use
      * @param string|null $layout Layout to use.
-     * @return string|null Rendered content or null if content already rendered and returned earlier.
+     * @return string|void Rendered content or null if content already rendered and returned earlier.
      * @throws \Cake\Core\Exception\Exception If there is an error in the view.
      * @triggers View.beforeRender $this, [$viewFileName]
      * @triggers View.afterRender $this, [$viewFileName]

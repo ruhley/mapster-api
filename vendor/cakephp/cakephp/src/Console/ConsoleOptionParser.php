@@ -170,7 +170,7 @@ class ConsoleOptionParser
     /**
      * Build a parser from an array. Uses an array like
      *
-     * {{{
+     * ```
      * $spec = [
      *      'description' => 'text',
      *      'epilog' => 'text',
@@ -184,7 +184,7 @@ class ConsoleOptionParser
      *          // list of subcommands to add.
      *      ]
      * ];
-     * }}}
+     * ```
      *
      * @param array $spec The spec to build the OptionParser with.
      * @param bool $defaultOptions Whether you want the verbose and quiet options set.
@@ -323,7 +323,7 @@ class ConsoleOptionParser
      * - `default` - The default value for this option. Defaults are added into the parsed params when the
      *    attached option is not provided or has no value. Using default and boolean together will not work.
      *    are added into the parsed parameters when the option is undefined. Defaults to null.
-     * - `boolean` - The option uses no value, its just a boolean switch. Defaults to false.
+     * - `boolean` - The option uses no value, it's just a boolean switch. Defaults to false.
      *    If an option is defined as boolean, it will always be added to the parsed params. If no present
      *    it will be false, if present it will be true.
      * - `choices` A list of valid choices for this option. If left empty all values are valid..
@@ -334,7 +334,7 @@ class ConsoleOptionParser
      * @param array $options An array of parameters that define the behavior of the option
      * @return $this
      */
-    public function addOption($name, $options = [])
+    public function addOption($name, array $options = [])
     {
         if ($name instanceof ConsoleInputOption) {
             $option = $name;
@@ -388,7 +388,7 @@ class ConsoleOptionParser
      * @param array $params Parameters for the argument, see above.
      * @return $this
      */
-    public function addArgument($name, $params = [])
+    public function addArgument($name, array $params = [])
     {
         if ($name instanceof ConsoleInputArgument) {
             $arg = $name;
@@ -471,7 +471,7 @@ class ConsoleOptionParser
      * @param array $options Array of params, see above.
      * @return $this
      */
-    public function addSubcommand($name, $options = [])
+    public function addSubcommand($name, array $options = [])
     {
         if ($name instanceof ConsoleInputSubcommand) {
             $command = $name;

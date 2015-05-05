@@ -130,8 +130,33 @@ class IntegrationTestCaseTest extends IntegrationTestCase
     public function testPostAndErrorHandling()
     {
         $this->post('/request_action/error_method');
+        $this->assertResponseNotEmpty();
         $this->assertResponseContains('Not there or here');
         $this->assertResponseContains('<!DOCTYPE html>');
+    }
+
+    /**
+     * Test redirecting and integration tests.
+     *
+     * @return void
+     */
+    public function testRedirect()
+    {
+        $this->post('/tests_apps/redirect_to');
+        $this->assertResponseSuccess();
+        $this->assertResponseCode(302);
+    }
+
+    /**
+     * Test redirecting and integration tests.
+     *
+     * @return void
+     */
+    public function testRedirectPermanent()
+    {
+        $this->post('/tests_apps/redirect_to_permanent');
+        $this->assertResponseSuccess();
+        $this->assertResponseCode(301);
     }
 
     /**
@@ -151,6 +176,12 @@ class IntegrationTestCaseTest extends IntegrationTestCase
 
         $this->_response->statusCode(204);
         $this->assertResponseOk();
+
+        $this->_response->statusCode(202);
+        $this->assertResponseSuccess();
+
+        $this->_response->statusCode(302);
+        $this->assertResponseSuccess();
 
         $this->_response->statusCode(400);
         $this->assertResponseError();
@@ -178,8 +209,11 @@ class IntegrationTestCaseTest extends IntegrationTestCase
         $this->_response = new Response();
         $this->_response->header('Location', 'http://localhost/tasks/index');
 
+        $this->assertRedirect();
         $this->assertRedirect('/tasks/index');
         $this->assertRedirect(['controller' => 'Tasks', 'action' => 'index']);
+
+        $this->assertResponseEmpty();
     }
 
     /**
@@ -206,6 +240,19 @@ class IntegrationTestCaseTest extends IntegrationTestCase
         ob_start();
         $this->assertFalse($result->wasSuccessful());
         $this->assertEquals(1, $result->failureCount());
+    }
+
+    /**
+     * Test the location header assertion string contains
+     *
+     * @return void
+     */
+    public function testAssertRedirectContains()
+    {
+        $this->_response = new Response();
+        $this->_response->header('Location', 'http://localhost/tasks/index');
+
+        $this->assertRedirectContains('/tasks/index');
     }
 
     /**

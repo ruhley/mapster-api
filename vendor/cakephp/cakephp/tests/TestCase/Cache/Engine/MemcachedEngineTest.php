@@ -66,6 +66,12 @@ class MemcachedEngineTest extends TestCase
         parent::setUp();
         $this->skipIf(!class_exists('Memcached'), 'Memcached is not installed or configured properly.');
 
+        // @codingStandardsIgnoreStart
+        $socket = @fsockopen('127.0.0.1', 11211, $errno, $errstr, 1);
+        // @codingStandardsIgnoreEnd
+        $this->skipIf(!$socket, 'Memcached is not running.');
+        fclose($socket);
+
         $this->_configCache();
     }
 
@@ -123,7 +129,9 @@ class MemcachedEngineTest extends TestCase
             'password' => null,
             'groups' => [],
             'serialize' => 'php',
-            'options' => []
+            'options' => [],
+            'host' => null,
+            'port' => null,
         ];
         $this->assertEquals($expecting, $config);
     }
@@ -370,6 +378,8 @@ class MemcachedEngineTest extends TestCase
      * test using authentication without memcached installed with SASL support
      * throw an exception
      *
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Memcached extension is not build with SASL support
      * @return void
      */
     public function testSaslAuthException()
@@ -383,7 +393,6 @@ class MemcachedEngineTest extends TestCase
             'password' => 'password'
         ];
 
-        $this->setExpectedException('PHPUnit_Framework_Error_Warning');
         $MemcachedEngine->init($config);
     }
 
@@ -434,6 +443,18 @@ class MemcachedEngineTest extends TestCase
             ]
         ]);
         $this->assertTrue($result);
+    }
+
+    /**
+     * test domain starts with u
+     *
+     * @return void
+     */
+    public function testParseServerStringWithU()
+    {
+        $Memcached = new TestMemcachedEngine();
+        $result = $Memcached->parseServerString('udomain.net:13211');
+        $this->assertEquals(array('udomain.net', '13211'), $result);
     }
 
     /**
@@ -606,7 +627,7 @@ class MemcachedEngineTest extends TestCase
      */
     public function testDeleteMany()
     {
-        $this->assertFalse(defined('HHVM_VERSION'), 'Crashes HHVM');
+        $this->skipIf(defined('HHVM_VERSION'), 'HHVM does not implement deleteMulti');
         $this->_configCache();
         $data = [
             'App.falseTest' => false,
@@ -786,7 +807,6 @@ class MemcachedEngineTest extends TestCase
      */
     public function testClear()
     {
-        $this->assertFalse(defined('HHVM_VERSION'), 'Crashes HHVM');
         Cache::config('memcached2', [
             'engine' => 'Memcached',
             'prefix' => 'cake2_',
@@ -820,28 +840,6 @@ class MemcachedEngineTest extends TestCase
         $this->assertTrue($result);
         $result = Cache::read('test_key', 'memcached');
         $this->assertEquals('written!', $result);
-    }
-
-    /**
-     * test that durations greater than 30 days never expire
-     *
-     * @return void
-     */
-    public function testLongDurationEqualToZero()
-    {
-        $this->markTestSkipped('Cannot run as Memcached cannot be reflected');
-
-        $memcached = new TestMemcachedEngine();
-        $memcached->init(['prefix' => 'Foo_', 'compress' => false, 'duration' => 50 * DAY]);
-
-        $mock = $this->getMock('Memcached');
-        $memcached->setMemcached($mock);
-        $mock->expects($this->once())
-            ->method('set')
-            ->with('Foo_key', 'value', 0);
-
-        $value = 'value';
-        $memcached->write('key', $value);
     }
 
     /**

@@ -6,7 +6,7 @@
 # Use the version number to figure out if the release
 # is a pre-release
 PRERELEASE=$(shell echo $(VERSION) | grep -E 'dev|rc|alpha|beta' --quiet && echo 'true' || echo 'false')
-COMPONENTS= log utility cache datasource core collection event validation database
+COMPONENTS= log utility cache datasource core collection event validation database i18n ORM
 CURRENT_BRANCH=$(shell git branch | grep '*' | tr -d '* ')
 
 # Github settings
@@ -31,7 +31,7 @@ help:
 	@echo "================"
 	@echo ""
 	@echo "release"
-	@echo "  Create a new release of CakePHP. Requires the VERSION and GITHUB_USER parameter."
+	@echo "  Create a new release of CakePHP. Requires the VERSION and GITHUB_USER, or GITHUB_TOKEN parameter."
 	@echo "  Packages up a new app skeleton tarball and uploads it to github."
 	@echo ""
 	@echo "package"

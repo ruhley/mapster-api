@@ -36,17 +36,17 @@ class BelongsToMany extends Association
     }
 
     /**
- * Saving strategy that will only append to the links set
- *
- * @var string
- */
+     * Saving strategy that will only append to the links set
+     *
+     * @var string
+     */
     const SAVE_APPEND = 'append';
 
     /**
- * Saving strategy that will replace the links with the provided set
- *
- * @var string
- */
+     * Saving strategy that will replace the links with the provided set
+     *
+     * @var string
+     */
     const SAVE_REPLACE = 'replace';
 
     /**
@@ -61,7 +61,7 @@ class BelongsToMany extends Association
      *
      * @var string
      */
-    protected $_strategy = parent::STRATEGY_SELECT;
+    protected $_strategy = self::STRATEGY_SELECT;
 
     /**
      * Junction table instance
@@ -113,6 +113,23 @@ class BelongsToMany extends Association
      * @var string|\Cake\ORM\Table
      */
     protected $_through;
+
+    /**
+     * Valid strategies for this type of association
+     *
+     * @var array
+     */
+    protected $_validStrategies = [self::STRATEGY_SELECT, self::STRATEGY_SUBQUERY];
+
+    /**
+     * Whether the records on the joint table should be removed when a record
+     * on the source table is deleted.
+     *
+     * Defaults to true for backwards compatibility.
+     *
+     * @var bool
+     */
+    protected $_dependent = true;
 
     /**
      * Sets the name of the field representing the foreign key to the target table.
@@ -325,6 +342,9 @@ class BelongsToMany extends Association
      */
     public function cascadeDelete(EntityInterface $entity, array $options = [])
     {
+        if (!$this->dependent()) {
+            return true;
+        }
         $foreignKey = (array)$this->foreignKey();
         $primaryKey = (array)$this->source()->primaryKey();
         $conditions = [];
@@ -552,10 +572,10 @@ class BelongsToMany extends Association
      *
      * ### Example:
      *
-     * {{{
+     * ```
      * $newTags = $tags->find('relevant')->execute();
      * $articles->association('tags')->link($article, $newTags);
-     * }}}
+     * ```
      *
      * `$article->get('tags')` will contain all tags in `$newTags` after liking
      *
@@ -593,11 +613,11 @@ class BelongsToMany extends Association
      *
      * ### Example:
      *
-     * {{{
+     * ```
      * $article->tags = [$tag1, $tag2, $tag3, $tag4];
      * $tags = [$tag1, $tag2, $tag3];
      * $articles->association('tags')->unlink($article, $tags);
-     * }}}
+     * ```
      *
      * `$article->get('tags')` will contain only `[$tag4]` after deleting in the database
      *
@@ -676,12 +696,12 @@ class BelongsToMany extends Association
      *
      * ### Example:
      *
-     * {{{
+     * ```
      * $article->tags = [$tag1, $tag2, $tag3, $tag4];
      * $articles->save($article);
      * $tags = [$tag1, $tag3];
      * $articles->association('tags')->replaceLinks($article, $tags);
-     * }}}
+     * ```
      *
      * `$article->get('tags')` will contain only `[$tag1, $tag3]` at the end
      *

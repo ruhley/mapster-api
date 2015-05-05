@@ -60,7 +60,7 @@ class Configure
      * Used to store a dynamic variable in Configure.
      *
      * Usage:
-     * {{{
+     * ```
      * Configure::write('One.key1', 'value of the Configure::One[key1]');
      * Configure::write(['One.key1' => 'value of the Configure::One[key1]']);
      * Configure::write('One', [
@@ -72,7 +72,7 @@ class Configure
      *     'One.key1' => 'value of the Configure::One[key1]',
      *     'One.key2' => 'value of the Configure::One[key2]'
      * ]);
-     * }}}
+     * ```
      *
      * @param string|array $config The key to write, can be a dot notation value.
      * Alternatively can be an array containing key(s) and value(s).
@@ -106,10 +106,10 @@ class Configure
      * possible to store `null` values in Configure.
      *
      * Usage:
-     * {{{
+     * ```
      * Configure::read('Name'); will return all values for Name
      * Configure::read('Name.key'); will return only the value of Configure::Name[key]
-     * }}}
+     * ```
      *
      * @param string $var Variable to obtain. Use '.' to access array elements.
      * @return mixed value stored in configure, or null.
@@ -134,17 +134,17 @@ class Configure
         if (empty($var)) {
             return false;
         }
-        return Hash::get(static::$_values, $var) !== null;
+        return static::read($var) !== null;
     }
 
     /**
      * Used to delete a variable from Configure.
      *
      * Usage:
-     * {{{
+     * ```
      * Configure::delete('Name'); will delete the entire Configure::Name
      * Configure::delete('Name.key'); will delete only the Configure::Name[key]
-     * }}}
+     * ```
      *
      * @param string $var the var to be deleted
      * @return void
@@ -176,7 +176,7 @@ class Configure
             return $value;
         }
         $value = Hash::get(static::$_values, $var);
-        static::$_values = Hash::remove(static::$_values, $var);
+        static::delete($var);
         return $value;
     }
 
@@ -279,11 +279,11 @@ class Configure
      * Given that the 'default' engine is an instance of PhpConfig.
      * Save all data in Configure to the file `my_config.php`:
      *
-     * `Configure::dump('my_config.php', 'default');`
+     * `Configure::dump('my_config', 'default');`
      *
      * Save only the error handling configuration:
      *
-     * `Configure::dump('error.php', 'default', ['Error', 'Exception'];`
+     * `Configure::dump('error', 'default', ['Error', 'Exception'];`
      *
      * @param string $key The identifier to create in the config adapter.
      *   This could be a filename or a cache key depending on the adapter being used.

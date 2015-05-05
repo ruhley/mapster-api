@@ -89,6 +89,29 @@ class PluginTest extends TestCase
     }
 
     /**
+     * Test load() with the autoload option.
+     *
+     * @return void
+     */
+    public function testLoadSingleWithAutoloadAndBootstrap()
+    {
+        $this->assertFalse(class_exists('Company\TestPluginFive\Utility\Hello'));
+        Plugin::load(
+            'Company/TestPluginFive',
+            [
+                'autoload' => true,
+                'bootstrap' => true
+            ]
+        );
+        $this->assertTrue(Configure::read('PluginTest.test_plugin_five.autoload'));
+        $this->assertEquals('loaded plugin five bootstrap', Configure::read('PluginTest.test_plugin_five.bootstrap'));
+        $this->assertTrue(
+            class_exists('Company\TestPluginFive\Utility\Hello'),
+            'Class should be loaded'
+        );
+    }
+
+    /**
      * Tests loading a plugin and its bootstrap file
      *
      * @return void
@@ -117,6 +140,18 @@ class PluginTest extends TestCase
 
         Plugin::routes();
         $this->assertEquals('loaded plugin routes', Configure::read('PluginTest.test_plugin.routes'));
+    }
+
+    /**
+     * Test load() with path configuration data
+     *
+     * @return void
+     */
+    public function testLoadSingleWithPathConfig()
+    {
+        Configure::write('plugins.TestPlugin', APP);
+        Plugin::load('TestPlugin');
+        $this->assertEquals(APP . 'src' . DS, Plugin::classPath('TestPlugin'));
     }
 
     /**
@@ -259,7 +294,7 @@ class PluginTest extends TestCase
     }
 
     /**
-     * Tests that Plugin::loadAll() will load all plgins in the configured folder
+     * Tests that Plugin::loadAll() will load all plugins in the configured folder
      *
      * @return void
      */
@@ -268,6 +303,18 @@ class PluginTest extends TestCase
         Plugin::loadAll();
         $expected = ['Company', 'PluginJs', 'TestPlugin', 'TestPluginFour', 'TestPluginTwo', 'TestTheme'];
         $this->assertEquals($expected, Plugin::loaded());
+    }
+
+    /**
+     * Test loadAll() with path configuration data
+     *
+     * @return void
+     */
+    public function testLoadAllWithPathConfig()
+    {
+        Configure::write('plugins.FakePlugin', APP);
+        Plugin::loadAll();
+        $this->assertContains('FakePlugin', Plugin::loaded());
     }
 
     /**
@@ -283,7 +330,7 @@ class PluginTest extends TestCase
     }
 
     /**
-     * Tests that Plugin::loadAll() will load all plgins in the configured folder with bootstrap loading
+     * Tests that Plugin::loadAll() will load all plugins in the configured folder with bootstrap loading
      *
      * @return void
      */
@@ -299,7 +346,7 @@ class PluginTest extends TestCase
     }
 
     /**
-     * Tests that Plugin::loadAll() will load all plgins in the configured folder wit defaults
+     * Tests that Plugin::loadAll() will load all plugins in the configured folder wit defaults
      * and overrides for a plugin
      *
      * @return void

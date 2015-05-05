@@ -26,6 +26,13 @@ class DateTimeTypeTest extends TestCase
 {
 
     /**
+     * Original type map
+     *
+     * @var array
+     */
+    protected $_originalMap = [];
+
+    /**
      * Setup
      *
      * @return void
@@ -35,6 +42,19 @@ class DateTimeTypeTest extends TestCase
         parent::setUp();
         $this->type = Type::build('datetime');
         $this->driver = $this->getMock('Cake\Database\Driver');
+        $this->_originalMap = Type::map();
+    }
+
+    /**
+     * Restores Type class state
+     *
+     * @return void
+     */
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        Type::map($this->_originalMap);
     }
 
     /**
@@ -116,6 +136,10 @@ class DateTimeTypeTest extends TestCase
 
             // valid array types
             [
+                ['year' => '', 'month' => '', 'day' => '', 'hour' => '', 'minute' => '', 'second' => ''],
+                null
+            ],
+            [
                 ['year' => 2014, 'month' => 2, 'day' => 14, 'hour' => 13, 'minute' => 14, 'second' => 15],
                 new Time('2014-02-14 13:14:15')
             ],
@@ -140,6 +164,12 @@ class DateTimeTypeTest extends TestCase
                     'year' => 2014, 'month' => 2, 'day' => 14,
                 ],
                 new Time('2014-02-14 00:00:00')
+            ],
+            [
+                [
+                    'year' => 2014, 'month' => 2, 'day' => 14, 'hour' => 12, 'minute' => 30, 'timezone' => 'Europe/Paris'
+                ],
+                new Time('2014-02-14 11:30:00', 'UTC')
             ],
 
             // Invalid array types
@@ -179,5 +209,33 @@ class DateTimeTypeTest extends TestCase
         } else {
             $this->assertSame($expected, $result);
         }
+    }
+
+    /**
+     * Tests marshalling dates using the locale aware parser
+     *
+     * @return void
+     */
+    public function testMarshalWithLocaleParsing()
+    {
+        $this->type->useLocaleParser();
+        $expected = new Time('13-10-2013 23:28:00');
+        $result = $this->type->marshal('10/13/2013 11:28pm');
+        $this->assertEquals($expected, $result);
+
+        $this->assertNull($this->type->marshal('11/derp/2013 11:28pm'));
+    }
+
+    /**
+     * Tests marshalling dates using the locale aware parser and custom format
+     *
+     * @return void
+     */
+    public function testMarshalWithLocaleParsingWithFormat()
+    {
+        $this->type->useLocaleParser()->setLocaleFormat('dd MMM, y hh:mma');
+        $expected = new Time('13-10-2013 13:54:00');
+        $result = $this->type->marshal('13 Oct, 2013 01:54pm');
+        $this->assertEquals($expected, $result);
     }
 }

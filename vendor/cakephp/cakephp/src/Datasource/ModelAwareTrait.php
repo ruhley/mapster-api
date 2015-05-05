@@ -74,7 +74,7 @@ trait ModelAwareTrait
      * @param string $type The type of repository to load. Defaults to 'Table' which
      *   delegates to Cake\ORM\TableRegistry.
      * @return object The model instance created.
-     * @throws \Cake\Model\Exception\MissingModelException If the model class cannot be found.
+     * @throws \Cake\Datasource\Exception\MissingModelException If the model class cannot be found.
      * @throws \InvalidArgumentException When using a type that has not been registered.
      */
     public function loadModel($modelClass = null, $type = 'Table')
@@ -83,11 +83,11 @@ trait ModelAwareTrait
             $modelClass = $this->modelClass;
         }
 
-        if (isset($this->{$modelClass})) {
-            return $this->{$modelClass};
-        }
+        list($plugin, $alias) = pluginSplit($modelClass, true);
 
-        list($plugin, $modelClass) = pluginSplit($modelClass, true);
+        if (isset($this->{$alias})) {
+            return $this->{$alias};
+        }
 
         if (!isset($this->_modelFactories[$type])) {
             throw new InvalidArgumentException(sprintf(
@@ -96,11 +96,11 @@ trait ModelAwareTrait
             ));
         }
         $factory = $this->_modelFactories[$type];
-        $this->{$modelClass} = $factory($plugin . $modelClass);
-        if (!$this->{$modelClass}) {
+        $this->{$alias} = $factory($modelClass);
+        if (!$this->{$alias}) {
             throw new MissingModelException([$modelClass, $type]);
         }
-        return $this->{$modelClass};
+        return $this->{$alias};
     }
 
     /**

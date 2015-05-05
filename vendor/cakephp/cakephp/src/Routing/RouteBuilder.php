@@ -30,17 +30,17 @@ class RouteBuilder
 {
 
     /**
- * Regular expression for auto increment IDs
- *
- * @var string
- */
+     * Regular expression for auto increment IDs
+     *
+     * @var string
+     */
     const ID = '[0-9]+';
 
     /**
- * Regular expression for UUIDs
- *
- * @var string
- */
+     * Regular expression for UUIDs
+     *
+     * @var string
+     */
     const UUID = '[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}';
 
     /**
@@ -179,18 +179,18 @@ class RouteBuilder
      *
      * Connect resource routes for an app controller:
      *
-     * {{{
+     * ```
      * $routes->resources('Posts');
-     * }}}
+     * ```
      *
      * Connect resource routes for the Comments controller in the
      * Comments plugin:
      *
-     * {{{
+     * ```
      * Router::plugin('Comments', function ($routes) {
      *   $routes->resources('Comments');
      * });
-     * }}}
+     * ```
      *
      * Plugins will create lower_case underscored resource routes. e.g
      * `/comments/comments`
@@ -198,37 +198,51 @@ class RouteBuilder
      * Connect resource routes for the Articles controller in the
      * Admin prefix:
      *
-     * {{{
+     * ```
      * Router::prefix('admin', function ($routes) {
      *   $routes->resources('Articles');
      * });
-     * }}}
+     * ```
      *
      * Prefixes will create lower_case underscored resource routes. e.g
      * `/admin/posts`
      *
      * You can create nested resources by passing a callback in:
      *
-     * {{{
+     * ```
      * $routes->resources('Articles', function ($routes) {
      *   $routes->resources('Comments');
      * });
-     * }}}
+     * ```
      *
      * The above would generate both resource routes for `/articles`, and `/articles/:article_id/comments`.
+     * You can use the `map` option to connect additional resource methods:
+     *
+     * ```
+     * $routes->resources('Articles', [
+     *   'map' => ['deleteAll' => ['action' => 'deleteAll', 'method' => 'DELETE']]
+     * ]);
+     * ```
+     *
+     * In addition to the default routes, this would also connect a route for `/articles/delete_all`.
+     * By default the path segment will match the key name. You can use the 'path' key inside the resource
+     * definition to customize the path name.
      *
      * ### Options:
      *
      * - 'id' - The regular expression fragment to use when matching IDs. By default, matches
      *    integer values and UUIDs.
+     * - 'inflect' - Choose the inflection method used on the resource name. Defaults to 'underscore'.
      * - 'only' - Only connect the specific list of actions.
      * - 'actions' - Override the method names used for connecting actions.
+     * - 'map' - Additional resource routes that should be connected. If you define 'only' and 'map',
+     *   make sure that your mapped methods are also in the 'only' list.
      *
      * @param string $name A controller name to connect resource routes for.
      * @param array|callable $options Options to use when generating REST routes, or a callback.
      * @param callable|null $callback An optional callback to be executed in a nested scope. Nested
      *   scopes inherit the existing path and 'id' parameter.
-     * @return array Array of mapped resources
+     * @return void
      */
     public function resources($name, $options = [], $callback = null)
     {
@@ -238,22 +252,33 @@ class RouteBuilder
         }
         $options += [
             'connectOptions' => [],
+            'inflect' => 'underscore',
             'id' => static::ID . '|' . static::UUID,
-            'only' => ['index', 'update', 'create', 'view', 'delete'],
+            'only' => [],
             'actions' => [],
+            'map' => [],
         ];
-        $options['only'] = (array)$options['only'];
-        $connectOptions = $options['connectOptions'];
 
-        $urlName = Inflector::underscore($name);
+        foreach ($options['map'] as $k => $mapped) {
+            $options['map'][$k] += ['method' => 'GET', 'path' => $k, 'action' => ''];
+        }
 
         $ext = null;
         if (!empty($options['_ext'])) {
             $ext = $options['_ext'];
         }
 
-        foreach (static::$_resourceMap as $method => $params) {
-            if (!in_array($method, $options['only'], true)) {
+        $connectOptions = $options['connectOptions'];
+        $urlName = Inflector::{$options['inflect']}($name);
+        $resourceMap = array_merge(static::$_resourceMap, $options['map']);
+
+        $only = (array)$options['only'];
+        if (empty($only)) {
+            $only = array_keys($resourceMap);
+        }
+
+        foreach ($resourceMap as $method => $params) {
+            if (!in_array($method, $only, true)) {
                 continue;
             }
 
@@ -267,11 +292,11 @@ class RouteBuilder
                 'controller' => $name,
                 'action' => $action,
                 '_method' => $params['method'],
-                '_ext' => $ext
             ];
             $routeOptions = $connectOptions + [
                 'id' => $options['id'],
-                'pass' => ['id']
+                'pass' => ['id'],
+                '_ext' => $ext,
             ];
             $this->connect($url, $params, $routeOptions);
         }
@@ -304,13 +329,13 @@ class RouteBuilder
      * The above shows the use of route parameter defaults. And providing routing
      * parameters for a static route.
      *
-     * {{{
+     * ```
      * $routes->connect(
      *   '/:lang/:controller/:action/:id',
      *   [],
      *   ['id' => '[0-9]+', 'lang' => '[a-z]{3}']
      * );
-     * }}}
+     * ```
      *
      * Shows connecting a route with custom route parameters as well as
      * providing patterns for those parameters. Patterns for routing parameters
@@ -325,6 +350,10 @@ class RouteBuilder
      * - `routeClass` is used to extend and change how individual routes parse requests
      *   and handle reverse routing, via a custom routing class.
      *   Ex. `'routeClass' => 'SlugRoute'`
+     * -  `persist` is used to define which route parameters should be automatically
+     *   included when generating new URLs. You can override persistent parameters
+     *   by redefining them in a URL or remove them by setting the parameter to `false`.
+     *   Ex. `'persist' => ['lang']`
      * - `_name` is used to define a specific name for routes. This can be used to optimize
      *   reverse routing lookups. If undefined a name will be generated for each
      *   connected route.
@@ -349,7 +378,7 @@ class RouteBuilder
      * @throws \InvalidArgumentException
      * @throws \BadMethodCallException
      */
-    public function connect($route, array $defaults = [], $options = [])
+    public function connect($route, array $defaults = [], array $options = [])
     {
         if (empty($options['action'])) {
             $defaults += ['action' => 'index'];
@@ -559,7 +588,7 @@ class RouteBuilder
      *
      * This is a shortcut method for connecting fallback routes in a given scope.
      *
-     * @param string $routeClass the route class to use, uses the default routeClass
+     * @param string|null $routeClass the route class to use, uses the default routeClass
      *   if not specified
      * @return void
      */

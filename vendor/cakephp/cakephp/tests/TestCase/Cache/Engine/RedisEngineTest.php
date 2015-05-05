@@ -36,7 +36,13 @@ class RedisEngineTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->skipIf(!class_exists('Redis'), 'Redis is not installed or configured properly.');
+        $this->skipIf(!class_exists('Redis'), 'Redis extension is not installed or configured properly.');
+
+        // @codingStandardsIgnoreStart
+        $socket = @fsockopen('127.0.0.1', 6379, $errno, $errstr, 1);
+        // @codingStandardsIgnoreEnd
+        $this->skipIf(!$socket, 'Redis is not running.');
+        fclose($socket);
 
         Cache::enable();
         $this->_configCache();
@@ -92,6 +98,7 @@ class RedisEngineTest extends TestCase
             'password' => false,
             'database' => 0,
             'unix_socket' => false,
+            'host' => null,
         ];
         $this->assertEquals($expecting, $config);
     }

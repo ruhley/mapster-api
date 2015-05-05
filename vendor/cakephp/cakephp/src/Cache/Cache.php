@@ -30,12 +30,12 @@ use RuntimeException;
  * You can configure Cache engines in your application's `Config/cache.php` file.
  * A sample configuration would be:
  *
- * {{{
+ * ```
  * Cache::config('shared', [
  *    'className' => 'Cake\Cache\Engine\ApcEngine',
  *    'prefix' => 'my_app_'
  * ]);
- * }}}
+ * ```
  *
  * This would configure an APC cache engine to the 'shared' alias. You could then read and write
  * to that cache alias by using it for the `$config` parameter in the various Cache methods.
@@ -417,13 +417,14 @@ class Cache
     /**
      * Retrieve group names to config mapping.
      *
-     * {{{
+     * ```
      * Cache::config('daily', ['duration' => '1 day', 'groups' => ['posts']]);
      * Cache::config('weekly', ['duration' => '1 week', 'groups' => ['posts', 'archive']]);
      * $configs = Cache::groupConfigs('posts');
-     * }}}
+     * ```
      *
-     * $config will equal to `['posts' => ['daily', 'weekly']]`
+     * $configs will equal to `['posts' => ['daily', 'weekly']]`
+     * Calling this method will load all the configured engines.
      *
      * @param string|null $group group name or null to retrieve all group mappings
      * @return array map of group and all configuration that has the same group
@@ -431,6 +432,9 @@ class Cache
      */
     public static function groupConfigs($group = null)
     {
+        foreach (array_keys(static::$_config) as $config) {
+            static::engine($config);
+        }
         if ($group === null) {
             return static::$_groups;
         }
@@ -487,11 +491,11 @@ class Cache
      *
      * Using a Closure to provide data, assume `$this` is a Table object:
      *
-     * {{{
+     * ```
      * $results = Cache::remember('all_articles', function () {
      *      return $this->find('all');
      * });
-     * }}}
+     * ```
      *
      * @param string $key The cache key to read/store data at.
      * @param callable $callable The callable that provides data in the case when

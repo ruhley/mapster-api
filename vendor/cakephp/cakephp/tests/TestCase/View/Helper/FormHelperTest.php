@@ -205,7 +205,7 @@ class FormHelperTest extends TestCase
     public function testConstructTemplatesFile()
     {
         $helper = new FormHelper($this->View, [
-            'templates' => 'htmlhelper_tags.php'
+            'templates' => 'htmlhelper_tags'
         ]);
         $result = $helper->input('name');
         $this->assertContains('<input', $result);
@@ -474,7 +474,7 @@ class FormHelperTest extends TestCase
     public function testCreateTemplatesFile()
     {
         $result = $this->Form->create($this->article, [
-            'templates' => 'htmlhelper_tags.php',
+            'templates' => 'htmlhelper_tags',
         ]);
         $expected = [
             'start form',
@@ -1544,10 +1544,13 @@ class FormHelperTest extends TestCase
 
             $result = $this->Form->fields;
             $expected = [
-            'ratio', 'population', 'published', 'other',
-            'stuff' => '',
-            'hidden' => '0',
-            'something'
+                'ratio',
+                'population',
+                'published',
+                'other',
+                'stuff' => '',
+                'hidden' => '0',
+                'something'
             ];
             $this->assertEquals($expected, $result);
 
@@ -1644,6 +1647,18 @@ class FormHelperTest extends TestCase
 
         $this->Form->radio('Test.test', $options);
         $expected = ['Test.test'];
+        $this->assertEquals($expected, $this->Form->fields);
+
+        $this->Form->radio('Test.all', $options, [
+            'disabled' => ['option1', 'option2']
+        ]);
+        $expected = ['Test.test', 'Test.all' => ''];
+        $this->assertEquals($expected, $this->Form->fields);
+
+        $this->Form->radio('Test.some', $options, [
+            'disabled' => ['option1']
+        ]);
+        $expected = ['Test.test', 'Test.all' => '', 'Test.some'];
         $this->assertEquals($expected, $this->Form->fields);
     }
 
@@ -3102,6 +3117,35 @@ class FormHelperTest extends TestCase
             '*/fieldset',
         ];
         $this->assertHtml($expected, $result);
+
+        $this->Form->create($this->article);
+        $result = $this->Form->allInputs([], ['fieldset' => [], 'legend' => 'The Legend']);
+        $expected = [
+            '<fieldset',
+            '<legend',
+            'The Legend',
+            '/legend',
+            '*/fieldset',
+        ];
+        $this->assertHtml($expected, $result);
+
+        $this->Form->create($this->article);
+        $result = $this->Form->allInputs([], [
+            'fieldset' => [
+                'class' => 'some-class some-other-class',
+                'disabled' => true,
+                'data-param' => 'a-param'
+            ],
+            'legend' => 'The Legend'
+        ]);
+        $expected = [
+            '<fieldset class="some-class some-other-class" disabled="disabled" data-param="a-param"',
+            '<legend',
+            'The Legend',
+            '/legend',
+            '*/fieldset',
+        ];
+        $this->assertHtml($expected, $result);
     }
 
     /**
@@ -3694,6 +3738,7 @@ class FormHelperTest extends TestCase
         ]);
 
         $result = $this->Form->radio('Model.field', ['option A', 'option B']);
+        //@codingStandardsIgnoreStart
         $expected = [
             ['input' => [
                 'type' => 'hidden',
@@ -3719,6 +3764,7 @@ class FormHelperTest extends TestCase
                 'option B',
             '/label',
         ];
+        //@codingStandardsIgnoreEnd
         $this->assertHtml($expected, $result);
     }
 
@@ -4106,6 +4152,79 @@ class FormHelperTest extends TestCase
             'green',
             '/option',
             '/select',
+            '/div'
+        ];
+        $this->assertHtml($expected, $result);
+
+        $spacecraft = [
+            1 => 'Orion',
+            2 => 'Helios'
+        ];
+        $this->View->viewVars['spacecraft'] = $spacecraft;
+        $this->Form->create();
+        $result = $this->Form->input('spacecraft._ids');
+        $expected = [
+            'div' => ['class' => 'input select'],
+            'label' => ['for' => 'spacecraft-ids'],
+            'Spacecraft',
+            '/label',
+            'input' => ['type' => 'hidden', 'name' => 'spacecraft[_ids]', 'value' => ''],
+            'select' => [
+                'name' => 'spacecraft[_ids][]', 'id' => 'spacecraft-ids',
+                'multiple' => 'multiple'
+            ],
+            ['option' => ['value' => '1']],
+            'Orion',
+            '/option',
+            ['option' => ['value' => '2']],
+            'Helios',
+            '/option',
+            '/select',
+            '/div'
+        ];
+        $this->assertHtml($expected, $result);
+    }
+
+    /**
+     * Tests that errors for belongsToMany select fields are being
+     * picked up properly.
+     *
+     * @return void
+     */
+    public function testErrorsForBelongsToManySelect()
+    {
+        $spacecraft = [
+            1 => 'Orion',
+            2 => 'Helios'
+        ];
+        $this->View->viewVars['spacecraft'] = $spacecraft;
+
+        $article = new Article();
+        $article->errors('spacecraft', ['Invalid']);
+
+        $this->Form->create($article);
+        $result = $this->Form->input('spacecraft._ids');
+
+        $expected = [
+            ['div' => ['class' => 'input select error']],
+            'label' => ['for' => 'spacecraft-ids'],
+            'Spacecraft',
+            '/label',
+            'input' => ['type' => 'hidden', 'name' => 'spacecraft[_ids]', 'value' => ''],
+            'select' => [
+                'name' => 'spacecraft[_ids][]', 'id' => 'spacecraft-ids',
+                'multiple' => 'multiple'
+            ],
+            ['option' => ['value' => '1']],
+            'Orion',
+            '/option',
+            ['option' => ['value' => '2']],
+            'Helios',
+            '/option',
+            '/select',
+            ['div' => ['class' => 'error-message']],
+            'Invalid',
+            '/div',
             '/div'
         ];
         $this->assertHtml($expected, $result);
@@ -5161,6 +5280,11 @@ class FormHelperTest extends TestCase
             '*/select',
         ];
         $this->assertHtml($expected, $result);
+
+        $result = $this->Form->month('Contact.published', [
+            'empty' => 'Published on',
+        ]);
+        $this->assertContains('Published on', $result);
     }
 
     /**
@@ -5172,9 +5296,9 @@ class FormHelperTest extends TestCase
     {
         extract($this->dateRegex);
 
-        $result = $this->Form->day('Model.field', ['value' => '']);
+        $result = $this->Form->day('Model.field', ['value' => '', 'class' => 'form-control']);
         $expected = [
-            ['select' => ['name' => 'Model[field][day]']],
+            ['select' => ['name' => 'Model[field][day]', 'class' => 'form-control']],
             ['option' => ['selected' => 'selected', 'value' => '']],
             '/option',
             ['option' => ['value' => '01']],
@@ -5251,6 +5375,11 @@ class FormHelperTest extends TestCase
             '/select',
         ];
         $this->assertHtml($expected, $result);
+
+        $result = $this->Form->day('Contact.published', [
+            'empty' => 'Published on',
+        ]);
+        $this->assertContains('Published on', $result);
     }
 
     /**
@@ -5355,15 +5484,15 @@ class FormHelperTest extends TestCase
     {
         extract($this->dateRegex);
 
-        $now = time();
+        $now = new \DateTime();
         $result = $this->Form->meridian('Model.field', ['value' => 'am']);
         $expected = [
             ['select' => ['name' => 'Model[field][meridian]']],
             ['option' => ['value' => '']],
             '/option',
             $meridianRegex,
-            ['option' => ['value' => date('a', $now), 'selected' => 'selected']],
-            date('a', $now),
+            ['option' => ['value' => $now->format('a'), 'selected' => 'selected']],
+            $now->format('a'),
             '/option',
             '*/select'
         ];
@@ -5528,6 +5657,11 @@ class FormHelperTest extends TestCase
             '/select',
         ];
         $this->assertHtml($expected, $result);
+
+        $result = $this->Form->year('Contact.published', [
+            'empty' => 'Published on',
+        ]);
+        $this->assertContains('Published on', $result);
     }
 
     /**
@@ -5634,7 +5768,7 @@ class FormHelperTest extends TestCase
         $this->Form->request->data = ['field' => 'some test data'];
         $result = $this->Form->textarea('field');
         $expected = [
-            'textarea' => ['name' => 'field'],
+            'textarea' => ['name' => 'field', 'rows' => 5],
             'some test data',
             '/textarea',
         ];
@@ -5642,7 +5776,7 @@ class FormHelperTest extends TestCase
 
         $result = $this->Form->textarea('user.bio');
         $expected = [
-            'textarea' => ['name' => 'user[bio]'],
+            'textarea' => ['name' => 'user[bio]', 'rows' => 5],
             '/textarea',
         ];
         $this->assertHtml($expected, $result);
@@ -5650,7 +5784,7 @@ class FormHelperTest extends TestCase
         $this->Form->request->data = ['field' => 'some <strong>test</strong> data with <a href="#">HTML</a> chars'];
         $result = $this->Form->textarea('field');
         $expected = [
-            'textarea' => ['name' => 'field'],
+            'textarea' => ['name' => 'field', 'rows' => 5],
             htmlentities('some <strong>test</strong> data with <a href="#">HTML</a> chars'),
             '/textarea',
         ];
@@ -5661,7 +5795,7 @@ class FormHelperTest extends TestCase
         ];
         $result = $this->Form->textarea('Model.field', ['escape' => false]);
         $expected = [
-            'textarea' => ['name' => 'Model[field]'],
+            'textarea' => ['name' => 'Model[field]', 'rows' => 5],
             'some <strong>test</strong> data with <a href="#">HTML</a> chars',
             '/textarea',
         ];
@@ -5669,7 +5803,7 @@ class FormHelperTest extends TestCase
 
         $result = $this->Form->textarea('0.OtherModel.field');
         $expected = [
-            'textarea' => ['name' => '0[OtherModel][field]'],
+            'textarea' => ['name' => '0[OtherModel][field]', 'rows' => 5],
             '/textarea'
         ];
         $this->assertHtml($expected, $result);
@@ -5715,7 +5849,7 @@ class FormHelperTest extends TestCase
                 'label' => ['for' => 'other'],
                     'Other',
                 '/label',
-                'textarea' => ['name' => 'other', 'id' => 'other'],
+                'textarea' => ['name' => 'other', 'id' => 'other', 'rows' => 5],
                 '/textarea',
             '/div'
         ];
@@ -5727,7 +5861,7 @@ class FormHelperTest extends TestCase
                 'label' => ['for' => 'stuff'],
                     'Stuff',
                 '/label',
-                'textarea' => ['name' => 'stuff', 'maxlength' => 10, 'id' => 'stuff'],
+                'textarea' => ['name' => 'stuff', 'maxlength' => 10, 'id' => 'stuff', 'rows' => 5],
                 '/textarea',
             '/div'
         ];
@@ -6490,6 +6624,7 @@ class FormHelperTest extends TestCase
         $article = new Article(['comments' => [$comment]]);
         $this->Form->create([$article]);
         $result = $this->Form->input('0.comments.1.comment');
+        //@codingStandardsIgnoreStart
         $expected = [
             'div' => ['class' => 'input textarea'],
                 'label' => ['for' => '0-comments-1-comment'],
@@ -6498,13 +6633,16 @@ class FormHelperTest extends TestCase
                 'textarea' => [
                     'name',
                     'id' => '0-comments-1-comment',
+                    'rows' => 5
                 ],
                 '/textarea',
             '/div'
         ];
+        //@codingStandardsIgnoreEnd
         $this->assertHtml($expected, $result);
 
         $result = $this->Form->input('0.comments.0.comment');
+        //@codingStandardsIgnoreStart
         $expected = [
             'div' => ['class' => 'input textarea'],
                 'label' => ['for' => '0-comments-0-comment'],
@@ -6512,16 +6650,19 @@ class FormHelperTest extends TestCase
                 '/label',
                 'textarea' => [
                     'name',
-                    'id' => '0-comments-0-comment'
+                    'id' => '0-comments-0-comment',
+                    'rows' => 5
                 ],
                 'Value',
                 '/textarea',
             '/div'
         ];
+        //@codingStandardsIgnoreEnd
         $this->assertHtml($expected, $result);
 
         $comment->errors('comment', ['Not valid']);
         $result = $this->Form->input('0.comments.0.comment');
+        //@codingStandardsIgnoreStart
         $expected = [
             'div' => ['class' => 'input textarea error'],
                 'label' => ['for' => '0-comments-0-comment'],
@@ -6530,7 +6671,8 @@ class FormHelperTest extends TestCase
                 'textarea' => [
                     'name',
                     'class' => 'form-error',
-                    'id' => '0-comments-0-comment'
+                    'id' => '0-comments-0-comment',
+                    'rows' => 5
                 ],
                 'Value',
                 '/textarea',
@@ -6539,12 +6681,14 @@ class FormHelperTest extends TestCase
                 '/div',
             '/div'
         ];
+        //@codingStandardsIgnoreEnd
         $this->assertHtml($expected, $result);
 
         TableRegistry::get('Comments')
             ->validator('default')
             ->allowEmpty('comment', false);
         $result = $this->Form->input('0.comments.1.comment');
+        //@codingStandardsIgnoreStart
         $expected = [
             'div' => ['class' => 'input textarea required'],
                 'label' => ['for' => '0-comments-1-comment'],
@@ -6553,11 +6697,13 @@ class FormHelperTest extends TestCase
                 'textarea' => [
                     'name',
                     'required' => 'required',
-                    'id' => '0-comments-1-comment'
+                    'id' => '0-comments-1-comment',
+                    'rows' => 5
                 ],
                 '/textarea',
             '/div'
         ];
+        //@codingStandardsIgnoreEnd
         $this->assertHtml($expected, $result);
     }
 

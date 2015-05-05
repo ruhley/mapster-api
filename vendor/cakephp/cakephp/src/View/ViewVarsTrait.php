@@ -91,7 +91,13 @@ trait ViewVarsTrait
         if (!$className) {
             throw new Exception\MissingViewException([$viewClass]);
         }
-        $viewOptions = array_intersect_key(get_object_vars($this), array_flip($this->_validViewOptions));
+
+        $viewOptions = [];
+        foreach ($this->_validViewOptions as $option) {
+            if (property_exists($this, $option)) {
+                $viewOptions[$option] = $this->{$option};
+            }
+        }
         return new $className($this->request, $this->response, $this->eventManager(), $viewOptions);
     }
 
@@ -119,7 +125,7 @@ trait ViewVarsTrait
     }
 
     /**
-     * Get/Set valid view options in the object's _validViewOptions property. The proptery is
+     * Get/Set valid view options in the object's _validViewOptions property. The property is
      * created as an empty array if it is not set. If called without any parameters it will
      * return the current list of valid view options. See `createView()`.
      *

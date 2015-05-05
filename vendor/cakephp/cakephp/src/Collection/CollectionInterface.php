@@ -33,11 +33,11 @@ interface CollectionInterface extends Iterator, JsonSerializable
      *
      * ### Example:
      *
-     * {{{
+     * ```
      * $collection = (new Collection($items))->each(function ($value, $key) {
      *  echo "Element $key: $value";
      * });
-     * }}}
+     * ```
      *
      * @param callable $c callable function that will receive each of the elements
      * in this collection
@@ -59,11 +59,11 @@ interface CollectionInterface extends Iterator, JsonSerializable
      * Filtering odd numbers in an array, at the end only the value 2 will
      * be present in the resulting collection:
      *
-     * {{{
+     * ```
      * $collection = (new Collection([1, 2, 3]))->filter(function ($value, $key) {
      *  return $value % 2 === 0;
      * });
-     * }}}
+     * ```
      *
      * @param callable|null $c the method that will receive each of the elements and
      *   returns true whether or not they should be in the resulting collection.
@@ -85,11 +85,11 @@ interface CollectionInterface extends Iterator, JsonSerializable
      * Filtering even numbers in an array, at the end only values 1 and 3 will
      * be present in the resulting collection:
      *
-     * {{{
+     * ```
      * $collection = (new Collection([1, 2, 3]))->reject(function ($value, $key) {
      *  return $value % 2 === 0;
      * });
-     * }}}
+     * ```
      *
      * @param callable $c the method that will receive each of the elements and
      * returns true whether or not they should be out of the resulting collection.
@@ -107,11 +107,11 @@ interface CollectionInterface extends Iterator, JsonSerializable
      *
      * ### Example:
      *
-     * {{{
+     * ```
      * $overTwentyOne = (new Collection([24, 45, 60, 15]))->every(function ($value, $key) {
      *  return $value > 21;
      * });
-     * }}}
+     * ```
      *
      * @param callable $c a callback function
      * @return bool true if for all elements in this collection the provided
@@ -129,11 +129,11 @@ interface CollectionInterface extends Iterator, JsonSerializable
      *
      * ### Example:
      *
-     * {{{
+     * ```
      * $hasYoungPeople = (new Collection([24, 45, 15]))->every(function ($value, $key) {
      *  return $value < 21;
      * });
-     * }}}
+     * ```
      *
      * @param callable $c a callback function
      * @return bool true if for all elements in this collection the provided
@@ -162,11 +162,11 @@ interface CollectionInterface extends Iterator, JsonSerializable
      *
      * Getting a collection of booleans where true indicates if a person is female:
      *
-     * {{{
+     * ```
      * $collection = (new Collection($people))->map(function ($person, $key) {
      *  return $person->gender === 'female';
      * });
-     * }}}
+     * ```
      *
      * @param callable $c the method that will receive each of the elements and
      * returns the new value for the key that is being iterated
@@ -179,12 +179,14 @@ interface CollectionInterface extends Iterator, JsonSerializable
      * applying the callback function to all elements. $zero is the initial state
      * of the reduction, and each successive step of it should be returned
      * by the callback function.
+     * If $zero is omitted the first value of the collection will be used in its place
+     * and reduction will start from the second item.
      *
      * @param callable $c The callback function to be called
      * @param mixed $zero The state of reduction
      * @return void
      */
-    public function reduce(callable $c, $zero);
+    public function reduce(callable $c, $zero = null);
 
     /**
      * Returns a new collection containing the column or property value found in each
@@ -200,7 +202,7 @@ interface CollectionInterface extends Iterator, JsonSerializable
      *
      * Extract the user name for all comments in the array:
      *
-     * {{{
+     * ```
      * $items = [
      *  ['comment' => ['body' => 'cool', 'user' => ['name' => 'Mark']],
      *  ['comment' => ['body' => 'very cool', 'user' => ['name' => 'Renan']]
@@ -209,7 +211,7 @@ interface CollectionInterface extends Iterator, JsonSerializable
      *
      * // Result will look like this when converted to array
      * ['Mark', 'Renan']
-     * }}}
+     * ```
      *
      * @param string $matcher a dot separated string symbolizing the path to follow
      * inside the hierarchy of each value so that the column can be extracted.
@@ -223,7 +225,7 @@ interface CollectionInterface extends Iterator, JsonSerializable
      *
      * ### Examples:
      *
-     * {{{
+     * ```
      * // For a collection of employees
      * $max = $collection->max('age');
      * $max = $collection->max('user.salary');
@@ -233,7 +235,7 @@ interface CollectionInterface extends Iterator, JsonSerializable
      *
      * // Display employee name
      * echo $max->name;
-     * }}}
+     * ```
      *
      * @param callable|string $callback the callback or column name to use for sorting
      * @param int $type the type of comparison to perform, either SORT_STRING
@@ -249,7 +251,7 @@ interface CollectionInterface extends Iterator, JsonSerializable
      *
      * ### Examples:
      *
-     * {{{
+     * ```
      * // For a collection of employees
      * $min = $collection->min('age');
      * $min = $collection->min('user.salary');
@@ -259,7 +261,7 @@ interface CollectionInterface extends Iterator, JsonSerializable
      *
      * // Display employee name
      * echo $min->name;
-     * }}}
+     * ```
      *
      * @param callable|string $callback the callback or column name to use for sorting
      * @param int $type the type of comparison to perform, either SORT_STRING
@@ -282,7 +284,7 @@ interface CollectionInterface extends Iterator, JsonSerializable
      *
      * ### Example:
      *
-     * {{{
+     * ```
      * $items = $collection->sortBy(function ($user) {
      *  return $user->age;
      * });
@@ -297,7 +299,7 @@ interface CollectionInterface extends Iterator, JsonSerializable
      * foreach ($items as $user) {
      *  echo $user->name;
      * }
-     * }}}
+     * ```
      *
      * @param callable|string $callback the callback or column name to use for sorting
      * @param int $dir either SORT_DESC or SORT_ASC
@@ -309,7 +311,7 @@ interface CollectionInterface extends Iterator, JsonSerializable
 
     /**
      * Splits a collection into sets, grouped by the result of running each value
-     * through the callback. If $callback is is a string instead of a callable,
+     * through the callback. If $callback is a string instead of a callable,
      * groups by the property named by $callback on each of the values.
      *
      * When $callback is a string it should be a property name to extract or
@@ -318,7 +320,7 @@ interface CollectionInterface extends Iterator, JsonSerializable
      *
      * ### Example:
      *
-     * {{{
+     * ```
      * $items = [
      *  ['id' => 1, 'name' => 'foo', 'parent_id' => 10],
      *  ['id' => 2, 'name' => 'bar', 'parent_id' => 11],
@@ -342,7 +344,7 @@ interface CollectionInterface extends Iterator, JsonSerializable
      *      ['id' => 2, 'name' => 'bar', 'parent_id' => 11],
      *  ]
      * ];
-     * }}}
+     * ```
      *
      * @param callable|string $callback the callback or column name to use for grouping
      * or a function returning the grouping key out of the provided element
@@ -361,7 +363,7 @@ interface CollectionInterface extends Iterator, JsonSerializable
      *
      * ### Example:
      *
-     * {{{
+     * ```
      * $items = [
      *  ['id' => 1, 'name' => 'foo'],
      *  ['id' => 2, 'name' => 'bar'],
@@ -381,7 +383,7 @@ interface CollectionInterface extends Iterator, JsonSerializable
      *  3 => ['id' => 3, 'name' => 'baz'],
      *  2 => ['id' => 2, 'name' => 'bar'],
      * ];
-     * }}}
+     * ```
      *
      * @param callable|string $callback the callback or column name to use for indexing
      * or a function returning the indexing key out of the provided element
@@ -400,7 +402,7 @@ interface CollectionInterface extends Iterator, JsonSerializable
      *
      * ### Example:
      *
-     * {{{
+     * ```
      * $items = [
      *  ['id' => 1, 'name' => 'foo', 'parent_id' => 10],
      *  ['id' => 2, 'name' => 'bar', 'parent_id' => 11],
@@ -419,7 +421,7 @@ interface CollectionInterface extends Iterator, JsonSerializable
      *  10 => 2,
      *  11 => 1
      * ];
-     * }}}
+     * ```
      *
      * @param callable|string $callback the callback or column name to use for indexing
      * or a function returning the indexing key out of the provided element
@@ -433,7 +435,7 @@ interface CollectionInterface extends Iterator, JsonSerializable
      *
      * ### Example:
      *
-     * {{{
+     * ```
      * $items = [
      *  ['invoice' => ['total' => 100],
      *  ['invoice' => ['total' => 200]
@@ -442,7 +444,7 @@ interface CollectionInterface extends Iterator, JsonSerializable
      * $total = (new Collection($items))->sumOf('invoice.total');
      *
      * // Total: 300
-     * }}}
+     * ```
      *
      * @param string|callable $matcher The property name to sum or a function
      * that will return the value of the property to sum.
@@ -486,7 +488,7 @@ interface CollectionInterface extends Iterator, JsonSerializable
      *
      * ### Example:
      *
-     * {{{
+     * ```
      * $items = [
      *  ['comment' => ['body' => 'cool', 'user' => ['name' => 'Mark']],
      *  ['comment' => ['body' => 'very cool', 'user' => ['name' => 'Renan']]
@@ -498,7 +500,7 @@ interface CollectionInterface extends Iterator, JsonSerializable
      * [
      *  ['comment' => ['body' => 'very cool', 'user' => ['name' => 'Renan']]
      * ]
-     * }}}
+     * ```
      *
      * @param array $conditions a key-value list of conditions where
      * the key is a property path as accepted by `Collection::extract,
@@ -541,7 +543,7 @@ interface CollectionInterface extends Iterator, JsonSerializable
      *
      * ### Examples:
      *
-     * {{{
+     * ```
      * $items = [
      *  ['id' => 1, 'name' => 'foo', 'parent' => 'a'],
      *  ['id' => 2, 'name' => 'bar', 'parent' => 'b'],
@@ -564,7 +566,7 @@ interface CollectionInterface extends Iterator, JsonSerializable
      *  'a' => [1 => 'foo', 3 => 'baz'],
      *  'b' => [2 => 'bar']
      * ];
-     * }}}
+     * ```
      *
      * @param callable|string $keyPath the column name path to use for indexing
      * or a function returning the indexing key out of the provided element
@@ -603,7 +605,7 @@ interface CollectionInterface extends Iterator, JsonSerializable
      *
      * Insert ages into a collection containing users:
      *
-     * {{{
+     * ```
      * $items = [
      *  ['comment' => ['body' => 'cool', 'user' => ['name' => 'Mark']],
      *  ['comment' => ['body' => 'awesome', 'user' => ['name' => 'Renan']]
@@ -616,7 +618,7 @@ interface CollectionInterface extends Iterator, JsonSerializable
      *  ['comment' => ['body' => 'cool', 'user' => ['name' => 'Mark', 'age' => 25]],
      *  ['comment' => ['body' => 'awesome', 'user' => ['name' => 'Renan', 'age' => 28]]
      * ];
-     * }}}
+     * ```
      *
      * @param string $path a dot separated string symbolizing the path to follow
      * inside the hierarchy of each value so that the value can be inserted
@@ -625,6 +627,7 @@ interface CollectionInterface extends Iterator, JsonSerializable
      * @return \Cake\Collection\CollectionInterface
      */
     public function insert($path, $values);
+
     /**
      * Returns an array representation of the results
      *
@@ -635,6 +638,14 @@ interface CollectionInterface extends Iterator, JsonSerializable
      * @return array
      */
     public function toArray($preserveKeys = true);
+
+    /**
+     * Returns an numerically-indexed array representation of the results.
+     * This is equivalent to calling `toArray(false)`
+     *
+     * @return array
+     */
+    public function toList();
 
     /**
      * Convert a result set into JSON.
@@ -657,12 +668,12 @@ interface CollectionInterface extends Iterator, JsonSerializable
      *
      * ### Example:
      *
-     * {{{
+     * ```
      * $collection->map($mapper)->sortBy('age')->extract('name');
      * $compiled = $collection->compile();
      * $isJohnHere = $compiled->some($johnMatcher);
      * $allButJohn = $compiled->filter($johnMatcher);
-     * }}}
+     * ```
      *
      * In the above example, had the collection not been compiled before, the
      * iterations for `map`, `sortBy` and `extract` would've been executed twice:
@@ -716,13 +727,13 @@ interface CollectionInterface extends Iterator, JsonSerializable
      *
      * ### Example:
      *
-     * {{{
+     * ```
      * $collection = new Collection([
      *  ['id' => 1, 'children' => [['id' => 2, 'children' => [['id' => 3]]]]],
      *  ['id' => 4, 'children' => [['id' => 5]]]
      * ]);
      * $flattenedIds = $collection->listNested()->extract('id'); // Yields [1, 2, 3, 4, 5]
-     * }}}
+     * ```
      *
      * @param string|int $dir The direction in which to return the elements
      * @param string|callable $nestingKey The key name under which children are nested
@@ -744,20 +755,20 @@ interface CollectionInterface extends Iterator, JsonSerializable
      *
      * Get an array of lines in a CSV file until the timestamp column is less than a date
      *
-     * {{{
+     * ```
      * $lines = (new Collection($fileLines))->stopWhen(function ($value, $key) {
      *  return (new DateTime($value))->format('Y') < 2012;
      * })
      * ->toArray();
-     * }}}
+     * ```
      *
      * Get elements until the first unapproved message is found:
      *
-     * {{{
+     * ```
      * $comments = (new Collection($comments))->stopWhen(['is_approved' => false]);
-     * }}}
+     * ```
      *
-     * @param callable|array $condition the method that will receive each of the elements and
+     * @param callable $condition the method that will receive each of the elements and
      * returns false when the iteration should be stopped.
      * If an array, it will be interpreted as a key-value list of conditions where
      * the key is a property path as accepted by `Collection::extract`,
@@ -781,23 +792,42 @@ interface CollectionInterface extends Iterator, JsonSerializable
      *
      * ### Example:
      *
-     * {{{
+     * ```
      * $items [[1, 2, 3], [4, 5]];
      * $unfold = (new Collection($items))->unfold(); // Returns [1, 2, 3, 4, 5]
-     * }}}
+     * ```
      *
      * Using a transformer
      *
-     * {{{
+     * ```
      * $items [1, 2, 3];
      * $allItems = (new Collection($items))->unfold(function ($page) {
      *  return $service->fetchPage($page)->toArray();
      * });
-     * }}}
+     * ```
      *
-     * @param callable|array $transformer A callable function that will receive each of
+     * @param callable $transformer A callable function that will receive each of
      * the items in the collection and should return an array or Traversable object
      * @return \Cake\Collection\CollectionInterface
      */
     public function unfold(callable $transformer = null);
+
+    /**
+     * Passes this collection through a callable as its first argument.
+     * This is useful for decorating the full collection with another object.
+     *
+     * ### Example:
+     *
+     * ```
+     * $items [1, 2, 3];
+     * $decorated = (new Collection($items))->through(function ($collection) {
+     *      return new MyCustomCollection($collection);
+     * });
+     * ```
+     *
+     * @param callable $handler A callable function that will receive
+     * this collection as first argument.
+     * @return \Cake\Collection\CollectionInterface
+     */
+    public function through(callable $handler);
 }

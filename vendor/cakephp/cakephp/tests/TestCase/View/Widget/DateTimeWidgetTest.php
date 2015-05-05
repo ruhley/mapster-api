@@ -80,6 +80,36 @@ class DateTimeWidgetTest extends TestCase
     }
 
     /**
+     * test rendering empty selected.
+     *
+     * @return void
+     */
+    public function testRenderSelectedEmpty()
+    {
+        $result = $this->DateTime->render([
+            'val' => '',
+            'year' => ['empty' => true],
+            'month' => ['empty' => true],
+            'day' => ['empty' => true],
+            'hour' => ['empty' => true],
+            'minute' => ['empty' => true],
+        ], $this->context);
+        $this->assertContains('<option value="" selected="selected"></option>', $result);
+        $this->assertNotRegExp('/value="\d+" selected="selected"/', $result);
+
+        $result = $this->DateTime->render([
+            'val' => ['year' => '', 'month' => '', 'day' => '', 'hour' => '', 'minute' => ''],
+            'year' => ['empty' => true],
+            'month' => ['empty' => true],
+            'day' => ['empty' => true],
+            'hour' => ['empty' => true],
+            'minute' => ['empty' => true],
+        ], $this->context);
+        $this->assertContains('<option value="" selected="selected"></option>', $result);
+        $this->assertNotRegExp('/value="\d+" selected="selected"/', $result);
+    }
+
+    /**
      * Data provider for testing various acceptable selected values.
      *
      * @return array
@@ -110,6 +140,21 @@ class DateTimeWidgetTest extends TestCase
         $this->assertContains('<option value="2014" selected="selected">2014</option>', $result);
         $this->assertContains('<option value="01" selected="selected">1</option>', $result);
         $this->assertContains('<option value="20" selected="selected">20</option>', $result);
+        $this->assertContains('<option value="12" selected="selected">12</option>', $result);
+        $this->assertContains('<option value="30" selected="selected">30</option>', $result);
+        $this->assertContains('<option value="45" selected="selected">45</option>', $result);
+    }
+
+    public function testRenderInvalidDate()
+    {
+        $selected = [
+            'year' => '2014', 'month' => '02', 'day' => '31',
+            'hour' => '12', 'minute' => '30', 'second' => '45',
+        ];
+        $result = $this->DateTime->render(['val' => $selected], $this->context);
+        $this->assertContains('<option value="2014" selected="selected">2014</option>', $result);
+        $this->assertContains('<option value="02" selected="selected">2</option>', $result);
+        $this->assertContains('<option value="31" selected="selected">31</option>', $result);
         $this->assertContains('<option value="12" selected="selected">12</option>', $result);
         $this->assertContains('<option value="30" selected="selected">30</option>', $result);
         $this->assertContains('<option value="45" selected="selected">45</option>', $result);

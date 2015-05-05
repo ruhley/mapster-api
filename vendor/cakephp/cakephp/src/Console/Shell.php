@@ -23,7 +23,7 @@ use Cake\Filesystem\File;
 use Cake\Log\LogTrait;
 use Cake\Utility\Inflector;
 use Cake\Utility\MergeVariablesTrait;
-use Cake\Utility\String;
+use Cake\Utility\Text;
 
 /**
  * Base class for command-line utilities for automating programmer chores.
@@ -38,24 +38,24 @@ class Shell
     use ModelAwareTrait;
 
     /**
- * Output constant making verbose shells.
- *
- * @var int
- */
+     * Output constant making verbose shells.
+     *
+     * @var int
+     */
     const VERBOSE = ConsoleIo::VERBOSE;
 
     /**
- * Output constant for making normal shells.
- *
- * @var int
- */
+     * Output constant for making normal shells.
+     *
+     * @var int
+     */
     const NORMAL = ConsoleIo::NORMAL;
 
     /**
- * Output constants for making quiet shells.
- *
- * @var int
- */
+     * Output constants for making quiet shells.
+     *
+     * @var int
+     */
     const QUIET = ConsoleIo::QUIET;
 
     /**
@@ -490,12 +490,12 @@ class Shell
      * @param string $text Text the text to format.
      * @param int|array $options Array of options to use, or an integer to wrap the text to.
      * @return string Wrapped / indented text
-     * @see String::wrap()
+     * @see \Cake\Utility\Text::wrap()
      * @link http://book.cakephp.org/3.0/en/console-and-shells.html#Shell::wrapText
      */
     public function wrapText($text, $options = [])
     {
-        return String::wrap($text, $options);
+        return Text::wrap($text, $options);
     }
 
     /**
@@ -608,7 +608,7 @@ class Shell
 
         $this->_io->out();
 
-        if (is_file($path) && empty($this->params['force'])) {
+        if (is_file($path) && empty($this->params['force']) && $this->interactive) {
             $this->_io->out(sprintf('<warning>File `%s` exists</warning>', $path));
             $key = $this->_io->askChoice('Do you want to overwrite?', ['y', 'n', 'q'], 'n');
 

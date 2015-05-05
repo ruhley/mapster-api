@@ -276,7 +276,7 @@ class Request implements \ArrayAccess
     {
         $method = $this->env('REQUEST_METHOD');
         if (in_array($method, ['PUT', 'DELETE', 'PATCH']) &&
-            strpos($this->env('CONTENT_TYPE'), 'application/x-www-form-urlencoded') === 0
+            strpos($this->contentType(), 'application/x-www-form-urlencoded') === 0
         ) {
             $data = $this->input();
             parse_str($data, $data);
@@ -470,6 +470,20 @@ class Request implements \ArrayAccess
             }
         }
         return $data;
+    }
+
+    /**
+     * Get the content type used in this request.
+     *
+     * @return string
+     */
+    public function contentType()
+    {
+        $type = $this->env('CONTENT_TYPE');
+        if ($type) {
+            return $type;
+        }
+        return $this->env('HTTP_CONTENT_TYPE');
     }
 
     /**
@@ -699,7 +713,7 @@ class Request implements \ArrayAccess
     {
         foreach ($detect['header'] as $header => $value) {
             $header = $this->env('http_' . $header);
-            if (!is_null($header)) {
+            if ($header !== null) {
                 if (!is_string($value) && !is_bool($value) && is_callable($value)) {
                     return call_user_func($value, $header);
                 }
@@ -1026,11 +1040,11 @@ class Request implements \ArrayAccess
      *
      * Get the list of accepted languages:
      *
-     * {{{ \Cake\Network\Request::acceptLanguage(); }}}
+     * ``` \Cake\Network\Request::acceptLanguage(); ```
      *
      * Check if a specific language is accepted:
      *
-     * {{{ \Cake\Network\Request::acceptLanguage('es-es'); }}}
+     * ``` \Cake\Network\Request::acceptLanguage('es-es'); ```
      *
      * @param string|null $language The language to test.
      * @return mixed If a $language is provided, a boolean. Otherwise the array of accepted languages.

@@ -39,6 +39,21 @@ class DateTimeType extends \Cake\Database\Type
     protected $_format = 'Y-m-d H:i:s';
 
     /**
+     * Whether dates should be parsed using a locale aware parser
+     * when marshalling string inputs.
+     *
+     * @var bool
+     */
+    protected $_useLocaleParser = false;
+
+    /**
+     * The date format to use for parsing incoming dates for marshalling.
+     *
+     * @var string|array|int
+     */
+    protected $_localeFormat;
+
+    /**
      * {@inheritDoc}
      */
     public function __construct($name = null)
@@ -104,6 +119,8 @@ class DateTimeType extends \Cake\Database\Type
                 return null;
             } elseif (is_numeric($value)) {
                 $date = new $class('@' . $value);
+            } elseif (is_string($value) && $this->_useLocaleParser) {
+                return $this->_parseValue($value);
             } elseif (is_string($value)) {
                 $date = new $class($value);
                 $compare = true;
@@ -118,12 +135,14 @@ class DateTimeType extends \Cake\Database\Type
             return $value;
         }
 
+        if (is_array($value) && implode('', $value) === '') {
+            return null;
+        }
         $value += ['hour' => 0, 'minute' => 0, 'second' => 0];
 
         $format = '';
-        if (
-            isset($value['year'], $value['month'], $value['day']) &&
-            (is_numeric($value['year']) & is_numeric($value['month']) && is_numeric($value['day']))
+        if (isset($value['year'], $value['month'], $value['day']) &&
+            (is_numeric($value['year']) && is_numeric($value['month']) && is_numeric($value['day']))
         ) {
             $format .= sprintf('%d-%02d-%02d', $value['year'], $value['month'], $value['day']);
         }
@@ -131,8 +150,67 @@ class DateTimeType extends \Cake\Database\Type
         if (isset($value['meridian'])) {
             $value['hour'] = strtolower($value['meridian']) === 'am' ? $value['hour'] : $value['hour'] + 12;
         }
-        $format .= sprintf('%02d:%02d:%02d', $value['hour'], $value['minute'], $value['second']);
+        $format .= sprintf(
+            '%s%02d:%02d:%02d',
+            empty($format) ? '' : ' ',
+            $value['hour'],
+            $value['minute'],
+            $value['second']
+        );
+        $tz = isset($value['timezone']) ? $value['timezone'] : null;
 
-        return new $class($format);
+        return new $class($format, $tz);
+    }
+
+    /**
+     * Sets whether or not to parse dates passed to the marshal() function
+     * by using a locale aware parser.
+     *
+     * @param bool $enable Whether or not to enable
+     * @return $this
+     */
+    public function useLocaleParser($enable = true)
+    {
+        if ($enable === false) {
+            $this->_useLocaleParser = $enable;
+            return $this;
+        }
+        if (static::$dateTimeClass === 'Cake\I18n\Time' ||
+            is_subclass_of(static::$dateTimeClass, 'Cake\I18n\Time')
+        ) {
+            $this->_useLocaleParser = $enable;
+            return $this;
+        }
+        throw new RuntimeException(
+            sprintf('Cannot use locale parsing with the %s class', static::$dateTimeClass)
+        );
+    }
+
+    /**
+     * Sets the format string to use for parsing dates in this class. The formats
+     * that are accepted are documented in the `Cake\I18n\Time::parseDateTime()`
+     * function.
+     *
+     * @param string|array $format The format in which the string are passed.
+     * @see \Cake\I18n\Time::parseDateTime()
+     * @return $this
+     */
+    public function setLocaleFormat($format)
+    {
+        $this->_localeFormat = $format;
+        return $this;
+    }
+
+    /**
+     * Converts a string into a DateTime object after parseing it using the locale
+     * aware parser with the specified format.
+     *
+     * @param string $value The value to parse and convert to an object.
+     * @return \Cake\I18n\Time|null
+     */
+    protected function _parseValue($value)
+    {
+        $class = static::$dateTimeClass;
+        return $class::parseDateTime($value, $this->_localeFormat);
     }
 }

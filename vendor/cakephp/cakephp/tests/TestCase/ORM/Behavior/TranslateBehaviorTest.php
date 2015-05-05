@@ -77,7 +77,49 @@ class TranslateBehaviorTest extends TestCase
     }
 
     /**
-     * Tests that fields from a translated model are overriden
+     * Tests that custom translation tables are respected
+     *
+     * @return void
+     */
+    public function testCustomTranslationTable()
+    {
+        $table = TableRegistry::get('Articles');
+
+        $table->addBehavior('Translate', [
+            'translationTable' => '\TestApp\Model\Table\I18nTable',
+            'fields' => ['title', 'body']
+        ]);
+
+        $items = $table->associations();
+        $i18n = $items->getByProperty('_i18n');
+
+        $this->assertEquals('\TestApp\Model\Table\I18nTable', $i18n->name());
+        $this->assertEquals('custom_i18n_table', $i18n->target()->table());
+        $this->assertEquals('test_custom_i18n_datasource', $i18n->target()->connection()->configName());
+    }
+
+    /**
+     * Tests that the strategy can be changed for i18n
+     *
+     * @return void
+     */
+    public function testStrategy()
+    {
+        $table = TableRegistry::get('Articles');
+
+        $table->addBehavior('Translate', [
+            'strategy' => 'select',
+            'fields' => ['title', 'body']
+        ]);
+
+        $items = $table->associations();
+        $i18n = $items->getByProperty('_i18n');
+
+        $this->assertEquals('select', $i18n->strategy());
+    }
+
+    /**
+     * Tests that fields from a translated model are overridden
      *
      * @return void
      */
@@ -167,7 +209,7 @@ class TranslateBehaviorTest extends TestCase
             [
                 'id' => 1,
                 'title' => 'First Article',
-                'body' => 'First Article Body',
+                'body' => 'Contenido #1',
                 'comments' => [
                     ['article_id' => 1, 'comment' => 'First Comment for First Article', '_locale' => 'spa'],
                     ['article_id' => 1, 'comment' => 'Second Comment for First Article', '_locale' => 'spa'],
@@ -198,7 +240,7 @@ class TranslateBehaviorTest extends TestCase
     }
 
     /**
-     * Tests that fields from a translated model are not overriden if translation
+     * Tests that fields from a translated model are not overridden if translation
      * is null
      *
      * @return void
@@ -286,9 +328,10 @@ class TranslateBehaviorTest extends TestCase
         $results = $table->find('translations');
         $expected = [
             [
-                'eng' => ['title' => 'Title #1', 'body' => 'Content #1', 'locale' => 'eng'],
+                'eng' => ['title' => 'Title #1', 'body' => 'Content #1', 'description' => 'Description #1', 'locale' => 'eng'],
                 'deu' => ['title' => 'Titel #1', 'body' => 'Inhalt #1', 'locale' => 'deu'],
-                'cze' => ['title' => 'Titulek #1', 'body' => 'Obsah #1', 'locale' => 'cze']
+                'cze' => ['title' => 'Titulek #1', 'body' => 'Obsah #1', 'locale' => 'cze'],
+                'spa' => ['body' => 'Contenido #1', 'locale' => 'spa', 'description' => '']
             ],
             [
                 'eng' => ['title' => 'Title #2', 'body' => 'Content #2', 'locale' => 'eng'],
@@ -363,7 +406,7 @@ class TranslateBehaviorTest extends TestCase
         $table->addBehavior('Translate', ['fields' => ['title', 'body']]);
         $results = $table
             ->find('list', [
-                'idField' => 'title',
+                'keyField' => 'title',
                 'valueField' => '_translations.deu.title',
                 'groupField' => 'id'
             ])
@@ -417,7 +460,7 @@ class TranslateBehaviorTest extends TestCase
     }
 
     /**
-     * Tests that fields can be overriden in a hasMany association
+     * Tests that fields can be overridden in a hasMany association
      *
      * @return void
      */
@@ -800,7 +843,7 @@ class TranslateBehaviorTest extends TestCase
 
     /**
      * Tests that multiple translations saved when having a default locale
-     * are correclty saved
+     * are correctly saved
      *
      * @return void
      */
@@ -839,7 +882,7 @@ class TranslateBehaviorTest extends TestCase
         $query = $table->find()->where(['Comments.id' => 6]);
         $query2 = $table->find()->where(['Comments.id' => 5]);
         $query->union($query2);
-        $results = $query->sortBy('id')->toArray();
+        $results = $query->sortBy('id', SORT_ASC)->toList();
         $this->assertCount(2, $results);
 
         $this->assertEquals('First Comment for Second Article', $results[0]->comment);
@@ -847,16 +890,19 @@ class TranslateBehaviorTest extends TestCase
     }
 
     /**
-     * Tests the use of `model` config option.
+     * Tests the use of `referenceName` config option.
      *
      * @return void
      */
-    public function testChangingModelFieldValue()
+    public function testAutoReferenceName()
     {
         $table = TableRegistry::get('Articles');
 
         $table->hasMany('OtherComments', ['className' => 'Comments']);
-        $table->OtherComments->addBehavior('Translate', ['fields' => ['comment'], 'model' => 'Comments']);
+        $table->OtherComments->addBehavior(
+            'Translate',
+            ['fields' => ['comment']]
+        );
 
         $items = $table->OtherComments->associations();
         $association = $items->getByProperty('comment_translation');
@@ -871,7 +917,37 @@ class TranslateBehaviorTest extends TestCase
             }
         }
 
-        $this->assertTrue($found, '`model` field condition on a Translation association was not found');
+        $this->assertTrue($found, '`referenceName` field condition on a Translation association was not found');
+    }
+
+    /**
+     * Tests the use of unconventional `referenceName` config option.
+     *
+     * @return void
+     */
+    public function testChangingReferenceName()
+    {
+        $table = TableRegistry::get('Articles');
+        $table->alias('FavoritePost');
+        $table->addBehavior(
+            'Translate',
+            ['fields' => ['body'], 'referenceName' => 'Posts']
+        );
+
+        $items = $table->associations();
+        $association = $items->getByProperty('body_translation');
+        $this->assertNotEmpty($association, 'Translation association not found');
+
+        $found = false;
+        foreach ($association->conditions() as $key => $value) {
+            if (strpos($key, 'body_translation.model') !== false) {
+                $found = true;
+                $this->assertEquals('Posts', $value);
+                break;
+            }
+        }
+
+        $this->assertTrue($found, '`referenceName` field condition on a Translation association was not found');
     }
 
     /**
@@ -925,5 +1001,22 @@ class TranslateBehaviorTest extends TestCase
         $table->locale('spa');
         $results = $table->find('translations')->all();
         $this->assertCount(1, $results);
+    }
+
+    /**
+     * Tests that allowEmptyTranslations takes effect
+     *
+     * @return void
+     */
+    public function testEmptyTranslations()
+    {
+        $table = TableRegistry::get('Articles');
+        $table->addBehavior('Translate', [
+            'fields' => ['title', 'body', 'description'],
+            'allowEmptyTranslations' => false,
+        ]);
+        $table->locale('spa');
+        $result = $table->find()->first();
+        $this->assertNull($result->description);
     }
 }

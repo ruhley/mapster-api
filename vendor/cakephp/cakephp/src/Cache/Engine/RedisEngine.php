@@ -32,7 +32,7 @@ class RedisEngine extends CacheEngine
     protected $_Redis = null;
 
     /**
-     * The default config used unless overriden by runtime configuration
+     * The default config used unless overridden by runtime configuration
      *
      * - `database` database number to use for connection.
      * - `duration` Specify how long items in this cache configuration last.
@@ -60,6 +60,7 @@ class RedisEngine extends CacheEngine
         'port' => 6379,
         'prefix' => 'cake_',
         'probability' => 100,
+        'host' => null,
         'server' => '127.0.0.1',
         'timeout' => 0,
         'unix_socket' => false,
@@ -91,6 +92,11 @@ class RedisEngine extends CacheEngine
     protected function _connect()
     {
         try {
+            $server = $this->_config['host'];
+            if (empty($server) && !empty($this->_config['server'])) {
+                $server = $this->_config['server'];
+            }
+
             $this->_Redis = new \Redis();
             if (!empty($this->settings['unix_socket'])) {
                 $return = $this->_Redis->connect($this->settings['unix_socket']);

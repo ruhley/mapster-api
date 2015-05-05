@@ -50,6 +50,7 @@ class TimeTest extends TestCase
         Time::setTestNow($this->now);
         Time::$defaultLocale = $this->locale;
         Time::resetToStringFormat();
+        date_default_timezone_set('UTC');
     }
 
     /**
@@ -315,7 +316,7 @@ class TimeTest extends TestCase
         $this->assertEquals('2 months, 2 days ago', $result);
 
         $time = new Time('-2 months -2 days');
-        $result = $time->timeAgoInWords(['end' => '1 month', 'format' => 'YYYY-MM-dd']);
+        $result = $time->timeAgoInWords(['end' => '1 month', 'format' => 'yyyy-MM-dd']);
         $this->assertEquals('on ' . date('Y-m-d', strtotime('-2 months -2 days')), $result);
 
         $time = new Time('-2 years -5 months -2 days');
@@ -323,7 +324,7 @@ class TimeTest extends TestCase
         $this->assertEquals('2 years, 5 months, 2 days ago', $result);
 
         $time = new Time('-2 weeks -2 days');
-        $result = $time->timeAgoInWords(['format' => 'YYYY-MM-dd']);
+        $result = $time->timeAgoInWords(['format' => 'yyyy-MM-dd']);
         $this->assertEquals('2 weeks, 2 days ago', $result);
 
         $time = new Time('-3 years -12 months');
@@ -665,7 +666,89 @@ class TimeTest extends TestCase
     }
 
     /**
-     * Cusotm assert to allow for variation in the version of the intl library, where
+     * Tests parsing a string into a Time object based on the locale format.
+     *
+     * @return void
+     */
+    public function testParseDateTime()
+    {
+        $time = Time::parseDateTime('10/13/2013 12:54am');
+        $this->assertNotNull($time);
+        $this->assertEquals('2013-10-13 00:54', $time->format('Y-m-d H:i'));
+
+        Time::$defaultLocale = 'fr-FR';
+        $time = Time::parseDateTime('13 10, 2013 12:54');
+        $this->assertNotNull($time);
+        $this->assertEquals('2013-10-13 12:54', $time->format('Y-m-d H:i'));
+
+        $time = Time::parseDateTime('13 foo 10 2013 12:54');
+        $this->assertNull($time);
+    }
+
+    /**
+     * Tests parsing a string into a Time object based on the locale format.
+     *
+     * @return void
+     */
+    public function testParseDate()
+    {
+        $time = Time::parseDate('10/13/2013 12:54am');
+        $this->assertNotNull($time);
+        $this->assertEquals('2013-10-13 00:00', $time->format('Y-m-d H:i'));
+
+        $time = Time::parseDate('10/13/2013');
+        $this->assertNotNull($time);
+        $this->assertEquals('2013-10-13 00:00', $time->format('Y-m-d H:i'));
+
+        Time::$defaultLocale = 'fr-FR';
+        $time = Time::parseDate('13 10, 2013 12:54');
+        $this->assertNotNull($time);
+        $this->assertEquals('2013-10-13 00:00', $time->format('Y-m-d H:i'));
+
+        $time = Time::parseDate('13 foo 10 2013 12:54');
+        $this->assertNull($time);
+
+        $time = Time::parseDate('13 10, 2013', 'dd M, y');
+        $this->assertNotNull($time);
+        $this->assertEquals('2013-10-13', $time->format('Y-m-d'));
+    }
+
+    /**
+     * Tests parsing times using the parseTime function
+     *
+     * @return void
+     */
+    public function testParseTime()
+    {
+        $time = Time::parseTime('12:54am');
+        $this->assertNotNull($time);
+        $this->assertEquals('00:54:00', $time->format('H:i:s'));
+
+        Time::$defaultLocale = 'fr-FR';
+        $time = Time::parseTime('23:54');
+        $this->assertNotNull($time);
+        $this->assertEquals('23:54:00', $time->format('H:i:s'));
+
+        $time = Time::parseTime('31c2:54');
+        $this->assertNull($time);
+    }
+
+    /**
+     * Tests that parsing a date respects de default timezone in PHP.
+     *
+     * @return void
+     */
+    public function testParseDateDifferentTimezone()
+    {
+        date_default_timezone_set('Europe/Paris');
+        Time::$defaultLocale = 'fr-FR';
+        $result = Time::parseDate('12/03/2015');
+        $this->assertEquals('2015-03-12', $result->format('Y-m-d'));
+        $this->assertEquals(new \DateTimeZone('Europe/Paris'), $result->tz);
+    }
+
+    /**
+     * Custom assert to allow for variation in the version of the intl library, where
      * some translations contain a few extra commas.
      *
      * @param string $expected

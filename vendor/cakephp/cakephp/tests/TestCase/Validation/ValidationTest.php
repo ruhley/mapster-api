@@ -20,6 +20,7 @@ use Cake\Core\Configure;
 use Cake\Filesystem\File;
 use Cake\TestSuite\TestCase;
 use Cake\Validation\Validation;
+use Locale;
 
 /**
  * CustomValidator class
@@ -56,11 +57,8 @@ class ValidationTest extends TestCase
     {
         parent::setUp();
         $this->_appEncoding = Configure::read('App.encoding');
-        $this->_appLocale = [];
-        foreach ([LC_MONETARY, LC_NUMERIC, LC_TIME] as $category) {
-            $this->_appLocale[$category] = setlocale($category, 0);
-            setlocale($category, 'en_US');
-        }
+        $this->locale = Locale::getDefault();
+        Locale::setDefault('en_US');
     }
 
     /**
@@ -72,9 +70,7 @@ class ValidationTest extends TestCase
     {
         parent::tearDown();
         Configure::write('App.encoding', $this->_appEncoding);
-        foreach ($this->_appLocale as $category => $locale) {
-            setlocale($category, $locale);
-        }
+        Locale::setDefault($this->locale);
     }
 
     /**
@@ -1483,6 +1479,47 @@ class ValidationTest extends TestCase
     }
 
     /**
+     * test date validation when passing an array
+     *
+     * @return void
+     */
+    public function testDateArray()
+    {
+        $date = ['year' => 2014, 'month' => 2, 'day' => 14];
+        $this->assertTrue(Validation::date($date));
+        $date = ['year' => 'farts', 'month' => 'derp', 'day' => 'farts'];
+        $this->assertFalse(Validation::date($date));
+
+        $date = ['year' => 2014, 'month' => 2, 'day' => 14];
+        $this->assertTrue(Validation::date($date, 'mdy'));
+    }
+
+    /**
+     * test datetime validation when passing an array
+     *
+     * @return void
+     */
+    public function testDateTimeArray()
+    {
+        $date = ['year' => 2014, 'month' => 2, 'day' => 14, 'hour' => 13, 'minute' => 14, 'second' => 15];
+        $this->assertTrue(Validation::datetime($date));
+
+        $date = [
+            'year' => 2014, 'month' => 2, 'day' => 14,
+            'hour' => 1, 'minute' => 14, 'second' => 15,
+            'meridian' => 'am'
+        ];
+        $this->assertTrue(Validation::datetime($date));
+        $this->assertTrue(Validation::datetime($date, 'mdy'));
+
+        $date = [
+            'year' => '2014', 'month' => '02', 'day' => '14',
+            'hour' => 'farts', 'minute' => 'farts'
+        ];
+        $this->assertFalse(Validation::datetime($date));
+    }
+
+    /**
      * Test validating dates with multiple formats
      *
      * @return void
@@ -1515,6 +1552,31 @@ class ValidationTest extends TestCase
         $this->assertTrue(Validation::time('1:00pm'));
         $this->assertFalse(Validation::time('13:00pm'));
         $this->assertFalse(Validation::time('9:00'));
+    }
+
+    /**
+     * test time validation when passing an array
+     *
+     * @return void
+     */
+    public function testTimeArray()
+    {
+        $date = ['hour' => 13, 'minute' => 14, 'second' => 15];
+        $this->assertTrue(Validation::time($date));
+
+        $date = [
+            'hour' => 1, 'minute' => 14, 'second' => 15,
+            'meridian' => 'am'
+        ];
+        $this->assertTrue(Validation::time($date));
+
+        $date = [
+            'hour' => 'farts', 'minute' => 'farts'
+        ];
+        $this->assertFalse(Validation::time($date));
+
+        $date = [];
+        $this->assertFalse(Validation::time($date));
     }
 
     /**
@@ -1685,16 +1747,13 @@ class ValidationTest extends TestCase
     public function testDecimalLocaleSet()
     {
         $this->skipIf(DS === '\\', 'The locale is not supported in Windows and affects other tests.');
-        $restore = setlocale(LC_NUMERIC, 0);
-        $this->skipIf(setlocale(LC_NUMERIC, 'da_DK') === false, "The Danish locale isn't available.");
+        $this->skipIf(Locale::setDefault('da_DK') === false, "The Danish locale isn't available.");
 
         $this->assertTrue(Validation::decimal(1.54), '1.54 should be considered a valid float');
         $this->assertTrue(Validation::decimal('1.54'), '"1.54" should be considered a valid float');
 
         $this->assertTrue(Validation::decimal(12345.67), '12345.67 should be considered a valid float');
         $this->assertTrue(Validation::decimal('12,345.67'), '"12,345.67" should be considered a valid float');
-
-        setlocale(LC_NUMERIC, $restore);
     }
 
     /**
@@ -2444,5 +2503,30 @@ class ValidationTest extends TestCase
         ];
         $options = [];
         $this->assertTrue(Validation::uploadedFile($file, $options), 'Wrong order');
+    }
+
+    /**
+     * Test the compareWith method.
+     *
+     * @return void
+     */
+    public function testCompareWith()
+    {
+        $context = [
+            'data' => [
+                'other' => 'a value'
+            ]
+        ];
+        $this->assertTrue(Validation::compareWith('a value', 'other', $context));
+
+        $context = [
+            'data' => [
+                'other' => 'different'
+            ]
+        ];
+        $this->assertFalse(Validation::compareWith('a value', 'other', $context));
+
+        $context = [];
+        $this->assertFalse(Validation::compareWith('a value', 'other', $context));
     }
 }

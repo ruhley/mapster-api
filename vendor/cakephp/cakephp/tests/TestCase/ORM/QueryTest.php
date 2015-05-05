@@ -103,20 +103,40 @@ class QueryTest extends TestCase
     }
 
     /**
-     * Provides strategies for associations that can be joined
+     * Data provider for the two types of strategies HasMany implements
      *
      * @return void
      */
-    public function internalStategiesProvider()
+    public function strategiesProviderHasMany()
     {
-        return [['join'], ['select'], ['subquery']];
+        return [['subquery'], ['select']];
+    }
+
+    /**
+     * Data provider for the two types of strategies BelongsTo implements
+     *
+     * @return void
+     */
+    public function strategiesProviderBelongsTo()
+    {
+        return [['join'], ['select']];
+    }
+
+    /**
+     * Data provider for the two types of strategies BelongsToMany implements
+     *
+     * @return void
+     */
+    public function strategiesProviderBelongsToMany()
+    {
+        return [['subquery'], ['select']];
     }
 
     /**
      * Tests that results are grouped correctly when using contain()
      * and results are not hydrated
      *
-     * @dataProvider internalStategiesProvider
+     * @dataProvider strategiesProviderBelongsTo
      * @return void
      */
     public function testContainResultFetchingOneLevel($strategy)
@@ -169,22 +189,12 @@ class QueryTest extends TestCase
     }
 
     /**
-     * Data provider for the two types of strategies HasMany implements
-     *
-     * @return void
-     */
-    public function strategiesProvider()
-    {
-        return [['subquery'], ['select']];
-    }
-
-    /**
      * Tests that HasMany associations are correctly eager loaded and results
      * correctly nested when no hydration is used
      * Also that the query object passes the correct parent model keys to the
      * association objects in order to perform eager loading with select strategy
      *
-     * @dataProvider strategiesProvider
+     * @dataProvider strategiesProviderHasMany
      * @return void
      */
     public function testHasManyEagerLoadingNoHydration($strategy)
@@ -263,7 +273,7 @@ class QueryTest extends TestCase
      * Tests that it is possible to count results containing hasMany associations
      * both hydrating and not hydrating the results.
      *
-     * @dataProvider strategiesProvider
+     * @dataProvider strategiesProviderHasMany
      * @return void
      */
     public function testHasManyEagerLoadingCount($strategy)
@@ -294,7 +304,7 @@ class QueryTest extends TestCase
     /**
      * Tests that it is possible to set fields & order in a hasMany result set
      *
-     * @dataProvider strategiesProvider
+     * @dataProvider strategiesProviderHasMany
      * @return void
      */
     public function testHasManyEagerLoadingFieldsAndOrderNoHydration($strategy)
@@ -346,7 +356,7 @@ class QueryTest extends TestCase
     /**
      * Tests that deep associations can be eagerly loaded
      *
-     * @dataProvider strategiesProvider
+     * @dataProvider strategiesProviderHasMany
      * @return void
      */
     public function testHasManyEagerLoadingDeep($strategy)
@@ -420,7 +430,7 @@ class QueryTest extends TestCase
      * Tests that hasMany associations can be loaded even when related to a secondary
      * model in the query
      *
-     * @dataProvider strategiesProvider
+     * @dataProvider strategiesProviderHasMany
      * @return void
      */
     public function testHasManyEagerLoadingFromSecondaryTable($strategy)
@@ -429,7 +439,10 @@ class QueryTest extends TestCase
         $article = TableRegistry::get('articles');
         $post = TableRegistry::get('posts');
 
-        $author->hasMany('posts', compact('strategy'));
+        $author->hasMany('posts', [
+            'sort' => ['posts.id' => 'ASC'],
+            'strategy' => $strategy
+        ]);
         $article->belongsTo('authors');
 
         $query = new Query($this->connection, $article);
@@ -523,7 +536,7 @@ class QueryTest extends TestCase
      * Also that the query object passes the correct parent model keys to the
      * association objects in order to perform eager loading with select strategy
      *
-     * @dataProvider strategiesProvider
+     * @dataProvider strategiesProviderBelongsToMany
      * @return void
      */
     public function testBelongsToManyEagerLoadingNoHydration($strategy)
@@ -997,9 +1010,9 @@ class QueryTest extends TestCase
             '\Database\StatementInterface',
             ['fetch', 'closeCursor', 'rowCount']
         );
-        $statement->expects($this->exactly(3))
+        $statement->expects($this->exactly(2))
             ->method('fetch')
-            ->will($this->onConsecutiveCalls(['a' => 1], ['a' => 2], false));
+            ->will($this->onConsecutiveCalls(['a' => 1], ['a' => 2]));
 
         $statement->expects($this->once())
             ->method('rowCount')
@@ -1095,6 +1108,23 @@ class QueryTest extends TestCase
 
         $first = $query->first();
         $this->assertEquals(1, $first);
+    }
+
+    /**
+     * Tests that first can be called on an unbuffered query
+     *
+     * @return void
+     */
+    public function testFirstUnbuffered()
+    {
+        $table = TableRegistry::get('Articles');
+        $query = new Query($this->connection, $table);
+        $query->select(['id']);
+
+        $first = $query->hydrate(false)
+            ->bufferResults(false)->first();
+
+        $this->assertEquals(['id' => 1], $first);
     }
 
     /**
@@ -1205,9 +1235,60 @@ class QueryTest extends TestCase
     }
 
     /**
+     * Tests that belongsToMany associations are also correctly hydrated
+     *
+     * @return void
+     */
+    public function testFormatResultsBelongsToMany()
+    {
+        $table = TableRegistry::get('Articles');
+        TableRegistry::get('Tags');
+        $articlesTags = TableRegistry::get('ArticlesTags', [
+            'table' => 'articles_tags'
+        ]);
+        $table->belongsToMany('Tags');
+
+        $articlesTags
+            ->eventManager()
+            ->attach(function ($event, $query) {
+                $query->formatResults(function ($results) {
+                    return $results;
+                });
+            }, 'Model.beforeFind');
+
+
+        $query = new Query($this->connection, $table);
+
+        $results = $query
+            ->select()
+            ->contain('Tags')
+            ->toArray();
+
+        $first = $results[0];
+        foreach ($first->tags as $r) {
+            $this->assertInstanceOf('Cake\ORM\Entity', $r);
+        }
+
+        $this->assertCount(2, $first->tags);
+        $expected = [
+            'id' => 1,
+            'name' => 'tag1',
+            '_joinData' => ['article_id' => 1, 'tag_id' => 1]
+        ];
+        $this->assertEquals($expected, $first->tags[0]->toArray());
+
+        $expected = [
+            'id' => 2,
+            'name' => 'tag2',
+            '_joinData' => ['article_id' => 1, 'tag_id' => 2]
+        ];
+        $this->assertEquals($expected, $first->tags[1]->toArray());
+    }
+
+    /**
      * Tests that belongsTo relations are correctly hydrated
      *
-     * @dataProvider internalStategiesProvider
+     * @dataProvider strategiesProviderBelongsTo
      * @return void
      */
     public function testHydrateBelongsTo($strategy)
@@ -1232,7 +1313,7 @@ class QueryTest extends TestCase
     /**
      * Tests that deeply nested associations are also hydrated correctly
      *
-     * @dataProvider internalStategiesProvider
+     * @dataProvider strategiesProviderBelongsTo
      * @return void
      */
     public function testHydrateDeep($strategy)
@@ -1373,6 +1454,27 @@ class QueryTest extends TestCase
         $this->assertCount(1, $result);
         $this->assertEquals(2, $result->first()->id);
     }
+
+    /**
+     * Test getting counts from queries with contain.
+     *
+     * @return void
+     */
+    public function testCountWithContain()
+    {
+        $table = TableRegistry::get('Articles');
+        $table->belongsTo('Authors');
+
+        $result = $table->find('all')
+            ->contain([
+                'Authors' => [
+                    'fields' => ['name']
+                ]
+            ])
+            ->count();
+        $this->assertSame(3, $result);
+    }
+
 
     /**
      * test count with a beforeFind.
@@ -1665,6 +1767,70 @@ class QueryTest extends TestCase
     }
 
     /**
+     * Integration test to ensure that filtering associations with the queryBuilder
+     * option works.
+     *
+     * @expectedException \RuntimeException
+     * @return void
+     */
+    public function testContainWithQueryBuilderHasManyError()
+    {
+        $table = TableRegistry::get('Authors');
+        $table->hasMany('Articles');
+        $query = new Query($this->connection, $table);
+        $query->select()
+            ->contain([
+                'Articles' => [
+                    'foreignKey' => false,
+                    'queryBuilder' => function ($q) {
+                        return $q->where(['articles.id' => 1]);
+                    }
+                ]
+            ]);
+        $query->toArray();
+    }
+
+    /**
+     * Integration test to ensure that filtering associations with the queryBuilder
+     * option works.
+     *
+     * @return void
+     */
+    public function testContainWithQueryBuilderJoinableAssociation()
+    {
+        $table = TableRegistry::get('Authors');
+        $table->hasOne('Articles');
+        $query = new Query($this->connection, $table);
+        $query->select()
+            ->contain([
+                'Articles' => [
+                    'foreignKey' => false,
+                    'queryBuilder' => function ($q) {
+                        return $q->where(['Articles.id' => 1]);
+                    }
+                ]
+            ]);
+        $result = $query->toArray();
+        $this->assertEquals(1, $result[0]->article->id);
+        $this->assertEquals(1, $result[1]->article->id);
+
+        $articles = TableRegistry::get('Articles');
+        $articles->belongsTo('Authors');
+        $query = new Query($this->connection, $articles);
+        $query->select()
+            ->contain([
+                'Authors' => [
+                    'foreignKey' => false,
+                    'queryBuilder' => function ($q) {
+                        return $q->where(['Authors.id' => 1]);
+                    }
+                ]
+            ]);
+        $result = $query->toArray();
+        $this->assertEquals(1, $result[0]->author->id);
+    }
+
+    /**
      * Tests the formatResults method
      *
      * @return void
@@ -1700,8 +1866,7 @@ class QueryTest extends TestCase
     {
         $table = TableRegistry::get('authors');
         $query = new Query($this->connection, $table);
-        $query->select()->formatResults(function ($results, $q) use ($query) {
-            $this->assertSame($query, $q);
+        $query->select()->formatResults(function ($results) {
             $this->assertInstanceOf('Cake\ORM\ResultSet', $results);
             return $results->indexBy('id');
         });
@@ -1717,8 +1882,7 @@ class QueryTest extends TestCase
     {
         $table = TableRegistry::get('authors');
         $query = new Query($this->connection, $table);
-        $query->select()->formatResults(function ($results, $q) use ($query) {
-            $this->assertSame($query, $q);
+        $query->select()->formatResults(function ($results) {
             $this->assertInstanceOf('Cake\ORM\ResultSet', $results);
             return $results->indexBy('id');
         });
@@ -1738,7 +1902,7 @@ class QueryTest extends TestCase
 
     /**
      * Tests that getting results from a query having a contained association
-     * will no attach joins twice if count() is called on it afterwards
+     * will not attach joins twice if count() is called on it afterwards
      *
      * @return void
      */
@@ -2047,7 +2211,7 @@ class QueryTest extends TestCase
      * Tests that it is possible to use the same association aliases in the association
      * chain for contain
      *
-     * @dataProvider internalStategiesProvider
+     * @dataProvider strategiesProviderBelongsTo
      * @return void
      */
     public function testRepeatedAssociationAliases($strategy)
@@ -2207,6 +2371,8 @@ class QueryTest extends TestCase
         $copy = $query->cleanCopy();
 
         $this->assertNotSame($copy, $query);
+        $this->assertNotSame($copy->eagerLoader(), $query->eagerLoader());
+        $this->assertNotEmpty($copy->eagerLoader()->contain());
         $this->assertNull($copy->clause('offset'));
         $this->assertNull($copy->clause('limit'));
         $this->assertNull($copy->clause('order'));

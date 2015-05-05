@@ -377,6 +377,25 @@ class Route
     }
 
     /**
+     * Apply persistent parameters to a URL array. Persistent parameters are a
+     * special key used during route creation to force route parameters to
+     * persist when omitted from a URL array.
+     *
+     * @param array $url The array to apply persistent parameters to.
+     * @param array $params An array of persistent values to replace persistent ones.
+     * @return array An array with persistent parameters applied.
+     */
+    protected function _persistParams(array $url, array $params)
+    {
+        foreach ($this->options['persist'] as $persistKey) {
+            if (array_key_exists($persistKey, $params) && !isset($url[$persistKey])) {
+                $url[$persistKey] = $params[$persistKey];
+            }
+        }
+        return $url;
+    }
+
+    /**
      * Check if a URL array matches this route instance.
      *
      * If the URL matches the route parameters and settings, then
@@ -385,8 +404,8 @@ class Route
      *
      * @param array $url An array of parameters to check matching with.
      * @param array $context An array of the current request context.
-     *   Contains information such as the current host, scheme, port, and base
-     *   directory.
+     *   Contains information such as the current host, scheme, port, base
+     *   directory and other url params.
      * @return mixed Either a string url for the parameters if they match or false.
      */
     public function match(array $url, array $context = [])
@@ -395,13 +414,19 @@ class Route
             $this->compile();
         }
         $defaults = $this->defaults;
+        $context += ['params' => []];
 
+        if (!empty($this->options['persist']) &&
+            is_array($this->options['persist'])
+        ) {
+            $url = $this->_persistParams($url, $context['params']);
+        }
+        unset($context['params']);
         $hostOptions = array_intersect_key($url, $context);
 
         // Check for properties that will cause an
         // absolute url. Copy the other properties over.
-        if (
-            isset($hostOptions['_scheme']) ||
+        if (isset($hostOptions['_scheme']) ||
             isset($hostOptions['_port']) ||
             isset($hostOptions['_host'])
         ) {
@@ -465,7 +490,7 @@ class Route
             // keys that exist in the defaults and have different values is a match failure.
             $defaultExists = array_key_exists($key, $defaults);
 
-            // If the key is a routed key, its not different yet.
+            // If the key is a routed key, it's not different yet.
             if (array_key_exists($key, $keyNames)) {
                 continue;
             }
@@ -571,8 +596,7 @@ class Route
         }
 
         $out = str_replace('//', '/', $out);
-        if (
-            isset($params['_scheme']) ||
+        if (isset($params['_scheme']) ||
             isset($params['_host']) ||
             isset($params['_port'])
         ) {

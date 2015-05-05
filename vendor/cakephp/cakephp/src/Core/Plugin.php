@@ -15,6 +15,7 @@
 namespace Cake\Core;
 
 use Cake\Core\ClassLoader;
+use Cake\Core\Configure;
 use DirectoryIterator;
 
 /**
@@ -82,13 +83,13 @@ class Plugin
      *
      * Will load bootstrap file for both plugins
      *
-     * {{{
+     * ```
      *   Plugin::load([
      *     'DebugKit' => ['routes' => true],
      *     'ApiGenerator'
      *     ],
      *     ['bootstrap' => true])
-     * }}}
+     * ```
      *
      * Will only load the bootstrap for ApiGenerator and only the routes for DebugKit
      *
@@ -119,6 +120,8 @@ class Plugin
             return;
         }
 
+        static::_loadConfig();
+
         $config += [
             'autoload' => false,
             'bootstrap' => false,
@@ -127,12 +130,16 @@ class Plugin
             'ignoreMissing' => false
         ];
 
+        if (!isset($config['path'])) {
+            $config['path'] = Configure::read('plugins.' . $plugin);
+        }
+
         if (empty($config['path'])) {
             $paths = App::path('Plugin');
             foreach ($paths as $path) {
                 $pluginPath = str_replace('/', DS, $plugin);
                 if (is_dir($path . $pluginPath)) {
-                    $config += ['path' => $path . $pluginPath . DS];
+                    $config['path'] = $path . $pluginPath . DS;
                     break;
                 }
             }
@@ -149,10 +156,6 @@ class Plugin
 
         static::$_plugins[$plugin] = $config;
 
-        if ($config['bootstrap'] === true) {
-            static::bootstrap($plugin);
-        }
-
         if ($config['autoload'] === true) {
             if (empty(static::$_loader)) {
                 static::$_loader = new ClassLoader;
@@ -167,6 +170,31 @@ class Plugin
                 $config['path'] . 'tests' . DS
             );
         }
+
+        if ($config['bootstrap'] === true) {
+            static::bootstrap($plugin);
+        }
+    }
+
+    /**
+     * Load the plugin path configuration file.
+     *
+     * @return void
+     */
+    protected static function _loadConfig()
+    {
+        if (Configure::check('plugins')) {
+            return;
+        }
+
+        $vendorFile = dirname(dirname(dirname(dirname(__DIR__)))) . DS . 'cakephp-plugins.php';
+        if (!file_exists($vendorFile)) {
+            Configure::write(['plugins' => []]);
+            return;
+        }
+
+        $config = require $vendorFile;
+        Configure::write($config);
     }
 
     /**
@@ -175,12 +203,12 @@ class Plugin
      * If passed an options array, it will be used as a common default for all plugins to be loaded
      * It is possible to set specific defaults for each plugins in the options array. Examples:
      *
-     * {{{
+     * ```
      *  Plugin::loadAll([
      *      ['bootstrap' => true],
      *      'DebugKit' => ['routes' => true],
      *  ]);
-     * }}}
+     * ```
      *
      * The above example will load the bootstrap file for all plugins, but for DebugKit it will only load the routes file
      * and will not look for any bootstrap script.
@@ -192,6 +220,7 @@ class Plugin
      */
     public static function loadAll(array $options = [])
     {
+        static::_loadConfig();
         $plugins = [];
         foreach (App::path('Plugin') as $path) {
             if (!is_dir($path)) {
@@ -203,6 +232,10 @@ class Plugin
                     $plugins[] = $path->getBaseName();
                 }
             }
+        }
+        if (Configure::check('plugins')) {
+            $plugins = array_merge($plugins, array_keys(Configure::read('plugins')));
+            $plugins = array_unique($plugins);
         }
 
         foreach ($plugins as $p) {

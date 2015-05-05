@@ -125,7 +125,7 @@ class Hash
             }
             $tokens = explode('.', $path);
         } else {
-            $tokens = String::tokenize($path, '.', '[', ']');
+            $tokens = Text::tokenize($path, '.', '[', ']');
         }
 
         $_key = '__set_item__';
@@ -282,7 +282,7 @@ class Hash
         if ($noTokens) {
             $tokens = explode('.', $path);
         } else {
-            $tokens = String::tokenize($path, '.', '[', ']');
+            $tokens = Text::tokenize($path, '.', '[', ']');
         }
 
         if ($noTokens && strpos($path, '{') === false) {
@@ -374,7 +374,7 @@ class Hash
             return $data;
         }
 
-        $tokens = $noTokens ? explode('.', $path) : String::tokenize($path, '.', '[', ']');
+        $tokens = $noTokens ? explode('.', $path) : Text::tokenize($path, '.', '[', ']');
 
         if ($noExpansion && $noTokens) {
             return static::_simpleOp('remove', $data, $tokens);
@@ -477,16 +477,16 @@ class Hash
      *
      * Usage:
      *
-     * {{{
+     * ```
      * $result = Hash::format($users, ['{n}.User.id', '{n}.User.name'], '%s : %s');
-     * }}}
+     * ```
      *
      * The `$format` string can use any format options that `vsprintf()` and `sprintf()` do.
      *
      * @param array $data Source array from which to extract the data
      * @param array $paths An array containing one or more Hash::extract()-style key paths
      * @param string $format Format string into which values will be inserted, see sprintf()
-     * @return array An array of strings extracted from `$path` and formatted with `$format`
+     * @return void|array An array of strings extracted from `$path` and formatted with `$format`
      * @link http://book.cakephp.org/3.0/en/core-libraries/hash.html#Hash::format
      * @see sprintf()
      * @see Hash::extract()
@@ -719,7 +719,7 @@ class Hash
      * Merge helper function to reduce duplicated code between merge() and expand().
      *
      * @param array $stack The stack of operations to work with.
-     * @param array &$return The return value to operate on.
+     * @param array $return The return value to operate on.
      * @return void
      */
     protected static function _merge($stack, &$return)

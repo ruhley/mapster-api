@@ -6,13 +6,15 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Migrations\\' => array($baseDir . '/plugins/Migrations/src'),
-    'DebugKit\\Test\\Fixture\\' => array($baseDir . '/plugins/DebugKit/tests/Fixture'),
-    'DebugKit\\' => array($baseDir . '/plugins/DebugKit/src'),
+    'XdgBaseDir\\' => array($vendorDir . '/dnoegel/php-xdg-base-dir/src'),
+    'Phinx\\' => array($vendorDir . '/robmorgan/phinx/src/Phinx'),
+    'Migrations\\' => array($vendorDir . '/cakephp/migrations/src'),
+    'DebugKit\\Test\\Fixture\\' => array($vendorDir . '/cakephp/debug_kit/tests/Fixture'),
+    'DebugKit\\' => array($vendorDir . '/cakephp/debug_kit/src'),
     'Cake\\Test\\' => array($vendorDir . '/cakephp/cakephp/tests'),
     'Cake\\Composer\\' => array($vendorDir . '/cakephp/plugin-installer/src'),
     'Cake\\' => array($vendorDir . '/cakephp/cakephp/src'),
-    'Bake\\' => array($baseDir . '/plugins/Bake/src'),
+    'Bake\\' => array($vendorDir . '/cakephp/bake/src'),
     'Aura\\Intl\\_Config\\' => array($vendorDir . '/aura/intl/config'),
     'App\\Test\\' => array($baseDir . '/tests'),
     'App\\' => array($baseDir . '/src'),

@@ -20,7 +20,7 @@ use Cake\Event\EventListenerInterface;
 use InvalidArgumentException;
 
 /**
- * This abstract class represents a filter to be applied to a dispatcher cycle. It acts as as
+ * This abstract class represents a filter to be applied to a dispatcher cycle. It acts as an
  * event listener with the ability to alter the request or response as needed before it is handled
  * by a controller or after the response body has already been built.
  *
@@ -32,31 +32,31 @@ use InvalidArgumentException;
  * Both the before and after event will have the same conditions applied to them. For
  * example, if you only wanted a filter applied to blog requests you could do:
  *
- * {{{
+ * ```
  * $filter = new BlogFilter(['for' => '/blog']);
- * }}}
+ * ```
  *
  * When the above filter is connected to a dispatcher it will only fire
  * its `beforeDispatch` and `afterDispatch` methods on requests that start with `/blog`.
  *
  * The for condition can also be a regular expression by using the `preg:` prefix:
  *
- * {{{
+ * ```
  * $filter = new BlogFilter(['for' => 'preg:#^/blog/\d+$#']);
- * }}}
+ * ```
  *
  * ### Limiting filters based on conditions
  *
  * In addition to simple path based matching you can use a closure to match on arbitrary request
  * or response conditions. For example:
  *
- * {{{
+ * ```
  * $cookieMonster = new CookieFilter([
  *   'when' => function ($req, $res) {
  *     // Custom code goes here.
  *   }
  * ]);
- * }}}
+ * ```
  *
  * If your when condition returns `true` the before/after methods will be called.
  *

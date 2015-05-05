@@ -49,7 +49,7 @@ class Xml
      *
      * Building from an array:
      *
-     * {{{
+     * ```
      *  $value = [
      *      'tags' => [
      *          'tag' => [
@@ -65,7 +65,7 @@ class Xml
      *      ]
      *  ];
      * $xml = Xml::build($value);
-     * }}}
+     * ```
      *
      * When building XML from an array ensure that there is only one top level element.
      *
@@ -156,7 +156,7 @@ class Xml
      *
      * Using the following data:
      *
-     * {{{
+     * ```
      * $value = [
      *    'root' => [
      *        'tag' => [
@@ -166,7 +166,7 @@ class Xml
      *         ]
      *     ]
      * ];
-     * }}}
+     * ```
      *
      * Calling `Xml::fromArray($value, 'tags');`  Will generate:
      *
@@ -177,7 +177,7 @@ class Xml
      * `<root><tag id="1" value="defect">description</tag></root>`
      *
      * @param array|\Cake\Collection\Collection $input Array with data or a collection instance.
-     * @param string|array $options The options to use
+     * @param string|array $options The options to use or a string to use as format.
      * @return \SimpleXMLElement|\DOMDocument SimpleXMLElement or DOMDocument
      * @throws \Cake\Utility\Exception\XmlException
      */
@@ -224,7 +224,7 @@ class Xml
      *
      * @param \DOMDocument $dom Handler to DOMDocument
      * @param \DOMElement $node Handler to DOMElement (child)
-     * @param array &$data Array of data to append to the $node.
+     * @param array $data Array of data to append to the $node.
      * @param string $format Either 'attribute' or 'tags'. This determines where nested keys go.
      * @return void
      * @throws \Cake\Utility\Exception\XmlException
@@ -356,7 +356,7 @@ class Xml
      * Recursive method to toArray
      *
      * @param \SimpleXMLElement $xml SimpleXMLElement object
-     * @param array &$parentData Parent array with data
+     * @param array $parentData Parent array with data
      * @param string $ns Namespace of current child
      * @param array $namespaces List of namespaces in XML
      * @return void

@@ -123,6 +123,19 @@ class HasManyTest extends TestCase
     }
 
     /**
+     * Tests that HasMany can't use the join strategy
+     *
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Invalid strategy "join" was provided
+     * @return void
+     */
+    public function testStrategyFailure()
+    {
+        $assoc = new HasMany('Test');
+        $assoc->strategy(HasMany::STRATEGY_JOIN);
+    }
+
+    /**
      * Test the eager loader method with no extra options
      *
      * @return void
@@ -480,10 +493,8 @@ class HasManyTest extends TestCase
         $query->expects($this->any())
             ->method('getIterator')
             ->will($this->returnValue($iterator));
-        $query->expects($this->once())
-            ->method('bufferResults')
-            ->with(false)
-            ->will($this->returnSelf());
+        $query->expects($this->never())
+            ->method('bufferResults');
 
         $this->article->expects($this->once())
             ->method('find')

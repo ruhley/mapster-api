@@ -103,7 +103,7 @@ class InstanceConfigTraitTest extends TestCase
                 'a' => ['nested' => 'value']
             ],
             $this->object->config(),
-            'runtime config should match the defaults if not overriden'
+            'runtime config should match the defaults if not overridden'
         );
     }
 
@@ -264,6 +264,26 @@ class InstanceConfigTraitTest extends TestCase
             ],
             $this->object->config(),
             'updates should be merged with existing config'
+        );
+    }
+
+    /**
+     * test shallow merge
+     *
+     * @return void
+     */
+    public function testConfigShallow()
+    {
+        $this->object->configShallow(['a' => ['new_nested' => true], 'new' => 'bar']);
+
+        $this->assertSame(
+            [
+                'some' => 'string',
+                'a' => ['new_nested' => true],
+                'new' => 'bar'
+            ],
+            $this->object->config(),
+            'When merging a scalar property will be overwritten with an array'
         );
     }
 

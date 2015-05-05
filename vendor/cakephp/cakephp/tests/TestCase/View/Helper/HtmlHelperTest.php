@@ -20,7 +20,6 @@ use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Filesystem\File;
 use Cake\Filesystem\Folder;
-use Cake\Model\Model;
 use Cake\Network\Request;
 use Cake\Routing\Router;
 use Cake\TestSuite\TestCase;
@@ -1668,6 +1667,38 @@ class HtmlHelperTest extends TestCase
         $expected = [
             'link' => ['href' => '/testing/favicon.ico', 'type' => 'image/x-icon', 'rel' => 'icon'],
             ['link' => ['href' => '/testing/favicon.ico', 'type' => 'image/x-icon', 'rel' => 'shortcut icon']]
+        ];
+        $this->assertHtml($expected, $result);
+    }
+
+    /**
+     * Test generating favicon's with meta() with theme
+     *
+     * @return void
+     */
+    public function testMetaIconWithTheme()
+    {
+        $this->Html->Url->theme = 'TestTheme';
+
+        $result = $this->Html->meta('icon', 'favicon.ico');
+        $expected = [
+            'link' => ['href' => 'preg:/.*test_theme\/favicon\.ico/', 'type' => 'image/x-icon', 'rel' => 'icon'],
+            ['link' => ['href' => 'preg:/.*test_theme\/favicon\.ico/', 'type' => 'image/x-icon', 'rel' => 'shortcut icon']]
+        ];
+        $this->assertHtml($expected, $result);
+
+        $result = $this->Html->meta('icon');
+        $expected = [
+            'link' => ['href' => 'preg:/.*test_theme\/favicon\.ico/', 'type' => 'image/x-icon', 'rel' => 'icon'],
+            ['link' => ['href' => 'preg:/.*test_theme\/favicon\.ico/', 'type' => 'image/x-icon', 'rel' => 'shortcut icon']]
+        ];
+        $this->assertHtml($expected, $result);
+
+        $this->Html->request->webroot = '/testing/';
+        $result = $this->Html->meta('icon');
+        $expected = [
+            'link' => ['href' => '/testing/test_theme/favicon.ico', 'type' => 'image/x-icon', 'rel' => 'icon'],
+            ['link' => ['href' => '/testing/test_theme/favicon.ico', 'type' => 'image/x-icon', 'rel' => 'shortcut icon']]
         ];
         $this->assertHtml($expected, $result);
     }

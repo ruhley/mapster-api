@@ -34,52 +34,52 @@ abstract class Association
     use ConventionsTrait;
 
     /**
- * Strategy name to use joins for fetching associated records
- *
- * @var string
- */
+     * Strategy name to use joins for fetching associated records
+     *
+     * @var string
+     */
     const STRATEGY_JOIN = 'join';
 
     /**
- * Strategy name to use a subquery for fetching associated records
- *
- * @var string
- */
+     * Strategy name to use a subquery for fetching associated records
+     *
+     * @var string
+     */
     const STRATEGY_SUBQUERY = 'subquery';
 
     /**
- * Strategy name to use a select for fetching associated records
- *
- * @var string
- */
+     * Strategy name to use a select for fetching associated records
+     *
+     * @var string
+     */
     const STRATEGY_SELECT = 'select';
 
     /**
- * Association type for one to one associations.
- *
- * @var string
- */
+     * Association type for one to one associations.
+     *
+     * @var string
+     */
     const ONE_TO_ONE = 'oneToOne';
 
     /**
- * Association type for one to many associations.
- *
- * @var string
- */
+     * Association type for one to many associations.
+     *
+     * @var string
+     */
     const ONE_TO_MANY = 'oneToMany';
 
     /**
- * Association type for many to many associations.
- *
- * @var string
- */
+     * Association type for many to many associations.
+     *
+     * @var string
+     */
     const MANY_TO_MANY = 'manyToMany';
 
     /**
- * Association type for many to one associations.
- *
- * @var string
- */
+     * Association type for many to one associations.
+     *
+     * @var string
+     */
     const MANY_TO_ONE = 'manyToOne';
 
     /**
@@ -173,13 +173,20 @@ abstract class Association
     protected $_finder = 'all';
 
     /**
+     * Valid strategies for this association. Subclasses can narrow this down.
+     *
+     * @var array
+     */
+    protected $_validStrategies = [self::STRATEGY_JOIN, self::STRATEGY_SELECT, self::STRATEGY_SUBQUERY];
+
+    /**
      * Constructor. Subclasses can override _options function to get the original
      * list of passed options if expecting any other special key
      *
-     * @param string $name The name given to the association
+     * @param string $alias The name given to the association
      * @param array $options A list of properties to be set on this object
      */
-    public function __construct($name, array $options = [])
+    public function __construct($alias, array $options = [])
     {
         $defaults = [
             'cascadeCallbacks',
@@ -199,7 +206,13 @@ abstract class Association
             }
         }
 
+        if (empty($this->_className) && strpos($alias, '.')) {
+            $this->_className = $alias;
+        }
+
+        list(, $name) = pluginSplit($alias);
         $this->_name = $name;
+
         $this->_options($options);
 
         if (!empty($options['strategy'])) {
@@ -269,13 +282,19 @@ abstract class Association
             return $this->_targetTable = $table;
         }
 
-        if ($table === null) {
-            $config = [];
-            if (!TableRegistry::exists($this->_name)) {
-                $config = ['className' => $this->_className];
-            }
-            $this->_targetTable = TableRegistry::get($this->_name, $config);
+        if (strpos($this->_className, '.')) {
+            list($plugin) = pluginSplit($this->_className, true);
+            $registryAlias = $plugin . $this->_name;
+        } else {
+            $registryAlias = $this->_name;
         }
+
+        $config = [];
+        if (!TableRegistry::exists($registryAlias)) {
+            $config = ['className' => $this->_className];
+        }
+        $this->_targetTable = TableRegistry::get($registryAlias, $config);
+
         return $this->_targetTable;
     }
 
@@ -389,8 +408,7 @@ abstract class Association
     public function strategy($name = null)
     {
         if ($name !== null) {
-            $valid = [self::STRATEGY_JOIN, self::STRATEGY_SELECT, self::STRATEGY_SUBQUERY];
-            if (!in_array($name, $valid)) {
+            if (!in_array($name, $this->_validStrategies)) {
                 throw new \InvalidArgumentException(
                     sprintf('Invalid strategy "%s" was provided', $name)
                 );
@@ -588,7 +606,7 @@ abstract class Association
      * @param mixed $conditions Conditions to be used, accepts anything Query::where()
      * can take.
      * @return bool Success Returns true if one or more rows are affected.
-     * @see \Cake\ORM\Table::delteAll()
+     * @see \Cake\ORM\Table::deleteAll()
      */
     public function deleteAll($conditions)
     {
@@ -611,7 +629,7 @@ abstract class Association
     {
         $table = $this->target();
         $options = $query->getOptions();
-        $table->dispatchEvent('Model.beforeFind', [$query, $options, false]);
+        $table->dispatchEvent('Model.beforeFind', [$query, new \ArrayObject($options), false]);
     }
 
     /**
@@ -628,6 +646,11 @@ abstract class Association
         $fields = $surrogate->clause('select') ?: $options['fields'];
         $target = $this->_targetTable;
         $autoFields = $surrogate->autoFields();
+
+        if ($query->eagerLoader()->autoFields() === false) {
+            return;
+        }
+
         if (empty($fields) && !$autoFields) {
             if ($options['includeFields'] && ($fields === null || $fields !== false)) {
                 $fields = $target->schema()->columns();
@@ -660,7 +683,7 @@ abstract class Association
     {
         $formatters = $surrogate->formatResults();
 
-        if (!$formatters) {
+        if (!$formatters || empty($options['propertyPath'])) {
             return;
         }
 
@@ -827,7 +850,7 @@ abstract class Association
      * the source table.
      *
      * The required way of passing related source records is controlled by "strategy"
-     * By default the subquery strategy is used, which requires a query on the source
+     * When the subquery strategy is used it will require a query on the source table.
      * When using the select strategy, the list of primary keys will be used.
      *
      * Returns a closure that should be run for each record returned in a specific

@@ -53,6 +53,9 @@ class TranslatesFixture extends TestFixture
     public $records = [
         ['locale' => 'eng', 'model' => 'Articles', 'foreign_key' => 1, 'field' => 'title', 'content' => 'Title #1'],
         ['locale' => 'eng', 'model' => 'Articles', 'foreign_key' => 1, 'field' => 'body', 'content' => 'Content #1'],
+        ['locale' => 'eng', 'model' => 'Articles', 'foreign_key' => 1, 'field' => 'description', 'content' => 'Description #1'],
+        ['locale' => 'spa', 'model' => 'Articles', 'foreign_key' => 1, 'field' => 'body', 'content' => 'Contenido #1'],
+        ['locale' => 'spa', 'model' => 'Articles', 'foreign_key' => 1, 'field' => 'description', 'content' => ''],
         ['locale' => 'deu', 'model' => 'Articles', 'foreign_key' => 1, 'field' => 'title', 'content' => 'Titel #1'],
         ['locale' => 'deu', 'model' => 'Articles', 'foreign_key' => 1, 'field' => 'body', 'content' => 'Inhalt #1'],
         ['locale' => 'cze', 'model' => 'Articles', 'foreign_key' => 1, 'field' => 'title', 'content' => 'Titulek #1'],
@@ -74,6 +77,8 @@ class TranslatesFixture extends TestFixture
         ['locale' => 'eng', 'model' => 'Comments', 'foreign_key' => 3, 'field' => 'comment', 'content' => 'Comment #3'],
         ['locale' => 'eng', 'model' => 'Comments', 'foreign_key' => 4, 'field' => 'comment', 'content' => 'Comment #4'],
         ['locale' => 'spa', 'model' => 'Comments', 'foreign_key' => 4, 'field' => 'comment', 'content' => 'Comentario #4'],
-        ['locale' => 'eng', 'model' => 'Authors', 'foreign_key' => 1, 'field' => 'name', 'content' => 'May-rianoh']
+        ['locale' => 'eng', 'model' => 'Authors', 'foreign_key' => 1, 'field' => 'name', 'content' => 'May-rianoh'],
+        ['locale' => 'dan', 'model' => 'NumberTrees', 'foreign_key' => 1, 'field' => 'name', 'content' => 'Elektroniker'],
+        ['locale' => 'dan', 'model' => 'NumberTrees', 'foreign_key' => 11, 'field' => 'name', 'content' => 'Alien Tingerne'],
     ];
 }

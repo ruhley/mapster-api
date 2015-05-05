@@ -136,7 +136,6 @@ class Session
                 'cookie' => 'CAKEPHP',
                 'ini' => [
                     'session.use_trans_sid' => 0,
-                    'url_rewriter.tags' => '',
                     'session.serialize_handler' => 'php',
                     'session.use_cookies' => 1,
                     'session.save_path' => TMP . 'sessions',
@@ -147,7 +146,6 @@ class Session
                 'cookie' => 'CAKEPHP',
                 'ini' => [
                     'session.use_trans_sid' => 0,
-                    'url_rewriter.tags' => '',
                     'session.use_cookies' => 1,
                     'session.save_handler' => 'user',
                 ],
@@ -160,7 +158,6 @@ class Session
                 'cookie' => 'CAKEPHP',
                 'ini' => [
                     'session.use_trans_sid' => 0,
-                    'url_rewriter.tags' => '',
                     'session.use_cookies' => 1,
                     'session.save_handler' => 'user',
                     'session.serialize_handler' => 'php',
@@ -241,7 +238,7 @@ class Session
      * @return \SessionHandlerInterface|null
      * @throws \InvalidArgumentException
      */
-    public function engine($class = null, $options = [])
+    public function engine($class = null, array $options = [])
     {
         if ($class instanceof SessionHandlerInterface) {
             return $this->_engine = $class;
@@ -419,7 +416,7 @@ class Session
      *
      * @param string|array $name Name of variable
      * @param string|null $value Value to write
-     * @return bool True if the write was successful, false if the write failed
+     * @return void
      */
     public function write($name, $value = null)
     {
@@ -471,7 +468,7 @@ class Session
      * Removes a variable from session.
      *
      * @param string $name Session variable to remove
-     * @return bool Success
+     * @return void
      */
     public function delete($name)
     {
@@ -483,7 +480,7 @@ class Session
     /**
      * Used to write new data to _SESSION, since PHP doesn't like us setting the _SESSION var itself.
      *
-     * @param array &$old Set of old variables => values
+     * @param array $old Set of old variables => values
      * @param array $new New set of variable => value
      * @return void
      */
@@ -512,7 +509,7 @@ class Session
             $this->start();
         }
 
-        if (!$this->_isCli) {
+        if (!$this->_isCli && session_status() === PHP_SESSION_ACTIVE) {
             session_destroy();
         }
 
@@ -521,14 +518,19 @@ class Session
     }
 
     /**
-     * Clears the session, the session id, and renews the session.
+     * Clears the session.
      *
+     * Optionally it also clears the session id and renews the session.
+     *
+     * @param bool $renew If session should be renewed, as well. Defaults to false.
      * @return void
      */
-    public function clear()
+    public function clear($renew = false)
     {
         $_SESSION = [];
-        $this->renew();
+        if ($renew) {
+            $this->renew();
+        }
     }
 
     /**

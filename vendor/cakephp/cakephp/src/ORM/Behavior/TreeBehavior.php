@@ -14,6 +14,7 @@
  */
 namespace Cake\ORM\Behavior;
 
+use Cake\Datasource\EntityInterface;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
@@ -61,12 +62,14 @@ class TreeBehavior extends Behavior
             'moveUp' => 'moveUp',
             'moveDown' => 'moveDown',
             'recover' => 'recover',
-            'removeFromTree' => 'removeFromTree'
+            'removeFromTree' => 'removeFromTree',
+            'getLevel' => 'getLevel'
         ],
         'parent' => 'parent_id',
         'left' => 'lft',
         'right' => 'rght',
-        'scope' => null
+        'scope' => null,
+        'level' => null
     ];
 
     /**
@@ -86,6 +89,7 @@ class TreeBehavior extends Behavior
         $parent = $entity->get($config['parent']);
         $primaryKey = $this->_getPrimaryKey();
         $dirty = $entity->dirty($config['parent']);
+        $level = $config['level'];
 
         if ($isNew && $parent) {
             if ($entity->get($primaryKey[0]) == $parent) {
@@ -97,20 +101,94 @@ class TreeBehavior extends Behavior
             $entity->set($config['left'], $edge);
             $entity->set($config['right'], $edge + 1);
             $this->_sync(2, '+', ">= {$edge}");
+
+            if ($level) {
+                $entity->set($level, $parentNode[$level] + 1);
+            }
+            return;
         }
 
         if ($isNew && !$parent) {
             $edge = $this->_getMax();
             $entity->set($config['left'], $edge + 1);
             $entity->set($config['right'], $edge + 2);
+
+            if ($level) {
+                $entity->set($level, 0);
+            }
+            return;
         }
 
         if (!$isNew && $dirty && $parent) {
             $this->_setParent($entity, $parent);
+
+            if ($level) {
+                $parentNode = $this->_getNode($parent);
+                $entity->set($config[$level], $parentNode[$level] + 1);
+            }
+            return;
         }
 
         if (!$isNew && $dirty && !$parent) {
             $this->_setAsRoot($entity);
+
+            if ($level) {
+                $entity->set($level, 0);
+            }
+        }
+    }
+
+    /**
+     * After save listener.
+     *
+     * Manages updating level of descendents of currently saved entity.
+     *
+     * @param \Cake\Event\Event $event The beforeSave event that was fired
+     * @param \Cake\ORM\Entity $entity the entity that is going to be saved
+     * @return void
+     */
+    public function afterSave(Event $event, Entity $entity)
+    {
+        if (!$this->_config['level'] || $entity->isNew()) {
+            return;
+        }
+
+        $this->_setChildrenLevel($entity);
+    }
+
+    /**
+     * Set level for descendents.
+     *
+     * @param \Cake\ORM\Entity $entity The entity whose descendents need to be updated.
+     * @return void
+     */
+    protected function _setChildrenLevel(Entity $entity)
+    {
+        $config = $this->config();
+
+        if ($entity->get($config['left']) + 1 === $entity->get($config['right'])) {
+            return;
+        }
+
+        $primaryKey = $this->_getPrimaryKey();
+        $primaryKeyValue = $entity->get($primaryKey);
+        $depths = [$primaryKeyValue => $entity->get($config['level'])];
+
+        $children = $this->_table->find('children', [
+            'for' => $primaryKeyValue,
+            'fields' => [$this->_getPrimaryKey(), $config['parent'], $config['level']],
+            'order' => $config['left']
+        ]);
+
+        foreach ($children as $node) {
+            $parentIdValue = $node->get($config['parent']);
+            $depth = $depths[$parentIdValue] + 1;
+            $depths[$node->get($primaryKey)] = $depth;
+
+            $this->_table->updateAll(
+                [$config['level'] => $depth],
+                [$primaryKey => $node->get($primaryKey)]
+            );
         }
     }
 
@@ -269,10 +347,9 @@ class TreeBehavior extends Behavior
         }
 
         $config = $this->config();
-        $alias = $this->_table->alias();
         list($left, $right) = array_map(
-            function ($field) use ($alias) {
-                return "$alias.$field";
+            function ($field) {
+                return $this->_table->aliasField($field);
             },
             [$config['left'], $config['right']]
         );
@@ -297,8 +374,7 @@ class TreeBehavior extends Behavior
     public function childCount(Entity $node, $direct = false)
     {
         $config = $this->config();
-        $alias = $this->_table->alias();
-        $parent = $alias . '.' . $config['parent'];
+        $parent = $this->_table->aliasField($config['parent']);
 
         if ($direct) {
             return $this->_scope($this->_table->find())
@@ -329,11 +405,10 @@ class TreeBehavior extends Behavior
     public function findChildren(Query $query, array $options)
     {
         $config = $this->config();
-        $alias = $this->_table->alias();
         $options += ['for' => null, 'direct' => false];
         list($parent, $left, $right) = array_map(
-            function ($field) use ($alias) {
-                return "$alias.$field";
+            function ($field) {
+                return $this->_table->aliasField($field);
             },
             [$config['parent'], $config['left'], $config['right']]
         );
@@ -371,7 +446,7 @@ class TreeBehavior extends Behavior
      *  return the key out of the provided row.
      * - valuePath: A dot separated path to fetch the field to use for the array value, or a closure to
      *  return the value out of the provided row.
-     *  - spacer: A string to be used as prefix for denoting the depth in the tree for each item
+     * - spacer: A string to be used as prefix for denoting the depth in the tree for each item
      *
      * @param \Cake\ORM\Query $query Query.
      * @param array $options Array of options as described above
@@ -380,7 +455,10 @@ class TreeBehavior extends Behavior
     public function findTreeList(Query $query, array $options)
     {
         return $this->_scope($query)
-            ->find('threaded', ['parentField' => $this->config()['parent'], 'order' => [$this->config()['left'] => 'ASC']])
+            ->find('threaded', [
+                'parentField' => $this->config('parent'),
+                'order' => [$this->config('left') => 'ASC']
+            ])
             ->formatResults(function ($results) use ($options) {
                 $options += [
                     'keyPath' => $this->_getPrimaryKey(),
@@ -465,6 +543,10 @@ class TreeBehavior extends Behavior
      */
     public function moveUp(Entity $node, $number = 1)
     {
+        if ($number < 1) {
+            return false;
+        }
+
         return $this->_table->connection()->transactional(function () use ($node, $number) {
             $this->_ensureFields($node);
             return $this->_moveUp($node, $number);
@@ -483,49 +565,49 @@ class TreeBehavior extends Behavior
     {
         $config = $this->config();
         list($parent, $left, $right) = [$config['parent'], $config['left'], $config['right']];
+        list($nodeParent, $nodeLeft, $nodeRight) = array_values($node->extract([$parent, $left, $right]));
 
-        if (!$number) {
-            return false;
-        }
-
-        $parentLeft = 0;
-        if ($node->get($parent)) {
-            $parentLeft = $this->_getNode($node->get($parent))->get($left);
-        }
-
-        $edge = $this->_getMax();
-        while ($number-- > 0) {
-            list($nodeLeft, $nodeRight) = array_values($node->extract([$left, $right]));
-
-            if ($parentLeft && ($nodeLeft - 1 == $parentLeft)) {
-                break;
-            }
-
-            $nextNode = $this->_scope($this->_table->find())
+        $targetNode = null;
+        if ($number !== true) {
+            $targetNode = $this->_scope($this->_table->find())
                 ->select([$left, $right])
-                ->where([$right => ($nodeLeft - 1)])
+                ->where(["$parent IS" => $nodeParent, "$right <" => $nodeLeft])
+                ->order([$left => 'DESC'])
+                ->offset($number - 1)
+                ->limit(1)
+                ->first();
+        }
+        if (!$targetNode) {
+            $targetNode = $this->_scope($this->_table->find())
+                ->select([$left, $right])
+                ->where(["$parent IS" => $nodeParent, "$right <" => $nodeLeft])
+                ->order([$left => 'ASC'])
+                ->limit(1)
                 ->first();
 
-            if (!$nextNode) {
-                break;
+            if (!$targetNode) {
+                return $node;
             }
-
-            $this->_sync($edge - $nextNode->{$left} + 1, '+', "BETWEEN {$nextNode->{$left}} AND {$nextNode->{$right}}");
-            $this->_sync($nodeLeft - $nextNode->{$left}, '-', "BETWEEN {$nodeLeft} AND {$nodeRight}");
-            $this->_sync($edge - $nextNode->{$left} - ($nodeRight - $nodeLeft), '-', "> {$edge}");
-
-            $newLeft = $nodeLeft;
-            if ($nodeLeft >= $nextNode->{$left} || $nodeLeft <= $nextNode->{$right}) {
-                $newLeft -= $edge - $nextNode->{$left} + 1;
-            }
-            $newLeft = $nodeLeft - ($nodeLeft - $nextNode->{$left});
-
-            $node->set($left, $newLeft);
-            $node->set($right, $newLeft + ($nodeRight - $nodeLeft));
         }
+
+        list($targetLeft, $targetRight) = array_values($targetNode->extract([$left, $right]));
+        $edge = $this->_getMax();
+        $leftBoundary = $targetLeft;
+        $rightBoundary = $nodeLeft - 1;
+
+        $nodeToEdge = $edge - $nodeLeft + 1;
+        $shift = $nodeRight - $nodeLeft + 1;
+        $nodeToHole = $edge - $leftBoundary + 1;
+        $this->_sync($nodeToEdge, '+', "BETWEEN {$nodeLeft} AND {$nodeRight}");
+        $this->_sync($shift, '+', "BETWEEN {$leftBoundary} AND {$rightBoundary}");
+        $this->_sync($nodeToHole, '-', "> {$edge}");
+
+        $node->set($left, $targetLeft);
+        $node->set($right, $targetLeft + ($nodeRight - $nodeLeft));
 
         $node->dirty($left, false);
         $node->dirty($right, false);
+
         return $node;
     }
 
@@ -542,6 +624,10 @@ class TreeBehavior extends Behavior
      */
     public function moveDown(Entity $node, $number = 1)
     {
+        if ($number < 1) {
+            return false;
+        }
+
         return $this->_table->connection()->transactional(function () use ($node, $number) {
             $this->_ensureFields($node);
             return $this->_moveDown($node, $number);
@@ -561,52 +647,49 @@ class TreeBehavior extends Behavior
         $config = $this->config();
         list($parent, $left, $right) = [$config['parent'], $config['left'], $config['right']];
 
-        if (!$number) {
-            return false;
-        }
+        list($nodeParent, $nodeLeft, $nodeRight) = array_values($node->extract([$parent, $left, $right]));
 
-        $parentRight = 0;
-        if ($node->get($parent)) {
-            $parentRight = $this->_getNode($node->get($parent))->get($right);
-        }
-
-        if ($number === true) {
-            $number = PHP_INT_MAX;
-        }
-
-        $edge = $this->_getMax();
-        while ($number-- > 0) {
-            list($nodeLeft, $nodeRight) = array_values($node->extract([$left, $right]));
-
-            if ($parentRight && ($nodeRight + 1 == $parentRight)) {
-                break;
-            }
-
-            $nextNode = $this->_scope($this->_table->find())
+        $targetNode = null;
+        if ($number !== true) {
+            $targetNode = $this->_scope($this->_table->find())
                 ->select([$left, $right])
-                ->where([$left => $nodeRight + 1])
+                ->where(["$parent IS" => $nodeParent, "$left >" => $nodeRight])
+                ->order([$left => 'ASC'])
+                ->offset($number - 1)
+                ->limit(1)
+                ->first();
+        }
+        if (!$targetNode) {
+            $targetNode = $this->_scope($this->_table->find())
+                ->select([$left, $right])
+                ->where(["$parent IS" => $nodeParent, "$left >" => $nodeRight])
+                ->order([$left => 'DESC'])
+                ->limit(1)
                 ->first();
 
-            if (!$nextNode) {
-                break;
+            if (!$targetNode) {
+                return $node;
             }
-
-            $this->_sync($edge - $nodeLeft + 1, '+', "BETWEEN {$nodeLeft} AND {$nodeRight}");
-            $this->_sync($nextNode->{$left} - $nodeLeft, '-', "BETWEEN {$nextNode->{$left}} AND {$nextNode->{$right}}");
-            $this->_sync($edge - $nodeLeft - ($nextNode->{$right} - $nextNode->{$left}), '-', "> {$edge}");
-
-            $newLeft = $edge + 1;
-            if ($newLeft >= $nextNode->{$left} || $newLeft <= $nextNode->{$right}) {
-                $newLeft -= $nextNode->{$left} - $nodeLeft;
-            }
-            $newLeft -= $nextNode->{$right} - $nextNode->{$left} - 1;
-
-            $node->set($left, $newLeft);
-            $node->set($right, $newLeft + ($nodeRight - $nodeLeft));
         }
+
+        list($targetLeft, $targetRight) = array_values($targetNode->extract([$left, $right]));
+        $edge = $this->_getMax();
+        $leftBoundary = $nodeRight + 1;
+        $rightBoundary = $targetRight;
+
+        $nodeToEdge = $edge - $nodeLeft + 1;
+        $shift = $nodeRight - $nodeLeft + 1;
+        $nodeToHole = $edge - $rightBoundary + $shift;
+        $this->_sync($nodeToEdge, '+', "BETWEEN {$nodeLeft} AND {$nodeRight}");
+        $this->_sync($shift, '-', "BETWEEN {$leftBoundary} AND {$rightBoundary}");
+        $this->_sync($nodeToHole, '-', "> {$edge}");
+
+        $node->set($left, $targetRight - ($nodeRight - $nodeLeft));
+        $node->set($right, $targetRight);
 
         $node->dirty($left, false);
         $node->dirty($right, false);
+
         return $node;
     }
 
@@ -622,9 +705,13 @@ class TreeBehavior extends Behavior
         $config = $this->config();
         list($parent, $left, $right) = [$config['parent'], $config['left'], $config['right']];
         $primaryKey = $this->_getPrimaryKey();
+        $fields = [$parent, $left, $right];
+        if ($config['level']) {
+            $fields[] = $config['level'];
+        }
 
         $node = $this->_scope($this->_table->find())
-            ->select([$parent, $left, $right])
+            ->select($fields)
             ->where([$this->_table->alias() . '.' . $primaryKey => $id])
             ->first();
 
@@ -665,8 +752,7 @@ class TreeBehavior extends Behavior
             ->select($pk)
             ->where([$parent . ' IS' => $parentId])
             ->order($pk)
-            ->hydrate(false)
-            ->bufferResults(false);
+            ->hydrate(false);
 
         $leftCounter = $counter;
         foreach ($query as $row) {
@@ -792,5 +878,36 @@ class TreeBehavior extends Behavior
             $this->_primaryKey = $this->_primaryKey[0];
         }
         return $this->_primaryKey;
+    }
+
+    /**
+     * Returns the depth level of a node in the tree.
+     *
+     * @param int|string|\Cake\Datasource\EntityInterface $entity The entity or primary key get the level of.
+     * @return int|bool Integer of the level or false if the node does not exist.
+     */
+    public function getLevel($entity)
+    {
+        $primaryKey = $this->_getPrimaryKey();
+        $id = $entity;
+        if ($entity instanceof EntityInterface) {
+            $id = $entity->get($primaryKey);
+        }
+        $config = $this->config();
+        $entity = $this->_table->find('all')
+            ->select([$config['left'], $config['right']])
+            ->where([$primaryKey => $id])
+            ->first();
+
+        if ($entity === null) {
+            return false;
+        }
+
+        $query = $this->_table->find('all')->where([
+            $config['left'] . ' <' => $entity[$config['left']],
+            $config['right'] . ' >' => $entity[$config['right']]
+        ]);
+
+        return $this->_scope($query)->count();
     }
 }

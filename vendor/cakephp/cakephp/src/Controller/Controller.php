@@ -79,7 +79,6 @@ use ReflectionMethod;
  * @property      \Cake\Controller\Component\PaginatorComponent $Paginator
  * @property      \Cake\Controller\Component\RequestHandlerComponent $RequestHandler
  * @property      \Cake\Controller\Component\SecurityComponent $Security
- * @property      \Cake\Controller\Component\SessionComponent $Session
  * @link          http://book.cakephp.org/3.0/en/controllers.html
  */
 class Controller implements EventListenerInterface
@@ -288,7 +287,7 @@ class Controller implements EventListenerInterface
 
         $this->_mergeControllerVars();
         $this->_loadComponents();
-        $this->eventManager()->attach($this);
+        $this->eventManager()->on($this);
     }
 
     /**
@@ -360,7 +359,7 @@ class Controller implements EventListenerInterface
      * - $this->request - To the $request parameter
      * - $this->plugin - To the $request->params['plugin']
      * - $this->autoRender - To false if $request->params['return'] == 1
-     * - $this->passedArgs - The the combined results of params['named'] and params['pass]
+     * - $this->passedArgs - The combined results of params['named'] and params['pass]
      * - View::$passedArgs - $this->passedArgs
      * - View::$plugin - $this->plugin
      * - View::$view - To the $request->params['action']
@@ -421,7 +420,7 @@ class Controller implements EventListenerInterface
     }
 
     /**
-     * Returns a list of all events that will fire in the controller during it's lifecycle.
+     * Returns a list of all events that will fire in the controller during its lifecycle.
      * You can override this function to add you own listener callbacks
      *
      * @return array
@@ -498,16 +497,16 @@ class Controller implements EventListenerInterface
      *
      * @param string|array $url A string or array-based URL pointing to another location within the app,
      *     or an absolute URL
-     * @param int $status Optional HTTP status code (eg: 404)
+     * @param int $status HTTP status code (eg: 301)
      * @return void|\Cake\Network\Response
      * @link http://book.cakephp.org/3.0/en/controllers.html#Controller::redirect
      */
-    public function redirect($url, $status = null)
+    public function redirect($url, $status = 302)
     {
         $this->autoRender = false;
 
         $response = $this->response;
-        if ($status && $response->statusCode() === 200) {
+        if ($status) {
             $response->statusCode($status);
         }
 
@@ -531,10 +530,10 @@ class Controller implements EventListenerInterface
      *
      * Examples:
      *
-     * {{{
+     * ```
      * setAction('another_action');
      * setAction('action_with_parameters', $parameter1);
-     * }}}
+     * ```
      *
      * @param string $action The new action to be 'redirected' to.
      *   Any other parameters passed to this method will be passed as parameters to the new action.
@@ -588,7 +587,7 @@ class Controller implements EventListenerInterface
     public function referer($default = null, $local = false)
     {
         if (!$this->request) {
-            return '/';
+            return Router::url($default, !$local);
         }
 
         $referer = $this->request->referer($local);
@@ -624,7 +623,7 @@ class Controller implements EventListenerInterface
                 if (empty($tableName)) {
                     continue;
                 }
-                $table = TableRegistry::get($tableName);
+                $table = $this->loadModel($tableName);
                 break;
             }
         }

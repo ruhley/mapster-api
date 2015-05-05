@@ -14,13 +14,19 @@
  */
 namespace Cake\Test\TestCase\ORM;
 
+use ArrayObject;
 use Cake\Core\Configure;
+use Cake\Core\Plugin;
 use Cake\Database\Expression\OrderByExpression;
 use Cake\Database\Expression\QueryExpression;
 use Cake\Database\TypeMap;
 use Cake\Datasource\ConnectionManager;
+use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Cake\I18n\Time;
+use Cake\ORM\Entity;
+use Cake\ORM\Query;
+use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
@@ -42,8 +48,14 @@ class TableTest extends TestCase
 {
 
     public $fixtures = [
-        'core.users', 'core.categories', 'core.articles', 'core.authors',
-        'core.tags', 'core.articles_tags'
+        'core.comments',
+        'core.users',
+        'core.categories',
+        'core.articles',
+        'core.authors',
+        'core.tags',
+        'core.articles_tags',
+        'core.site_articles',
     ];
 
     /**
@@ -147,6 +159,17 @@ class TableTest extends TestCase
 
         $table->alias('AnotherOne');
         $this->assertEquals('AnotherOne', $table->alias());
+    }
+
+    /**
+     * Test that aliasField() works.
+     *
+     * @return void
+     */
+    public function testAliasField()
+    {
+        $table = new Table(['alias' => 'Users']);
+        $this->assertEquals('Users.id', $table->aliasField('id'));
     }
 
     /**
@@ -424,9 +447,12 @@ class TableTest extends TestCase
             'table' => 'users',
             'connection' => $this->connection,
         ]);
-        $table->eventManager()->attach(function ($event, $query, $options) {
-            $query->limit(1);
-        }, 'Model.beforeFind');
+        $table->eventManager()->on(
+            'Model.beforeFind',
+            function ($event, $query, $options) {
+                $query->limit(1);
+            }
+        );
 
         $result = $table->find('all')->all();
         $this->assertCount(1, $result, 'Should only have 1 record, limit 1 applied.');
@@ -445,10 +471,13 @@ class TableTest extends TestCase
             'connection' => $this->connection,
         ]);
         $expected = ['One', 'Two', 'Three'];
-        $table->eventManager()->attach(function ($event, $query, $options) use ($expected) {
-            $query->setResult($expected);
-            $event->stopPropagation();
-        }, 'Model.beforeFind');
+        $table->eventManager()->on(
+            'Model.beforeFind',
+            function ($event, $query, $options) use ($expected) {
+                $query->setResult($expected);
+                $event->stopPropagation();
+            }
+        );
 
         $query = $table->find('all');
         $query->limit(1);
@@ -492,6 +521,115 @@ class TableTest extends TestCase
     }
 
     /**
+     * Test has one with a plugin model
+     *
+     * @return void
+     */
+    public function testHasOnePlugin()
+    {
+        $options = ['className' => 'TestPlugin.Comments'];
+        $table = new Table(['table' => 'users']);
+
+        $hasOne = $table->hasOne('Comments', $options);
+        $this->assertInstanceOf('Cake\ORM\Association\HasOne', $hasOne);
+        $this->assertSame('Comments', $hasOne->name());
+
+        $hasOneTable = $hasOne->target();
+        $this->assertSame('Comments', $hasOne->alias());
+        $this->assertSame('TestPlugin.Comments', $hasOne->registryAlias());
+
+        $options = ['className' => 'TestPlugin.Comments'];
+        $table = new Table(['table' => 'users']);
+
+        $hasOne = $table->hasOne('TestPlugin.Comments', $options);
+        $this->assertInstanceOf('Cake\ORM\Association\HasOne', $hasOne);
+        $this->assertSame('Comments', $hasOne->name());
+
+        $hasOneTable = $hasOne->target();
+        $this->assertSame('Comments', $hasOne->alias());
+        $this->assertSame('TestPlugin.Comments', $hasOne->registryAlias());
+    }
+
+    /**
+     * testNoneUniqueAssociationsSameClass
+     *
+     * @return void
+     */
+    public function testNoneUniqueAssociationsSameClass()
+    {
+        $Users = new Table(['table' => 'users']);
+        $options = ['className' => 'Comments'];
+        $Users->hasMany('Comments', $options);
+
+        $Articles = new Table(['table' => 'articles']);
+        $options = ['className' => 'Comments'];
+        $Articles->hasMany('Comments', $options);
+
+        $Categories = new Table(['table' => 'categories']);
+        $options = ['className' => 'TestPlugin.Comments'];
+        $Categories->hasMany('Comments', $options);
+
+        $this->assertInstanceOf('Cake\ORM\Table', $Users->Comments->target());
+        $this->assertInstanceOf('Cake\ORM\Table', $Articles->Comments->target());
+        $this->assertInstanceOf('TestPlugin\Model\Table\CommentsTable', $Categories->Comments->target());
+    }
+
+    /**
+     * Test associations which refer to the same table multiple times
+     *
+     * @return void
+     */
+    public function testSelfJoinAssociations()
+    {
+        $Categories = TableRegistry::get('Categories');
+        $options = ['className' => 'Categories'];
+        $Categories->hasMany('Children', ['foreignKey' => 'parent_id'] + $options);
+        $Categories->belongsTo('Parent', $options);
+
+        $this->assertSame('categories', $Categories->Children->target()->table());
+        $this->assertSame('categories', $Categories->Parent->target()->table());
+
+        $this->assertSame('Children', $Categories->Children->alias());
+        $this->assertSame('Children', $Categories->Children->target()->alias());
+
+        $this->assertSame('Parent', $Categories->Parent->alias());
+        $this->assertSame('Parent', $Categories->Parent->target()->alias());
+
+        $expected = [
+            'id' => 2,
+            'parent_id' => 1,
+            'name' => 'Category 1.1',
+            'parent' => [
+                'id' => 1,
+                'parent_id' => 0,
+                'name' => 'Category 1',
+            ],
+            'children' => [
+                [
+                    'id' => 7,
+                    'parent_id' => 2,
+                    'name' => 'Category 1.1.1',
+                ],
+                [
+                    'id' => 8,
+                    'parent_id' => 2,
+                    'name' => 'Category 1.1.2',
+                ]
+            ]
+        ];
+
+        $fields = ['id', 'parent_id', 'name'];
+        $result = $Categories->find('all')
+            ->select(['Categories.id', 'Categories.parent_id', 'Categories.name'])
+            ->contain(['Children' => ['fields' => $fields], 'Parent' => ['fields' => $fields]])
+            ->where(['Categories.id' => 2])
+            ->first()
+            ->toArray();
+
+        $this->assertSame($expected, $result);
+    }
+
+    /**
      * Tests that hasMany() creates and configures correctly the association
      *
      * @return void
@@ -512,6 +650,100 @@ class TableTest extends TestCase
         $this->assertEquals(['b' => 'c'], $hasMany->conditions());
         $this->assertEquals(['foo' => 'asc'], $hasMany->sort());
         $this->assertSame($table, $hasMany->source());
+    }
+
+    /**
+     * testHasManyWithClassName
+     *
+     * @return void
+     */
+    public function testHasManyWithClassName()
+    {
+        $table = TableRegistry::get('Articles');
+        $table->hasMany('Comments', [
+            'className' => 'Comments',
+            'conditions' => ['published' => 'Y'],
+        ]);
+
+        $table->hasMany('UnapprovedComments', [
+            'className' => 'Comments',
+            'conditions' => ['published' => 'N'],
+            'propertyName' => 'unaproved_comments'
+        ]);
+
+        $expected = [
+            'id' => 1,
+            'title' => 'First Article',
+            'unaproved_comments' => [
+                [
+                    'id' => 4,
+                    'article_id' => 1,
+                    'comment' => 'Fourth Comment for First Article'
+                ]
+            ],
+            'comments' => [
+                [
+                    'id' => 1,
+                    'article_id' => 1,
+                    'comment' => 'First Comment for First Article'
+                ],
+                [
+                    'id' => 2,
+                    'article_id' => 1,
+                    'comment' => 'Second Comment for First Article'
+                ],
+                [
+                    'id' => 3,
+                    'article_id' => 1,
+                    'comment' => 'Third Comment for First Article'
+                ]
+            ]
+        ];
+        $result = $table->find()
+            ->select(['id', 'title'])
+            ->contain([
+                'Comments' => ['fields' => ['id', 'article_id', 'comment']],
+                'UnapprovedComments' => ['fields' => ['id', 'article_id', 'comment']]
+            ])
+            ->where(['id' => 1])
+            ->first();
+
+        $this->assertSame($expected, $result->toArray());
+    }
+
+    /**
+     * Ensure associations use the plugin-prefixed model
+     *
+     * @return void
+     */
+    public function testHasManyPluginOverlap()
+    {
+        TableRegistry::get('Comments');
+        Plugin::load('TestPlugin');
+
+        $table = new Table(['table' => 'authors']);
+
+        $table->hasMany('TestPlugin.Comments');
+        $comments = $table->Comments->target();
+        $this->assertInstanceOf('TestPlugin\Model\Table\CommentsTable', $comments);
+    }
+
+    /**
+     * Ensure associations use the plugin-prefixed model
+     * even if specified with config
+     *
+     * @return void
+     */
+    public function testHasManyPluginOverlapConfig()
+    {
+        TableRegistry::get('Comments');
+        Plugin::load('TestPlugin');
+
+        $table = new Table(['table' => 'authors']);
+
+        $table->hasMany('Comments', ['className' => 'TestPlugin.Comments']);
+        $comments = $table->Comments->target();
+        $this->assertInstanceOf('TestPlugin\Model\Table\CommentsTable', $comments);
     }
 
     /**
@@ -1364,6 +1596,60 @@ class TableTest extends TestCase
     }
 
     /**
+     * Test that saving a new entity with a Primary Key set does call exists.
+     *
+     * @group save
+     * @return void
+     */
+    public function testSavePrimaryKeyEntityExists()
+    {
+        $this->skipIfSqlServer();
+        $table = $this->getMock(
+            'Cake\ORM\Table',
+            ['exists'],
+            [
+                [
+                    'connection' => $this->connection,
+                    'alias' => 'Users',
+                    'table' => 'users',
+                ]
+            ]
+        );
+        $entity = $table->newEntity(['id' => 20, 'username' => 'mark']);
+        $this->assertTrue($entity->isNew());
+
+        $table->expects($this->once())->method('exists');
+        $this->assertSame($entity, $table->save($entity));
+    }
+
+    /**
+     * Test that saving a new entity with a Primary Key set does not call exists when checkExisting is false.
+     *
+     * @group save
+     * @return void
+     */
+    public function testSavePrimaryKeyEntityNoExists()
+    {
+        $this->skipIfSqlServer();
+        $table = $this->getMock(
+            'Cake\ORM\Table',
+            ['exists'],
+            [
+                [
+                    'connection' => $this->connection,
+                    'alias' => 'Users',
+                    'table' => 'users',
+                ]
+            ]
+        );
+        $entity = $table->newEntity(['id' => 20, 'username' => 'mark']);
+        $this->assertTrue($entity->isNew());
+
+        $table->expects($this->never())->method('exists');
+        $this->assertSame($entity, $table->save($entity, ['checkExisting' => false]));
+    }
+
+    /**
      * Tests that saving an entity will filter out properties that
      * are not present in the table schema when saving
      *
@@ -1406,7 +1692,7 @@ class TableTest extends TestCase
             $this->assertSame($data, $entity);
             $entity->set('password', 'foo');
         };
-        $table->eventManager()->attach($listener, 'Model.beforeSave');
+        $table->eventManager()->on('Model.beforeSave', $listener);
         $this->assertSame($data, $table->save($data));
         $this->assertEquals($data->id, self::$nextUserId);
         $row = $table->find('all')->where(['id' => self::$nextUserId])->first();
@@ -1434,8 +1720,8 @@ class TableTest extends TestCase
         $listener2 = function ($e, $entity, $options) {
             $this->assertTrue($options['crazy']);
         };
-        $table->eventManager()->attach($listener1, 'Model.beforeSave');
-        $table->eventManager()->attach($listener2, 'Model.beforeSave');
+        $table->eventManager()->on('Model.beforeSave', $listener1);
+        $table->eventManager()->on('Model.beforeSave', $listener2);
         $this->assertSame($data, $table->save($data));
         $this->assertEquals($data->id, self::$nextUserId);
 
@@ -1462,7 +1748,7 @@ class TableTest extends TestCase
             $e->stopPropagation();
             return $entity;
         };
-        $table->eventManager()->attach($listener, 'Model.beforeSave');
+        $table->eventManager()->on('Model.beforeSave', $listener);
         $this->assertSame($data, $table->save($data));
         $this->assertNull($data->id);
         $row = $table->find('all')->where(['id' => self::$nextUserId])->first();
@@ -1489,10 +1775,104 @@ class TableTest extends TestCase
             $this->assertSame($data, $entity);
             $called = true;
         };
-        $table->eventManager()->attach($listener, 'Model.afterSave');
+        $table->eventManager()->on('Model.afterSave', $listener);
+
+        $calledAfterCommit = false;
+        $listenerAfterCommit = function ($e, $entity, $options) use ($data, &$calledAfterCommit) {
+            $this->assertSame($data, $entity);
+            $calledAfterCommit = true;
+        };
+        $table->eventManager()->on('Model.afterSaveCommit', $listenerAfterCommit);
+
         $this->assertSame($data, $table->save($data));
         $this->assertEquals($data->id, self::$nextUserId);
         $this->assertTrue($called);
+        $this->assertTrue($calledAfterCommit);
+    }
+
+    /**
+     * Asserts that afterSaveCommit is also triggered for non-atomic saves
+     *
+     * @return void
+     */
+    public function testAfterSaveCommitForNonAtomic()
+    {
+        $table = TableRegistry::get('users');
+        $data = new \Cake\ORM\Entity([
+            'username' => 'superuser',
+            'created' => new Time('2013-10-10 00:00'),
+            'updated' => new Time('2013-10-10 00:00')
+        ]);
+
+        $called = false;
+        $listener = function ($e, $entity, $options) use ($data, &$called) {
+            $this->assertSame($data, $entity);
+            $called = true;
+        };
+        $table->eventManager()->on('Model.afterSave', $listener);
+
+        $calledAfterCommit = false;
+        $listenerAfterCommit = function ($e, $entity, $options) use ($data, &$calledAfterCommit) {
+            $calledAfterCommit = true;
+        };
+        $table->eventManager()->on('Model.afterSaveCommit', $listenerAfterCommit);
+
+        $this->assertSame($data, $table->save($data, ['atomic' => false]));
+        $this->assertEquals($data->id, self::$nextUserId);
+        $this->assertTrue($called);
+        $this->assertTrue($calledAfterCommit);
+    }
+
+    /**
+     * Asserts the afterSaveCommit is not triggered if transaction is running.
+     *
+     * @return void
+     */
+    public function testAfterSaveCommitWithTransactionRunning()
+    {
+        $table = TableRegistry::get('users');
+        $data = new \Cake\ORM\Entity([
+            'username' => 'superuser',
+            'created' => new Time('2013-10-10 00:00'),
+            'updated' => new Time('2013-10-10 00:00')
+        ]);
+
+        $called = false;
+        $listener = function ($e, $entity, $options) use (&$called) {
+            $called = true;
+        };
+        $table->eventManager()->on('Model.afterSaveCommit', $listener);
+
+        $this->connection->begin();
+        $this->assertSame($data, $table->save($data));
+        $this->assertFalse($called);
+        $this->connection->commit();
+    }
+
+    /**
+     * Asserts the afterSaveCommit is not triggered if transaction is running.
+     *
+     * @return void
+     */
+    public function testAfterSaveCommitWithNonAtomicAndTransactionRunning()
+    {
+        $table = TableRegistry::get('users');
+        $data = new \Cake\ORM\Entity([
+            'username' => 'superuser',
+            'created' => new Time('2013-10-10 00:00'),
+            'updated' => new Time('2013-10-10 00:00')
+        ]);
+
+        $called = false;
+        $listener = function ($e, $entity, $options) use (&$called) {
+            $called = true;
+        };
+        $table->eventManager()->on('Model.afterSaveCommit', $listener);
+
+        $this->connection->begin();
+        $this->assertSame($data, $table->save($data, ['atomic' => false]));
+        $this->assertFalse($called);
+        $this->connection->commit();
     }
 
     /**
@@ -1533,9 +1913,55 @@ class TableTest extends TestCase
         $listener = function ($e, $entity, $options) use ($data, &$called) {
             $called = true;
         };
-        $table->eventManager()->attach($listener, 'Model.afterSave');
+        $table->eventManager()->on('Model.afterSave', $listener);
+
+        $calledAfterCommit = false;
+        $listenerAfterCommit = function ($e, $entity, $options) use ($data, &$calledAfterCommit) {
+            $calledAfterCommit = true;
+        };
+        $table->eventManager()->on('Model.afterSaveCommit', $listenerAfterCommit);
+
         $this->assertFalse($table->save($data));
         $this->assertFalse($called);
+        $this->assertFalse($calledAfterCommit);
+    }
+
+    /**
+     * Asserts that afterSaveCommit callback is triggered only for primary table
+     *
+     * @group save
+     * @return void
+     */
+    public function testAfterSaveCommitTriggeredOnlyForPrimaryTable()
+    {
+        $entity = new \Cake\ORM\Entity([
+            'title' => 'A Title',
+            'body' => 'A body'
+        ]);
+        $entity->author = new \Cake\ORM\Entity([
+            'name' => 'Jose'
+        ]);
+
+        $table = TableRegistry::get('articles');
+        $table->belongsTo('authors');
+
+        $calledForArticle = false;
+        $listenerForArticle = function ($e, $entity, $options) use (&$calledForArticle) {
+            $calledForArticle = true;
+        };
+        $table->eventManager()->on('Model.afterSaveCommit', $listenerForArticle);
+
+        $calledForAuthor = false;
+        $listenerForAuthor = function ($e, $entity, $options) use (&$calledForAuthor) {
+            $calledForAuthor = true;
+        };
+        $table->authors->eventManager()->on('Model.afterSaveCommit', $listenerForAuthor);
+
+        $this->assertSame($entity, $table->save($entity));
+        $this->assertFalse($entity->isNew());
+        $this->assertFalse($entity->author->isNew());
+        $this->assertTrue($calledForArticle);
+        $this->assertFalse($calledForAuthor);
     }
 
     /**
@@ -1796,7 +2222,7 @@ class TableTest extends TestCase
             $this->assertFalse($entity->isNew());
             $called = true;
         };
-        $table->eventManager()->attach($listener, 'Model.beforeSave');
+        $table->eventManager()->on('Model.beforeSave', $listener);
         $this->assertSame($entity, $table->save($entity));
         $this->assertTrue($called);
     }
@@ -1965,8 +2391,7 @@ class TableTest extends TestCase
             'dependent' => true,
         ]);
 
-        $query = $table->find('all')->where(['id' => 1]);
-        $entity = $query->first();
+        $entity = $table->get(1);
         $result = $table->delete($entity);
 
         $articles = $table->association('articles')->target();
@@ -1976,6 +2401,25 @@ class TableTest extends TestCase
             ]
         ]);
         $this->assertNull($query->all()->first(), 'Should not find any rows.');
+    }
+
+    /**
+     * Test delete with dependent records
+     *
+     * @return void
+     */
+    public function testDeleteDependentHasMany()
+    {
+        $table = TableRegistry::get('authors');
+        $table->hasMany('articles', [
+            'foreignKey' => 'author_id',
+            'dependent' => true,
+            'cascadeCallbacks' => true,
+        ]);
+
+        $entity = $table->get(1);
+        $result = $table->delete($entity);
+        $this->assertTrue($result);
     }
 
     /**
@@ -2029,12 +2473,12 @@ class TableTest extends TestCase
     public function testDeleteCallbacks()
     {
         $entity = new \Cake\ORM\Entity(['id' => 1, 'name' => 'mark']);
-        $options = new \ArrayObject(['atomic' => true, 'checkRules' => false]);
+        $options = new \ArrayObject(['atomic' => true, 'checkRules' => false, '_primary' => true]);
 
         $mock = $this->getMock('Cake\Event\EventManager');
 
         $mock->expects($this->at(0))
-            ->method('attach');
+            ->method('on');
 
         $mock->expects($this->at(1))
             ->method('dispatch');
@@ -2059,9 +2503,81 @@ class TableTest extends TestCase
                 )
             ));
 
+        $mock->expects($this->at(4))
+            ->method('dispatch')
+            ->with($this->logicalAnd(
+                $this->attributeEqualTo('_name', 'Model.afterDeleteCommit'),
+                $this->attributeEqualTo(
+                    'data',
+                    ['entity' => $entity, 'options' => $options]
+                )
+            ));
+
         $table = TableRegistry::get('users', ['eventManager' => $mock]);
         $entity->isNew(false);
         $table->delete($entity, ['checkRules' => false]);
+    }
+
+    /**
+     * Test afterDeleteCommit is also called for non-atomic delete
+     *
+     * @return void
+     */
+    public function testDeleteCallbacksNonAtomic()
+    {
+        $table = TableRegistry::get('users');
+
+        $data = $table->get(1);
+        $options = new \ArrayObject(['atomic' => false, 'checkRules' => false]);
+
+        $called = false;
+        $listener = function ($e, $entity, $options) use ($data, &$called) {
+            $this->assertSame($data, $entity);
+            $called = true;
+        };
+        $table->eventManager()->on('Model.afterDelete', $listener);
+
+        $calledAfterCommit = false;
+        $listenerAfterCommit = function ($e, $entity, $options) use ($data, &$calledAfterCommit) {
+            $calledAfterCommit = true;
+        };
+        $table->eventManager()->on('Model.afterDeleteCommit', $listenerAfterCommit);
+
+        $table->delete($data, ['atomic' => false]);
+        $this->assertTrue($called);
+        $this->assertTrue($calledAfterCommit);
+    }
+
+    /**
+     * Test that afterDeleteCommit is only triggered for primary table
+     *
+     * @return void
+     */
+    public function testAfterDeleteCommitTriggeredOnlyForPrimaryTable()
+    {
+        $table = TableRegistry::get('authors');
+        $table->hasOne('articles', [
+            'foreignKey' => 'author_id',
+            'dependent' => true,
+        ]);
+
+        $called = false;
+        $listener = function ($e, $entity, $options) use (&$called) {
+            $called = true;
+        };
+        $table->eventManager()->on('Model.afterDeleteCommit', $listener);
+
+        $called2 = false;
+        $listener = function ($e, $entity, $options) use (&$called2) {
+            $called2 = true;
+        };
+        $table->articles->eventManager()->on('Model.afterDeleteCommit', $listener);
+
+        $entity = $table->get(1);
+        $this->assertTrue($table->delete($entity));
+
+        $this->assertTrue($called);
+        $this->assertFalse($called2);
     }
 
     /**
@@ -2189,6 +2705,23 @@ class TableTest extends TestCase
         $table->validator('other', $validator);
         $this->assertSame($validator, $table->validator('other'));
         $this->assertSame($table, $validator->provider('table'));
+    }
+
+    /**
+     * Tests that the source of an existing Entity is the same as a new one
+     *
+     * @return void
+     */
+    public function testEntitySourceExistingAndNew()
+    {
+        Plugin::load('TestPlugin');
+        $table = TableRegistry::get('TestPlugin.Authors');
+
+        $existingAuthor = $table->find()->first();
+        $newAuthor = $table->newEntity();
+
+        $this->assertEquals('TestPlugin.Authors', $existingAuthor->source());
+        $this->assertEquals('TestPlugin.Authors', $newAuthor->source());
     }
 
     /**
@@ -3199,11 +3732,26 @@ class TableTest extends TestCase
         $articles->addBehavior('Timestamp');
         $result = $articles->__debugInfo();
         $expected = [
+            'registryAlias' => 'articles',
             'table' => 'articles',
             'alias' => 'articles',
             'entityClass' => 'TestApp\Model\Entity\Article',
             'associations' => ['authors', 'tags', 'articlestags'],
             'behaviors' => ['Timestamp'],
+            'defaultConnection' => 'default',
+            'connectionName' => 'test'
+        ];
+        $this->assertEquals($expected, $result);
+
+        $articles = TableRegistry::get('Foo.Articles');
+        $result = $articles->__debugInfo();
+        $expected = [
+            'registryAlias' => 'Foo.Articles',
+            'table' => 'articles',
+            'alias' => 'Articles',
+            'entityClass' => '\Cake\ORM\Entity',
+            'associations' => [],
+            'behaviors' => [],
             'defaultConnection' => 'default',
             'connectionName' => 'test'
         ];
@@ -3264,7 +3812,7 @@ class TableTest extends TestCase
         $cb = function ($event) use (&$count) {
             $count++;
         };
-        EventManager::instance()->attach($cb, 'Model.initialize');
+        EventManager::instance()->on('Model.initialize', $cb);
         $articles = TableRegistry::get('Articles');
 
         $this->assertEquals(1, $count, 'Callback should be called');
@@ -3297,7 +3845,7 @@ class TableTest extends TestCase
         $cb = function ($event) use (&$count) {
             $count++;
         };
-        EventManager::instance()->attach($cb, 'Model.buildValidator');
+        EventManager::instance()->on('Model.buildValidator', $cb);
         $articles = TableRegistry::get('Articles');
         $articles->validator();
         $this->assertEquals(1, $count, 'Callback should be called');
@@ -3337,5 +3885,209 @@ class TableTest extends TestCase
         ]);
         $data = ['username' => 'larry'];
         $this->assertNotEmpty($validator->errors($data, false));
+    }
+
+    /**
+     * Tests the validateUnique method with scope
+     *
+     * @return void
+     */
+    public function testValidateUniqueScope()
+    {
+        $table = TableRegistry::get('Users');
+        $validator = new Validator;
+        $validator->add('username', 'unique', [
+            'rule' => ['validateUnique', ['derp' => 'erp', 'scope' => 'id']],
+            'provider' => 'table'
+        ]);
+        $validator->provider('table', $table);
+        $data = ['username' => 'larry', 'id' => 3];
+        $this->assertNotEmpty($validator->errors($data));
+
+        $data = ['username' => 'larry', 'id' => 1];
+        $this->assertEmpty($validator->errors($data));
+
+        $data = ['username' => 'jose'];
+        $this->assertEmpty($validator->errors($data));
+    }
+
+    /**
+     * Tests that the callbacks receive the expected types of arguments.
+     *
+     * @return void
+     */
+    public function testCallbackArgumentTypes()
+    {
+        $table = TableRegistry::get('articles');
+        $table->belongsTo('authors');
+
+        $eventManager = $table->eventManager();
+
+        $associationBeforeFindCount = 0;
+        $table->association('authors')->target()->eventManager()->on(
+            'Model.beforeFind',
+            function (Event $event, Query $query, ArrayObject $options, $primary) use (&$associationBeforeFindCount) {
+                $this->assertTrue(is_bool($primary));
+                $associationBeforeFindCount ++;
+            }
+        );
+
+        $beforeFindCount = 0;
+        $eventManager->on(
+            'Model.beforeFind',
+            function (Event $event, Query $query, ArrayObject $options, $primary) use (&$beforeFindCount) {
+                $this->assertTrue(is_bool($primary));
+                $beforeFindCount ++;
+            }
+        );
+        $table->find()->contain('authors')->first();
+        $this->assertEquals(1, $associationBeforeFindCount);
+        $this->assertEquals(1, $beforeFindCount);
+
+        $buildValidatorCount = 0;
+        $eventManager->on(
+            'Model.buildValidator',
+            $callback = function (Event $event, Validator $validator, $name) use (&$buildValidatorCount) {
+                $this->assertTrue(is_string($name));
+                $buildValidatorCount ++;
+            }
+        );
+        $table->validator();
+        $this->assertEquals(1, $buildValidatorCount);
+
+        $buildRulesCount =
+        $beforeRulesCount =
+        $afterRulesCount =
+        $beforeSaveCount =
+        $afterSaveCount = 0;
+        $eventManager->on(
+            'Model.buildRules',
+            function (Event $event, RulesChecker $rules) use (&$buildRulesCount) {
+                $buildRulesCount ++;
+            }
+        );
+        $eventManager->on(
+            'Model.beforeRules',
+            function (Event $event, Entity $entity, ArrayObject $options, $operation) use (&$beforeRulesCount) {
+                $this->assertTrue(is_string($operation));
+                $beforeRulesCount ++;
+            }
+        );
+        $eventManager->on(
+            'Model.afterRules',
+            function (Event $event, Entity $entity, ArrayObject $options, $result, $operation) use (&$afterRulesCount) {
+                $this->assertTrue(is_bool($result));
+                $this->assertTrue(is_string($operation));
+                $afterRulesCount ++;
+            }
+        );
+        $eventManager->on(
+            'Model.beforeSave',
+            function (Event $event, Entity $entity, ArrayObject $options) use (&$beforeSaveCount) {
+                $beforeSaveCount ++;
+            }
+        );
+        $eventManager->on(
+            'Model.afterSave',
+            $afterSaveCallback = function (Event $event, Entity $entity, ArrayObject $options) use (&$afterSaveCount) {
+                $afterSaveCount ++;
+            }
+        );
+        $entity = new Entity(['title' => 'Title']);
+        $this->assertNotFalse($table->save($entity));
+        $this->assertEquals(1, $buildRulesCount);
+        $this->assertEquals(1, $beforeRulesCount);
+        $this->assertEquals(1, $afterRulesCount);
+        $this->assertEquals(1, $beforeSaveCount);
+        $this->assertEquals(1, $afterSaveCount);
+
+        $beforeDeleteCount =
+        $afterDeleteCount = 0;
+        $eventManager->on(
+            'Model.beforeDelete',
+            function (Event $event, Entity $entity, ArrayObject $options) use (&$beforeDeleteCount) {
+                $beforeDeleteCount ++;
+            }
+        );
+        $eventManager->on(
+            'Model.afterDelete',
+            function (Event $event, Entity $entity, ArrayObject $options) use (&$afterDeleteCount) {
+                $afterDeleteCount ++;
+            }
+        );
+        $this->assertTrue($table->delete($entity, ['checkRules' => false]));
+        $this->assertEquals(1, $beforeDeleteCount);
+        $this->assertEquals(1, $afterDeleteCount);
+    }
+
+    /**
+     * Tests that calling newEntity() on a table sets the right source alias
+     *
+     * @return void
+     */
+    public function testEntitySource()
+    {
+        $table = TableRegistry::get('Articles');
+        $this->assertEquals('Articles', $table->newEntity()->source());
+
+        Plugin::load('TestPlugin');
+        $table = TableRegistry::get('TestPlugin.Comments');
+        $this->assertEquals('TestPlugin.Comments', $table->newEntity()->source());
+    }
+
+    /**
+     * Tests that passing a coned entity that was marked as new to save() will
+     * actaully save it as a new entity
+     *
+     * @group save
+     * @return void
+     */
+    public function testSaveWithClonedEntity()
+    {
+        $table = TableRegistry::get('Articles');
+        $article = $table->get(1);
+
+        $cloned = clone $article;
+        $cloned->unsetProperty('id');
+        $cloned->isNew(true);
+        $this->assertSame($cloned, $table->save($cloned));
+        $this->assertEquals(
+            $article->extract(['title', 'author_id']),
+            $cloned->extract(['title', 'author_id'])
+        );
+        $this->assertEquals(4, $cloned->id);
+    }
+
+    /**
+     * Tests that after saving then entity contains the right primary
+     * key casted to the right type
+     *
+     * @group save
+     * @return void
+     */
+    public function testSaveCorrectPrimaryKeyType()
+    {
+        $entity = new Entity([
+            'username' => 'superuser',
+            'created' => new Time('2013-10-10 00:00'),
+            'updated' => new Time('2013-10-10 00:00')
+        ], ['markNew' => true]);
+
+        $table = TableRegistry::get('Users');
+        $this->assertSame($entity, $table->save($entity));
+        $this->assertSame(self::$nextUserId, $entity->id);
+    }
+
+    /**
+     * Helper method to skip tests when connection is SQLServer.
+     *
+     * @return void
+     */
+    public function skipIfSqlServer()
+    {
+        $this->skipIf(
+            $this->connection->driver() instanceof \Cake\Database\Driver\Sqlserver,
+            'SQLServer does not support the requirements of this test.'
+        );
     }
 }

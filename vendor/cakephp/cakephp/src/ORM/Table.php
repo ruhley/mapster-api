@@ -58,15 +58,15 @@ use RuntimeException;
  * finder methods. These methods allow you to easily set basic conditions up. For example
  * to filter users by username you would call
  *
- * {{{
+ * ```
  * $query = $users->findByUsername('mark');
- * }}}
+ * ```
  *
  * You can also combine conditions on multiple fields using either `Or` or `And`:
  *
- * {{{
+ * ```
  * $query = $users->findByUsernameOrEmail('mark', 'mark@example.org');
- * }}}
+ * ```
  *
  * ### Bulk updates/deletes
  *
@@ -95,7 +95,7 @@ use RuntimeException;
  *   Fired before an entity is validated using the rules checker. By stopping this event,
  *   you can return the final value of the rules checking operation.
  *
- * - `afterRules(Event $event, Entity $entity,RulesChecker $rules, bool $result)`
+ * - `afterRules(Event $event, Entity $entity, ArrayObject $options, bool $result, string $operation)`
  *   Fired after the rules have been checked on the entity. By stopping this event,
  *   you can return the final value of the rules checking operation.
  *
@@ -119,6 +119,13 @@ class Table implements RepositoryInterface, EventListenerInterface
 {
 
     use EventManagerTrait;
+
+    /**
+     * Name of default validation set.
+     *
+     * @var string
+     */
+    const DEFAULT_VALIDATOR = 'default';
 
     /**
      * Name of the table as it can be found in the database
@@ -185,6 +192,13 @@ class Table implements RepositoryInterface, EventListenerInterface
     protected $_entityClass;
 
     /**
+     * Registry key used to create this table object
+     *
+     * @var string
+     */
+    protected $_registryAlias;
+
+    /**
      * A list of validation objects indexed by name
      *
      * @var array
@@ -213,11 +227,17 @@ class Table implements RepositoryInterface, EventListenerInterface
      * - eventManager: An instance of an event manager to use for internal events
      * - behaviors: A BehaviorRegistry. Generally not used outside of tests.
      * - associations: An AssociationCollection instance.
+     * - validator: A Validator instance which is assigned as the "default"
+     *   validation set, or an associative array, where key is the name of the
+     *   validation set and value the Validator instance.
      *
      * @param array $config List of options for this table
      */
     public function __construct(array $config = [])
     {
+        if (!empty($config['registryAlias'])) {
+            $this->registryAlias($config['registryAlias']);
+        }
         if (!empty($config['table'])) {
             $this->table($config['table']);
         }
@@ -243,12 +263,21 @@ class Table implements RepositoryInterface, EventListenerInterface
         if (!empty($config['associations'])) {
             $associations = $config['associations'];
         }
+        if (!empty($config['validator'])) {
+            if (!is_array($config['validator'])) {
+                $this->validator(static::DEFAULT_VALIDATOR, $config['validator']);
+            } else {
+                foreach ($config['validator'] as $name => $validator) {
+                    $this->validator($name, $validator);
+                }
+            }
+        }
         $this->_eventManager = $eventManager ?: new EventManager();
         $this->_behaviors = $behaviors ?: new BehaviorRegistry($this);
         $this->_associations = $associations ?: new AssociationCollection();
 
         $this->initialize($config);
-        $this->_eventManager->attach($this);
+        $this->_eventManager->on($this);
         $this->dispatchEvent('Model.initialize');
     }
 
@@ -272,13 +301,14 @@ class Table implements RepositoryInterface, EventListenerInterface
      * You can use this method to define associations, attach behaviors
      * define validation and do any other initialization logic you need.
      *
-     * {{{
-     *  public function initialize(array $config) {
+     * ```
+     *  public function initialize(array $config)
+     *  {
      *      $this->belongsTo('Users');
      *      $this->belongsToMany('Tagging.Tags');
      *      $this->primaryKey('something_else');
      *  }
-     * }}}
+     * ```
      *
      * @param array $config Configuration options passed to the constructor
      * @return void
@@ -326,6 +356,34 @@ class Table implements RepositoryInterface, EventListenerInterface
             $this->_alias = $alias;
         }
         return $this->_alias;
+    }
+
+    /**
+     * Alias a field with the table's current alias.
+     *
+     * @param string $field The field to alias.
+     * @return string The field prefixed with the table alias.
+     */
+    public function aliasField($field)
+    {
+        return $this->alias() . '.' . $field;
+    }
+
+    /**
+     * Returns the table registry key used to create this table instance
+     *
+     * @param string|null $registryAlias the key used to access this object
+     * @return string
+     */
+    public function registryAlias($registryAlias = null)
+    {
+        if ($registryAlias !== null) {
+            $this->_registryAlias = $registryAlias;
+        }
+        if ($this->_registryAlias === null) {
+            $this->_registryAlias = $this->alias();
+        }
+        return $this->_registryAlias;
     }
 
     /**
@@ -394,12 +452,12 @@ class Table implements RepositoryInterface, EventListenerInterface
      *
      * ### Example:
      *
-     * {{{
+     * ```
      * protected function _initializeSchema(\Cake\Database\Schema\Table $table) {
      *  $table->columnType('preferences', 'json');
      *  return $table;
      * }
-     * }}}
+     * ```
      *
      * @param \Cake\Database\Schema\Table $table The table definition fetched from database.
      * @return \Cake\Database\Schema\Table the altered schema
@@ -521,9 +579,9 @@ class Table implements RepositoryInterface, EventListenerInterface
      *
      * Load a behavior, with some settings.
      *
-     * {{{
+     * ```
      * $this->addBehavior('Tree', ['parent' => 'parentId']);
-     * }}}
+     * ```
      *
      * Behaviors are generally loaded during Table::initialize().
      *
@@ -545,9 +603,9 @@ class Table implements RepositoryInterface, EventListenerInterface
      *
      * Remove a behavior from this table.
      *
-     * {{{
+     * ```
      * $this->removeBehavior('Tree');
-     * }}}
+     * ```
      *
      * @param string $name The alias that the behavior was added with.
      * @return void
@@ -572,7 +630,7 @@ class Table implements RepositoryInterface, EventListenerInterface
      * Check if a behavior with the given alias has been loaded.
      *
      * @param string $name The behavior alias to check.
-     * @return array
+     * @return bool
      */
     public function hasBehavior($name)
     {
@@ -606,7 +664,7 @@ class Table implements RepositoryInterface, EventListenerInterface
      * It takes an array containing set of table names indexed by association type
      * as argument:
      *
-     * {{{
+     * ```
      * $this->Posts->addAssociations([
      *   'belongsTo' => [
      *     'Users' => ['className' => 'App\Model\Table\UsersTable']
@@ -614,7 +672,7 @@ class Table implements RepositoryInterface, EventListenerInterface
      *   'hasMany' => ['Comments'],
      *   'belongsToMany' => ['Tags']
      * ]);
-     * }}}
+     * ```
      *
      * Each association type accepts multiple associations where the keys
      * are the aliases, and the values are association config data. If numeric
@@ -847,37 +905,37 @@ class Table implements RepositoryInterface, EventListenerInterface
      *
      * The results of this finder will be in the following form:
      *
-     * {{{
+     * ```
      * [
      *  1 => 'value for id 1',
      *  2 => 'value for id 2',
      *  4 => 'value for id 4'
      * ]
-     * }}}
+     * ```
      *
      * You can specify which property will be used as the key and which as value
      * by using the `$options` array, when not specified, it will use the results
      * of calling `primaryKey` and `displayField` respectively in this table:
      *
-     * {{{
+     * ```
      * $table->find('list', [
-     *  'idField' => 'name',
+     *  'keyField' => 'name',
      *  'valueField' => 'age'
      * ]);
-     * }}}
+     * ```
      *
      * Results can be put together in bigger groups when they share a property, you
      * can customize the property to use for grouping by setting `groupField`:
      *
-     * {{{
+     * ```
      * $table->find('list', [
      *  'groupField' => 'category_id',
      * ]);
-     * }}}
+     * ```
      *
      * When using a `groupField` results will be returned in this format:
      *
-     * {{{
+     * ```
      * [
      *  'group_1' => [
      *      1 => 'value for id 1',
@@ -887,7 +945,7 @@ class Table implements RepositoryInterface, EventListenerInterface
      *      4 => 'value for id 4'
      *  ]
      * ]
-     * }}}
+     * ```
      *
      * @param \Cake\ORM\Query $query The query to find with
      * @param array $options The options for the find
@@ -896,18 +954,25 @@ class Table implements RepositoryInterface, EventListenerInterface
     public function findList(Query $query, array $options)
     {
         $options += [
-            'idField' => $this->primaryKey(),
+            'keyField' => $this->primaryKey(),
             'valueField' => $this->displayField(),
             'groupField' => null
         ];
+
+        if (isset($options['idField'])) {
+            $options['keyField'] = $options['idField'];
+            unset($options['idField']);
+            trigger_error('Option "idField" is deprecated, use "keyField" instead.', E_USER_WARNING);
+        }
+
         $options = $this->_setFieldMatchers(
             $options,
-            ['idField', 'valueField', 'groupField']
+            ['keyField', 'valueField', 'groupField']
         );
 
         return $query->formatResults(function ($results) use ($options) {
             return $results->combine(
-                $options['idField'],
+                $options['keyField'],
                 $options['valueField'],
                 $options['groupField']
             );
@@ -922,16 +987,16 @@ class Table implements RepositoryInterface, EventListenerInterface
      * recursively nested inside the parent row values using the `children` property
      *
      * You can customize what fields are used for nesting results, by default the
-     * primary key and the `parent_id` fields are used. If you you wish to change
-     * these defaults you need to provide the keys `idField` or `parentField` in
+     * primary key and the `parent_id` fields are used. If you wish to change
+     * these defaults you need to provide the keys `keyField` or `parentField` in
      * `$options`:
      *
-     * {{{
+     * ```
      * $table->find('threaded', [
-     *  'idField' => 'id',
+     *  'keyField' => 'id',
      *  'parentField' => 'ancestor_id'
      * ]);
-     * }}}
+     * ```
      *
      * @param \Cake\ORM\Query $query The query to find with
      * @param array $options The options to find with
@@ -940,13 +1005,20 @@ class Table implements RepositoryInterface, EventListenerInterface
     public function findThreaded(Query $query, array $options)
     {
         $options += [
-            'idField' => $this->primaryKey(),
+            'keyField' => $this->primaryKey(),
             'parentField' => 'parent_id',
         ];
-        $options = $this->_setFieldMatchers($options, ['idField', 'parentField']);
+
+        if (isset($options['idField'])) {
+            $options['keyField'] = $options['idField'];
+            unset($options['idField']);
+            trigger_error('Option "idField" is deprecated, use "keyField" instead.', E_USER_WARNING);
+        }
+
+        $options = $this->_setFieldMatchers($options, ['keyField', 'parentField']);
 
         return $query->formatResults(function ($results) use ($options) {
-            return $results->nest($options['idField'], $options['parentField']);
+            return $results->nest($options['keyField'], $options['parentField']);
         });
     }
 
@@ -1099,25 +1171,26 @@ class Table implements RepositoryInterface, EventListenerInterface
      * For example, if you wish to create a validation set called 'forSubscription',
      * you will need to create a method in your Table subclass as follows:
      *
-     * {{{
-     * public function validationForSubscription($validator) {
+     * ```
+     * public function validationForSubscription($validator)
+     * {
      *  return $validator
      *  ->add('email', 'valid-email', ['rule' => 'email'])
      *  ->add('password', 'valid', ['rule' => 'notEmpty'])
      *  ->requirePresence('username');
      * }
-     * }}}
+     * ```
      *
      * Otherwise, you can build the object by yourself and store it in the Table object:
      *
-     * {{{
+     * ```
      * $validator = new \Cake\Validation\Validator($table);
      * $validator
      *  ->add('email', 'valid-email', ['rule' => 'email'])
      *  ->add('password', 'valid', ['rule' => 'notEmpty'])
      *  ->allowEmpty('bio');
      * $table->validator('forSubscription', $validator);
-     * }}}
+     * ```
      *
      * You can implement the method in `validationDefault` in your Table subclass
      * should you wish to have a validation set that applies in cases where no other
@@ -1128,7 +1201,7 @@ class Table implements RepositoryInterface, EventListenerInterface
      *   use null to get a validator.
      * @return \Cake\Validation\Validator
      */
-    public function validator($name = 'default', Validator $validator = null)
+    public function validator($name = self::DEFAULT_VALIDATOR, Validator $validator = null)
     {
         if ($validator === null && isset($this->_validators[$name])) {
             return $this->_validators[$name];
@@ -1203,6 +1276,8 @@ class Table implements RepositoryInterface, EventListenerInterface
      *   to be saved. It is possible to provide different options for saving on associated
      *   table objects using this key by making the custom options the array value.
      *   If false no associated records will be saved. (default: true)
+     * - checkExisting: Whether or not to check if the entity already exists, assuming that the
+     *   entity is marked as not new, and the primary key has been set.
      *
      * ### Events
      *
@@ -1230,6 +1305,9 @@ class Table implements RepositoryInterface, EventListenerInterface
      *   listeners will receive the entity and the options array as arguments. The type
      *   of operation performed (insert or update) can be determined by checking the
      *   entity's method `isNew`, true meaning an insert and false an update.
+     * - Model.afterSaveCommit: Will be triggered after the transaction is commited
+     *   for atomic save, listeners will receive the entity and the options array
+     *   as arguments.
      *
      * This method will determine whether the passed entity needs to be
      * inserted or updated in the database. It does that by checking the `isNew`
@@ -1243,7 +1321,7 @@ class Table implements RepositoryInterface, EventListenerInterface
      * association in this table. It is possible to control what associations will
      * be saved and to pass additional option for saving them.
      *
-     * {{{
+     * ```
      * // Only save the comments association
      * $articles->save($entity, ['associated' => ['Comments']);
      *
@@ -1260,7 +1338,7 @@ class Table implements RepositoryInterface, EventListenerInterface
      *
      * // Save no associations
      * $articles->save($entity, ['associated' => false]);
-     * }}}
+     * ```
      *
      */
     public function save(EntityInterface $entity, $options = [])
@@ -1268,7 +1346,9 @@ class Table implements RepositoryInterface, EventListenerInterface
         $options = new ArrayObject($options + [
             'atomic' => true,
             'associated' => true,
-            'checkRules' => true
+            'checkRules' => true,
+            'checkExisting' => true,
+            '_primary' => true
         ]);
 
         if ($entity->errors()) {
@@ -1279,13 +1359,25 @@ class Table implements RepositoryInterface, EventListenerInterface
             return $entity;
         }
 
+        $connection = $this->connection();
         if ($options['atomic']) {
-            $connection = $this->connection();
             $success = $connection->transactional(function () use ($entity, $options) {
                 return $this->_processSave($entity, $options);
             });
         } else {
             $success = $this->_processSave($entity, $options);
+        }
+
+        if ($success) {
+            if (!$connection->inTransaction() &&
+                ($options['atomic'] || (!$options['atomic'] && $options['_primary']))
+            ) {
+                $this->dispatchEvent('Model.afterSaveCommit', compact('entity', 'options'));
+            }
+            if ($options['atomic'] || $options['_primary']) {
+                $entity->isNew(false);
+                $entity->source($this->registryAlias());
+            }
         }
 
         return $success;
@@ -1295,7 +1387,7 @@ class Table implements RepositoryInterface, EventListenerInterface
      * Performs the actual saving of an entity based on the passed options.
      *
      * @param \Cake\Datasource\EntityInterface $entity the entity to be saved
-     * @param array $options the options to use for the save operation
+     * @param \ArrayObject $options the options to use for the save operation
      * @return \Cake\Datasource\EntityInterface|bool
      * @throws \RuntimeException When an entity is missing some of the primary keys.
      */
@@ -1303,7 +1395,7 @@ class Table implements RepositoryInterface, EventListenerInterface
     {
         $primaryColumns = (array)$this->primaryKey();
 
-        if ($primaryColumns && $entity->isNew() && $entity->has($primaryColumns)) {
+        if ($options['checkExisting'] && $primaryColumns && $entity->isNew() && $entity->has($primaryColumns)) {
             $alias = $this->alias();
             $conditions = [];
             foreach ($entity->extract($primaryColumns) as $k => $v) {
@@ -1328,7 +1420,7 @@ class Table implements RepositoryInterface, EventListenerInterface
             $this,
             $entity,
             $options['associated'],
-            $options->getArrayCopy()
+            ['_primary' => false] + $options->getArrayCopy()
         );
 
         if (!$saved && $options['atomic']) {
@@ -1349,13 +1441,15 @@ class Table implements RepositoryInterface, EventListenerInterface
                 $this,
                 $entity,
                 $options['associated'],
-                $options->getArrayCopy()
+                ['_primary' => false] + $options->getArrayCopy()
             );
             if ($success || !$options['atomic']) {
                 $entity->clean();
                 $this->dispatchEvent('Model.afterSave', compact('entity', 'options'));
-                $entity->isNew(false);
-                $entity->source($this->alias());
+                if (!$options['atomic'] && !$options['_primary']) {
+                    $entity->isNew(false);
+                    $entity->source($this->registryAlias());
+                }
                 $success = true;
             }
         }
@@ -1396,8 +1490,9 @@ class Table implements RepositoryInterface, EventListenerInterface
         $data = $filteredKeys + $data;
 
         if (count($primary) > 1) {
+            $schema = $this->schema();
             foreach ($primary as $k => $v) {
-                if (!isset($data[$k])) {
+                if (!isset($data[$k]) && empty($schema->column($k)['autoIncrement'])) {
                     $msg = 'Cannot insert row, some of the primary key values are missing. ';
                     $msg .= sprintf(
                         'Got (%s), expecting (%s)',
@@ -1421,10 +1516,13 @@ class Table implements RepositoryInterface, EventListenerInterface
         if ($statement->rowCount() !== 0) {
             $success = $entity;
             $entity->set($filteredKeys, ['guard' => false]);
+            $schema = $this->schema();
+            $driver = $this->connection()->driver();
             foreach ($primary as $key => $v) {
                 if (!isset($data[$key])) {
                     $id = $statement->lastInsertId($this->table(), $key);
-                    $entity->set($key, $id);
+                    $type = $schema->columnType($key);
+                    $entity->set($key, Type::build($type)->toPHP($id, $driver));
                     break;
                 }
             }
@@ -1505,10 +1603,14 @@ class Table implements RepositoryInterface, EventListenerInterface
      *
      * ### Events
      *
-     * - `beforeDelete` Fired before the delete occurs. If stopped the delete
+     * - `Model.beforeDelete` Fired before the delete occurs. If stopped the delete
      *   will be aborted. Receives the event, entity, and options.
-     * - `afterDelete` Fired after the delete has been successful. Receives
+     * - `Model.afterDelete` Fired after the delete has been successful. Receives
      *   the event, entity, and options.
+     * - `Model.afterDelete` Fired after the delete has been successful. Receives
+     *   the event, entity, and options.
+     * - `Model.afterDeleteCommit` Fired after the transaction is committed for
+     *   an atomic delete. Receives the event, entity, and options.
      *
      * The options argument will be converted into an \ArrayObject instance
      * for the duration of the callbacks, this allows listeners to modify
@@ -1517,16 +1619,33 @@ class Table implements RepositoryInterface, EventListenerInterface
      */
     public function delete(EntityInterface $entity, $options = [])
     {
-        $options = new ArrayObject($options + ['atomic' => true, 'checkRules' => true]);
+        $options = new ArrayObject($options + [
+            'atomic' => true,
+            'checkRules' => true,
+            '_primary' => true,
+        ]);
 
         $process = function () use ($entity, $options) {
             return $this->_processDelete($entity, $options);
         };
 
+        $connection = $this->connection();
         if ($options['atomic']) {
-            return $this->connection()->transactional($process);
+            $success = $connection->transactional($process);
+        } else {
+            $success = $process();
         }
-        return $process();
+
+        if ($success &&
+            !$connection->inTransaction() &&
+            ($options['atomic'] || (!$options['atomic'] && $options['_primary']))
+        ) {
+            $this->dispatchEvent('Model.afterDeleteCommit', [
+                'entity' => $entity,
+                'options' => $options
+            ]);
+        }
+        return $success;
     }
 
     /**
@@ -1566,7 +1685,10 @@ class Table implements RepositoryInterface, EventListenerInterface
             return $event->result;
         }
 
-        $this->_associations->cascadeDelete($entity, $options->getArrayCopy());
+        $this->_associations->cascadeDelete(
+            $entity,
+            ['_primary' => false] + $options->getArrayCopy()
+        );
 
         $query = $this->query();
         $conditions = (array)$entity->extract($primaryKey);
@@ -1770,55 +1892,59 @@ class Table implements RepositoryInterface, EventListenerInterface
      * limit which associations are built, or include deeper associations
      * using the options parameter:
      *
-     * {{{
+     * ```
      * $article = $this->Articles->newEntity(
      *   $this->request->data(),
      *   ['associated' => ['Tags', 'Comments.Users']]
      * );
-     * }}}
+     * ```
      *
      * You can limit fields that will be present in the constructed entity by
      * passing the `fieldList` option, which is also accepted for associations:
      *
-     * {{{
+     * ```
      * $article = $this->Articles->newEntity($this->request->data(), [
      *  'fieldList' => ['title', 'body'],
      *  'associated' => ['Tags', 'Comments.Users' => ['fieldList' => 'username']]
      * ]
      * );
-     * }}}
+     * ```
      *
      * The `fieldList` option lets remove or restrict input data from ending up in
      * the entity. If you'd like to relax the entity's default accessible fields,
      * you can use the `accessibleFields` option:
      *
-     * {{{
+     * ```
      * $article = $this->Articles->newEntity(
      *   $this->request->data(),
      *   ['accessibleFields' => ['protected_field' => true]]
      * );
-     * }}}
+     * ```
      *
      * By default, the data is validated before being passed to the new entity. In
      * the case of invalid fields, those will not be present in the resulting object.
      * The `validate` option can be used to disable validation on the passed data:
      *
-     * {{{
+     * ```
      * $article = $this->Articles->newEntity(
      *   $this->request->data(),
      *   ['validate' => false]
      * );
-     * }}}
+     * ```
      *
      * You can also pass the name of the validator to use in the `validate` option.
      * If `null` is passed to the first param of this function, no validation will
      * be performed.
+     *
+     * You can use the `Model.beforeMarshal` event to modify request data
+     * before it is converted into entities.
      */
     public function newEntity($data = null, array $options = [])
     {
         if ($data === null) {
             $class = $this->entityClass();
-            return new $class;
+            $entity = new $class([], ['source' => $this->registryAlias()]);
+            return $entity;
         }
         if (!isset($options['associated'])) {
             $options['associated'] = $this->_associations->keys();
@@ -1834,24 +1960,26 @@ class Table implements RepositoryInterface, EventListenerInterface
      * limit which associations are built, or include deeper associations
      * using the options parameter:
      *
-     * {{{
+     * ```
      * $articles = $this->Articles->newEntities(
      *   $this->request->data(),
      *   ['associated' => ['Tags', 'Comments.Users']]
      * );
-     * }}}
+     * ```
      *
      * You can limit fields that will be present in the constructed entities by
      * passing the `fieldList` option, which is also accepted for associations:
      *
-     * {{{
+     * ```
      * $articles = $this->Articles->newEntities($this->request->data(), [
      *  'fieldList' => ['title', 'body'],
      *  'associated' => ['Tags', 'Comments.Users' => ['fieldList' => 'username']]
      *  ]
      * );
-     * }}}
+     * ```
      *
+     * You can use the `Model.beforeMarshal` event to modify request data
+     * before it is converted into entities.
      */
     public function newEntities(array $data, array $options = [])
     {
@@ -1872,23 +2000,26 @@ class Table implements RepositoryInterface, EventListenerInterface
      * You can limit fields that will be present in the merged entity by
      * passing the `fieldList` option, which is also accepted for associations:
      *
-     * {{{
-     * $articles = $this->Articles->patchEntity($article, $this->request->data(), [
+     * ```
+     * $article = $this->Articles->patchEntity($article, $this->request->data(), [
      *  'fieldList' => ['title', 'body'],
      *  'associated' => ['Tags', 'Comments.Users' => ['fieldList' => 'username']]
      *  ]
      * );
-     * }}}
+     * ```
      *
      * By default, the data is validated before being passed to the entity. In
      * the case of invalid fields, those will not be assigned to the entity.
      * The `validate` option can be used to disable validation on the passed data:
      *
-     * {{{
+     * ```
      * $article = $this->patchEntity($article, $this->request->data(),[
      *  'validate' => false
      * ]);
-     * }}}
+     * ```
+     *
+     * You can use the `Model.beforeMarshal` event to modify request data
+     * before it is converted into entities.
      */
     public function patchEntity(EntityInterface $entity, array $data, array $options = [])
     {
@@ -1913,13 +2044,16 @@ class Table implements RepositoryInterface, EventListenerInterface
      * You can limit fields that will be present in the merged entities by
      * passing the `fieldList` option, which is also accepted for associations:
      *
-     * {{{
+     * ```
      * $articles = $this->Articles->patchEntities($articles, $this->request->data(), [
      *  'fieldList' => ['title', 'body'],
      *  'associated' => ['Tags', 'Comments.Users' => ['fieldList' => 'username']]
      *  ]
      * );
-     * }}}
+     * ```
+     *
+     * You can use the `Model.beforeMarshal` event to modify request data
+     * before it is converted into entities.
      */
     public function patchEntities($entities, array $data, array $options = [])
     {
@@ -1937,39 +2071,48 @@ class Table implements RepositoryInterface, EventListenerInterface
      *
      * ### Example:
      *
-     * {{{
+     * ```
      * $validator->add('email', [
      *  'unique' => ['rule' => 'validateUnique', 'provider' => 'table']
      * ])
-     * }}}
+     * ```
      *
      * Unique validation can be scoped to the value of another column:
      *
-     * {{{
+     * ```
      * $validator->add('email', [
      *  'unique' => [
      *      'rule' => ['validateUnique', ['scope' => 'site_id']],
      *      'provider' => 'table'
      *  ]
      * ]);
-     * }}}
+     * ```
      *
      * In the above example, the email uniqueness will be scoped to only rows having
      * the same site_id. Scoping will only be used if the scoping field is present in
      * the data to be validated.
      *
      * @param mixed $value The value of column to be checked for uniqueness
-     * @param array $options The options array, optionally containing the 'scope' key
+     * @param array $options The options array, optionally containing the 'scope' key.
+     *   May also be the validation context if there are no options.
+     * @param array|null $context Either the validation context or null.
      * @return bool true if the value is unique
      */
-    public function validateUnique($value, array $options)
+    public function validateUnique($value, array $options, array $context = null)
     {
+        if ($context === null) {
+            $context = $options;
+        }
         $entity = new Entity(
-            $options['data'],
-            ['useSetters' => false, 'markNew' => $options['newRecord']]
+            $context['data'],
+            [
+                'useSetters' => false,
+                'markNew' => $context['newRecord'],
+                'source' => $this->registryAlias()
+            ]
         );
         $fields = array_merge(
-            [$options['field']],
+            [$context['field']],
             isset($options['scope']) ? (array)$options['scope'] : []
         );
         $rule = new IsUnique($fields);
@@ -2057,11 +2200,14 @@ class Table implements RepositoryInterface, EventListenerInterface
     public function implementedEvents()
     {
         $eventMap = [
+            'Model.beforeMarshal' => 'beforeMarshal',
             'Model.beforeFind' => 'beforeFind',
             'Model.beforeSave' => 'beforeSave',
             'Model.afterSave' => 'afterSave',
+            'Model.afterSaveCommit' => 'afterSaveCommit',
             'Model.beforeDelete' => 'beforeDelete',
             'Model.afterDelete' => 'afterDelete',
+            'Model.afterDeleteCommit' => 'afterDeleteCommit',
             'Model.beforeRules' => 'beforeRules',
             'Model.afterRules' => 'afterRules',
         ];
@@ -2086,6 +2232,7 @@ class Table implements RepositoryInterface, EventListenerInterface
     {
         $conn = $this->connection();
         return [
+            'registryAlias' => $this->registryAlias(),
             'table' => $this->table(),
             'alias' => $this->alias(),
             'entityClass' => $this->entityClass(),

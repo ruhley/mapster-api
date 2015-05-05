@@ -141,6 +141,10 @@ class ConfigureTest extends TestCase
      */
     public function testDebugSettingDisplayErrors()
     {
+        $this->skipIf(
+            defined('HHVM_VERSION'),
+            'Cannot change display_errors at runtime in HHVM'
+        );
         Configure::write('debug', false);
         $result = ini_get('display_errors');
         $this->assertEquals(0, $result);
@@ -499,11 +503,11 @@ class ConfigureTest extends TestCase
     {
         Configure::config('test_Engine', new PhpConfig(TMP));
 
-        $result = Configure::dump('config_test.php', 'test_Engine');
+        $result = Configure::dump('config_test', 'test_Engine');
         $this->assertTrue($result > 0);
         $result = file_get_contents(TMP . 'config_test.php');
         $this->assertContains('<?php', $result);
-        $this->assertContains('$config = ', $result);
+        $this->assertContains('return ', $result);
         if (file_exists(TMP . 'config_test.php')) {
             unlink(TMP . 'config_test.php');
         }
@@ -519,11 +523,11 @@ class ConfigureTest extends TestCase
         Configure::config('test_Engine', new PhpConfig(TMP));
         Configure::write('Error', ['test' => 'value']);
 
-        $result = Configure::dump('config_test.php', 'test_Engine', ['Error']);
+        $result = Configure::dump('config_test', 'test_Engine', ['Error']);
         $this->assertTrue($result > 0);
         $result = file_get_contents(TMP . 'config_test.php');
         $this->assertContains('<?php', $result);
-        $this->assertContains('$config = ', $result);
+        $this->assertContains('return ', $result);
         $this->assertContains('Error', $result);
         $this->assertNotContains('debug', $result);
 

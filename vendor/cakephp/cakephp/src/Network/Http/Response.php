@@ -54,12 +54,12 @@ use Cake\Network\Http\Message;
  * JSON data will be returned as arrays, while XML data will be returned
  * as SimpleXML nodes:
  *
- * {{{
+ * ```
  * // Get as xml
  * $content = $response->xml
  * // Get as json
  * $content = $response->json
- * }}}
+ * ```
  *
  * If the response cannot be decoded, null will be returned.
  *
@@ -146,7 +146,7 @@ class Response extends Message
     protected function _decodeGzipBody($body)
     {
         if (!function_exists('gzinflate')) {
-            throw new \RuntimeException('Cannot decompress gzip response body without gzipinflate()');
+            throw new \RuntimeException('Cannot decompress gzip response body without gzinflate()');
         }
         $offset = 0;
         // Look for gzip 'signature'

@@ -15,6 +15,7 @@
 namespace Cake\Core\Configure\Engine;
 
 use Cake\Core\Configure\ConfigEngineInterface;
+use Cake\Core\Configure\FileConfigTrait;
 use Cake\Core\Exception\Exception;
 use Cake\Core\Plugin;
 
@@ -22,18 +23,22 @@ use Cake\Core\Plugin;
  * PHP engine allows Configure to load configuration values from
  * files containing simple PHP arrays.
  *
- * Files compatible with PhpConfig should define a `$config` variable, that
+ * Files compatible with PhpConfig should return an array that
  * contains all of the configuration data contained in the file.
+ *
+ * @deprecated 3.0.0 Setting a `$config` variable is deprecated. Use `return` instead.
  */
 class PhpConfig implements ConfigEngineInterface
 {
 
+    use FileConfigTrait;
+
     /**
-     * The path this engine finds files on.
+     * File extension.
      *
      * @var string
      */
-    protected $_path = null;
+    protected $_extension = '.php';
 
     /**
      * Constructor for PHP Config file reading.
@@ -62,19 +67,17 @@ class PhpConfig implements ConfigEngineInterface
      */
     public function read($key)
     {
-        if (strpos($key, '..') !== false) {
-            throw new Exception('Cannot load configuration files with ../ in them.');
+        $file = $this->_getFilePath($key, true);
+
+        $return = include $file;
+        if (is_array($return)) {
+            return $return;
         }
 
-        $file = $this->_getFilePath($key);
-        if (!is_file($file)) {
-            throw new Exception(sprintf('Could not load configuration file: %s', $file));
-        }
-
-        include $file;
         if (!isset($config)) {
-            throw new Exception(sprintf('No variable $config found in %s', $file));
+            throw new Exception(sprintf('Config file "%s" did not return an array', $key . '.php'));
         }
+
         return $config;
     }
 
@@ -89,33 +92,9 @@ class PhpConfig implements ConfigEngineInterface
      */
     public function dump($key, array $data)
     {
-        $contents = '<?php' . "\n" . '$config = ' . var_export($data, true) . ';';
+        $contents = '<?php' . "\n" . 'return ' . var_export($data, true) . ';';
 
         $filename = $this->_getFilePath($key);
         return file_put_contents($filename, $contents);
-    }
-
-    /**
-     * Get file path
-     *
-     * @param string $key The identifier to write to. If the key has a . it will be treated
-     *  as a plugin prefix.
-     * @return string Full file path
-     */
-    protected function _getFilePath($key)
-    {
-        if (substr($key, -4) === '.php') {
-            $key = substr($key, 0, -4);
-        }
-        list($plugin, $key) = pluginSplit($key);
-        $key .= '.php';
-
-        if ($plugin) {
-            $file = Plugin::configPath($plugin) . $key;
-        } else {
-            $file = $this->_path . $key;
-        }
-
-        return $file;
     }
 }

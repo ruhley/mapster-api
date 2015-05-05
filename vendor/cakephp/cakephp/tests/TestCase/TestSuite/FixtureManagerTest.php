@@ -72,4 +72,36 @@ class FixtureManagerTest extends TestCase
             $fixtures['plugin.test_plugin.articles']
         );
     }
+
+    /**
+     * Test loading app fixtures.
+     *
+     * @return void
+     */
+    public function testFixturizeCustom()
+    {
+        $test = $this->getMock('Cake\TestSuite\TestCase');
+        $test->fixtures = ['plugin.Company/TestPluginThree.articles'];
+        $this->manager->fixturize($test);
+        $fixtures = $this->manager->loaded();
+        $this->assertCount(1, $fixtures);
+        $this->assertArrayHasKey('plugin.Company/TestPluginThree.articles', $fixtures);
+        $this->assertInstanceOf(
+            'Company\TestPluginThree\Test\Fixture\ArticlesFixture',
+            $fixtures['plugin.Company/TestPluginThree.articles']
+        );
+    }
+
+    /**
+     * Test that unknown types are handled gracefully.
+     *
+     * @expectedException \UnexpectedValueException
+     * @expectedExceptionMessage Referenced fixture class "Test\Fixture\Derp.derpFixture" not found. Fixture "derp.derp" was referenced
+     */
+    public function testFixturizeInvalidType()
+    {
+        $test = $this->getMock('Cake\TestSuite\TestCase');
+        $test->fixtures = ['derp.derp'];
+        $this->manager->fixturize($test);
+    }
 }

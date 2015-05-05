@@ -336,8 +336,100 @@ class RouteBuilderTest extends TestCase
         $this->assertCount(5, $all);
 
         $this->assertEquals('/api/articles', $all[0]->template);
-        $this->assertEquals('json', $all[0]->defaults['_ext']);
+        $this->assertEquals(
+            ['controller', 'action', '_method', 'prefix', 'plugin'],
+            array_keys($all[0]->defaults)
+        );
+        $this->assertEquals('json', $all[0]->options['_ext']);
         $this->assertEquals('Articles', $all[0]->defaults['controller']);
+    }
+
+    /**
+     * Test connecting resources with the inflection option
+     *
+     * @return void
+     */
+    public function testResourcesInflection()
+    {
+        $routes = new RouteBuilder($this->collection, '/api', ['prefix' => 'api']);
+        $routes->resources('BlogPosts', ['_ext' => 'json', 'inflect' => 'dasherize']);
+
+        $all = $this->collection->routes();
+        $this->assertCount(5, $all);
+
+        $this->assertEquals('/api/blog-posts', $all[0]->template);
+        $this->assertEquals(
+            ['controller', 'action', '_method', 'prefix', 'plugin'],
+            array_keys($all[0]->defaults)
+        );
+        $this->assertEquals('BlogPosts', $all[0]->defaults['controller']);
+    }
+
+    /**
+     * Test connecting resources with additional mappings
+     *
+     * @return void
+     */
+    public function testResourcesMappings()
+    {
+        $routes = new RouteBuilder($this->collection, '/api', ['prefix' => 'api']);
+        $routes->resources('Articles', [
+            '_ext' => 'json',
+            'map' => [
+                'delete_all' => ['action' => 'deleteAll', 'method' => 'DELETE'],
+                'update_many' => ['action' => 'updateAll', 'method' => 'DELETE', 'path' => '/updateAll'],
+            ]
+        ]);
+
+        $all = $this->collection->routes();
+        $this->assertCount(7, $all);
+
+        $this->assertEquals('/api/articles/delete_all', $all[5]->template, 'Path defaults to key name.');
+        $this->assertEquals(
+            ['controller', 'action', '_method', 'prefix', 'plugin'],
+            array_keys($all[5]->defaults)
+        );
+        $this->assertEquals('Articles', $all[5]->defaults['controller']);
+        $this->assertEquals('deleteAll', $all[5]->defaults['action']);
+
+        $this->assertEquals('/api/articles/updateAll', $all[6]->template, 'Explicit path option');
+        $this->assertEquals(
+            ['controller', 'action', '_method', 'prefix', 'plugin'],
+            array_keys($all[6]->defaults)
+        );
+        $this->assertEquals('Articles', $all[6]->defaults['controller']);
+        $this->assertEquals('updateAll', $all[6]->defaults['action']);
+    }
+
+    /**
+     * Test connecting resources.
+     *
+     * @return void
+     */
+    public function testResourcesInScope()
+    {
+        Router::scope('/api', ['prefix' => 'api'], function ($routes) {
+            $routes->extensions(['json']);
+            $routes->resources('Articles');
+        });
+        $url = Router::url([
+            'prefix' => 'api',
+            'controller' => 'Articles',
+            'action' => 'edit',
+            '_method' => 'PUT',
+            'id' => 99
+        ]);
+        $this->assertEquals('/api/articles/99', $url);
+
+        $url = Router::url([
+            'prefix' => 'api',
+            'controller' => 'Articles',
+            'action' => 'edit',
+            '_method' => 'PUT',
+            '_ext' => 'json',
+            'id' => 99
+        ]);
+        $this->assertEquals('/api/articles/99.json', $url);
     }
 
     /**

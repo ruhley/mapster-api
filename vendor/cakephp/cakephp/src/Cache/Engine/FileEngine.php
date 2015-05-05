@@ -39,7 +39,7 @@ class FileEngine extends CacheEngine
     protected $_File = null;
 
     /**
-     * The default config used unless overriden by runtime configuration
+     * The default config used unless overridden by runtime configuration
      *
      * - `duration` Specify how long items in this cache configuration last.
      * - `groups` List of groups or 'tags' associated to every key stored in this config.
@@ -88,7 +88,7 @@ class FileEngine extends CacheEngine
         parent::init($config);
 
         if ($this->_config['path'] === null) {
-            $this->_config['path'] = sys_get_temp_dir();
+            $this->_config['path'] = sys_get_temp_dir() . DS . 'cake_cache' . DS;
         }
         if (DS === '\\') {
             $this->_config['isWindows'] = true;
