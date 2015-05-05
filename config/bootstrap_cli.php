@@ -15,7 +15,6 @@
 use Cake\Core\Configure;
 use Cake\Core\Exception\MissingPluginException;
 use Cake\Core\Plugin;
-use Cake\Utility\Inflector;
 
 /**
  * Additional bootstrapping and configuration for CLI environments should

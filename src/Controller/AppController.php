@@ -18,7 +18,8 @@ class AppController extends Controller {
 	];
 
 	public function invokeAction() {
-		parent::invokeAction();
+        $this->viewVars['_jsonOptions'] = JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT | JSON_NUMERIC_CHECK;
+        parent::invokeAction();
 	}
 
 	public function beforeFilter(Event $event) {

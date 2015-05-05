@@ -50,7 +50,7 @@ class Installer
             $setFolderPermissions = $io->askAndValidate(
                 '<info>Set Folder Permissions ? (Default to Y)</info> [<comment>Y,n</comment>]? ',
                 $validator,
-                false,
+                10,
                 'Y'
             );
 
@@ -62,6 +62,10 @@ class Installer
         }
 
         static::setSecuritySalt($rootDir, $io);
+
+        if (class_exists('\Cake\Codeception\Console\Installer')) {
+            \Cake\Codeception\Console\Installer::customizeCodeceptionBinary($event);
+        }
     }
 
     /**

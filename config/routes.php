@@ -42,60 +42,69 @@ use Cake\Routing\Router;
 Router::defaultRouteClass('Route');
 
 Router::scope('/', function ($routes) {
-	$routes->extensions(['json']);
-	$routes->resources('Chapters');
-	$routes->resources('ChapterVersions');
-	$routes->resources('Characters');
-	$routes->resources('CharacterChanges');
-	$routes->resources('CharacterChangeVersions');
-	$routes->resources('CharacterVersions');
-	$routes->resources('Events');
-	$routes->resources('EventVersions');
-	$routes->resources('Maps');
-	$routes->resources('MapChanges');
-	$routes->resources('MapChangeVersions');
-	$routes->resources('MapVersions');
-	$routes->resources('MapsterEntities');
-	$routes->resources('MapsterEntityFields');
-	$routes->resources('MapsterEntityFieldTypes');
-	$routes->resources('Media');
-	$routes->resources('MediaVersions');
-	$routes->resources('Places');
-	$routes->resources('PlaceChanges');
-	$routes->resources('PlaceChangeVersions');
-	$routes->resources('PlaceVersions');
-	$routes->resources('PlaceTypes');
-	$routes->resources('PlaceTypeVersions');
-	$routes->resources('Universes');
-	$routes->resources('UniverseVersions');
+    $routes->extensions(['json']);
+    $routes->resources('Chapters');
+    $routes->resources('ChapterVersions');
+    $routes->resources('Characters');
+    $routes->resources('CharacterChanges');
+    $routes->resources('CharacterChangeVersions');
+    $routes->resources('CharacterVersions');
+    $routes->resources('Events');
+    $routes->resources('EventVersions');
+    $routes->resources('Maps', [
+        'map' => [
+            'geo_json' => [
+                'action' => 'geoJson',
+                'method' => 'GET',
+                'path' => '/:id/geo_json'
+            ]
+        ]
+    ]);
+    $routes->resources('MapChanges');
+    $routes->resources('MapChangeVersions');
+    $routes->resources('MapVersions');
+    $routes->resources('MapsterEntities');
+    $routes->resources('MapsterEntityFields');
+    $routes->resources('MapsterEntityFieldTypes');
+    $routes->resources('Media');
+    $routes->resources('MediaVersions');
+    $routes->resources('Places');
+    $routes->resources('PlaceChanges');
+    $routes->resources('PlaceChangeVersions');
+    $routes->resources('PlaceVersions');
+    $routes->resources('PlaceTypes');
+    $routes->resources('PlaceTypeVersions');
+    $routes->resources('Universes');
+    $routes->resources('UniverseVersions');
+
     /**
- * Here, we are connecting '/' (base path) to a controller called 'Pages',
- * its action called 'display', and we pass a param to select the view file
- * to use (in this case, src/Template/Pages/home.ctp)...
- */
+     * Here, we are connecting '/' (base path) to a controller called 'Pages',
+     * its action called 'display', and we pass a param to select the view file
+     * to use (in this case, src/Template/Pages/home.ctp)...
+     */
     $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
 
     /**
- * ...and connect the rest of 'Pages' controller's URLs.
- */
+     * ...and connect the rest of 'Pages' controller's URLs.
+     */
     $routes->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
 
     /**
- * Connect catchall routes for all controllers.
- *
- * Using the argument `InflectedRoute`, the `fallbacks` method is a shortcut for
- *    `$routes->connect('/:controller', ['action' => 'index'], ['routeClass' => 'InflectedRoute']);`
- *    `$routes->connect('/:controller/:action/*', [], ['routeClass' => 'InflectedRoute']);`
- *
- * Any route class can be used with this method, such as:
- * - DashedRoute
- * - InflectedRoute
- * - Route
- * - Or your own route class
- *
- * You can remove these routes once you've connected the
- * routes you want in your application.
- */
+     * Connect catchall routes for all controllers.
+     *
+     * Using the argument `InflectedRoute`, the `fallbacks` method is a shortcut for
+     *    `$routes->connect('/:controller', ['action' => 'index'], ['routeClass' => 'InflectedRoute']);`
+     *    `$routes->connect('/:controller/:action/*', [], ['routeClass' => 'InflectedRoute']);`
+     *
+     * Any route class can be used with this method, such as:
+     * - DashedRoute
+     * - InflectedRoute
+     * - Route
+     * - Or your own route class
+     *
+     * You can remove these routes once you've connected the
+     * routes you want in your application.
+     */
     $routes->fallbacks('InflectedRoute');
 });
 

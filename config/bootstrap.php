@@ -33,6 +33,11 @@ require ROOT . DS . 'vendor' . DS . 'autoload.php';
  */
 require CORE_PATH . 'config' . DS . 'bootstrap.php';
 
+// You can remove this if you are confident you have intl installed.
+if (!extension_loaded('intl')) {
+    trigger_error('You must enable the intl extension to use CakePHP.', E_USER_ERROR);
+}
+
 use Cake\Cache\Cache;
 use Cake\Console\ConsoleErrorHandler;
 use Cake\Core\App;
@@ -72,8 +77,8 @@ try {
 // for a very very long time, as we don't want
 // to refresh the cache while users are doing requests.
 if (!Configure::read('debug')) {
-    Configure::write('Cache._cake_model_.duration', '+99 years');
-    Configure::write('Cache._cake_core_.duration', '+99 years');
+    Configure::write('Cache._cake_model_.duration', '+1 years');
+    Configure::write('Cache._cake_core_.duration', '+1 years');
 }
 
 /**
@@ -98,9 +103,9 @@ ini_set('intl.default_locale', 'en_US');
  */
 $isCli = php_sapi_name() === 'cli';
 if ($isCli) {
-    (new ConsoleErrorHandler(Configure::consume('Error')))->register();
+    (new ConsoleErrorHandler(Configure::read('Error')))->register();
 } else {
-    (new ErrorHandler(Configure::consume('Error')))->register();
+    (new ErrorHandler(Configure::read('Error')))->register();
 }
 
 // Include the CLI bootstrap overrides.
@@ -170,7 +175,7 @@ Request::addDetector('tablet', function ($request) {
  * advanced ways of loading plugins
  *
  * Plugin::loadAll(); // Loads all plugins at once
- * Plugin::load('DebugKit'); //Loads a single plugin named DebugKit
+ * Plugin::load('Migrations'); //Loads a single plugin named Migrations
  *
  */
 
@@ -188,9 +193,3 @@ if (Configure::read('debug')) {
 DispatcherFactory::add('Asset');
 DispatcherFactory::add('Routing');
 DispatcherFactory::add('ControllerFactory');
-
-
-use App\Error\AppError;
-
-$errorHandler = new AppError();
-$errorHandler->register();
