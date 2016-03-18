@@ -20,3 +20,6 @@ logs/*
 
 # config
 config/app.php
+
+# composer
+vendor

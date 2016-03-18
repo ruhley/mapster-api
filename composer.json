@@ -18,7 +18,12 @@
     },
     "suggest": {
         "phpunit/phpunit": "Allows automated tests to be run without system-wide install.",
-        "cakephp/cakephp-codesniffer": "Allows to check the code against the coding standards used in CakePHP."
+        "cakephp/cakephp-codesniffer": "Allows to check the code against the coding standards used in CakePHP.",
+        "symfony/event-dispatcher": "",
+        "symfony/process": "",
+        "ext-symfony_debug": "",
+        "ext-pdo-sqlite": "The doc command requires SQLite to work.",
+        "ext-sqlite": "DebugKit needs to store panel data in a database. SQLite is simple and easy to use."
     },
     "autoload": {
         "psr-4": {
