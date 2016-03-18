@@ -62,7 +62,7 @@ return [
      *   You should treat it as extremely sensitive data.
      */
     'Security' => [
-        'salt' => '__SALT__',
+        'salt' => '25d2a61d70991844e116cc422306d6645eaeb60a7d141618e54bb985f65d4b0c',
     ],
 
     /**
@@ -219,9 +219,9 @@ return [
              * the following line and set the port accordingly
              */
             //'port' => 'nonstandard_port_number',
-            'username' => 'my_app',
-            'password' => 'secret',
-            'database' => 'my_app',
+            'username' => 'root',
+            'password' => '',
+            'database' => 'mapster',
             'encoding' => 'utf8',
             'timezone' => 'UTC',
             'cacheMetadata' => true,
